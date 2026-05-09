@@ -74,7 +74,7 @@ export function useOpenAI() {
         try {
           const errData = await res.json();
           detail = errData?.error?.message || errData?.message || '';
-        } catch {}
+        } catch { /* ignore parse errors */ }
         const msg = detail ? `API error: ${detail}` : ERROR_MESSAGES[res.status] || ERROR_MESSAGES.unknown;
         setError(msg);
         setLoading(false);
