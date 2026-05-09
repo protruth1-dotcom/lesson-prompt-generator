@@ -1,10 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="none" viewBox="0 0 48 48">
   <rect width="48" height="48" rx="12" fill="#0d9488"/>
   <!-- Left page -->
-  <path d="M14 12h8v20l-4-3-4 3V12z" fill="#fff" opacity="0.9"/>
+  <path d="M12 14h9v18l-4.5-3-4.5 3V14z" fill="#fff" opacity="0.9"/>
   <!-- Right page -->
-  <path d="M26 12h8v20l-4-3-4 3V12z" fill="#fff" opacity="0.7"/>
+  <path d="M27 14h9v18l-4.5-3-4.5 3V14z" fill="#fff" opacity="0.7"/>
   <!-- Spark -->
-  <path d="M22 6l1.5 4-1.5-4zM25 8l-4 1.5 4-1.5zM19 8l4 1.5-4-1.5zM22 10l-1.5-4 1.5 4z" fill="#fbbf24"/>
-  <circle cx="22" cy="8" r="1" fill="#f59e0b"/>
+  <path d="M24 8l2 5-2-5zM28 11l-5 2 5-2zM20 11l5 2-5-2zM24 14l-2-5 2 5z" fill="#fbbf24"/>
+  <circle cx="24" cy="11" r="1.5" fill="#f59e0b"/>
 </svg>
