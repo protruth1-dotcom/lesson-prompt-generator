@@ -1,6 +1,36 @@
 import { useState, useEffect, useRef } from 'react';
 import { loadSettings, saveSettings } from '../../utils/settings';
 
+const POPULAR_MODELS = [
+  {
+    provider: 'OpenAI',
+    models: ['gpt-4o', 'gpt-4o-mini', 'o1', 'o3-mini', 'gpt-4.1'],
+  },
+  {
+    provider: 'DeepSeek',
+    models: ['deepseek-chat', 'deepseek-reasoner'],
+  },
+  {
+    provider: 'Gemini',
+    models: ['gemini-2.5-flash', 'gemini-2.5-pro'],
+  },
+  {
+    provider: 'Claude',
+    models: ['claude-sonnet-4-20250514', 'claude-opus-4-20250514', 'claude-haiku-3.5'],
+  },
+  {
+    provider: 'Kimi',
+    models: ['moonshot-v1-8k', 'moonshot-v1-32k', 'moonshot-v1-128k'],
+  },
+];
+
+function getModelProvider(model) {
+  for (const group of POPULAR_MODELS) {
+    if (group.models.includes(model)) return group.provider;
+  }
+  return null;
+}
+
 export default function SettingsPanel({ isOpen, onClose }) {
   const [apiKey, setApiKey] = useState(() => loadSettings().apiKey);
   const [model, setModel] = useState(() => loadSettings().model);
@@ -9,7 +39,12 @@ export default function SettingsPanel({ isOpen, onClose }) {
   const [testStatus, setTestStatus] = useState(null);
   const [testMessage, setTestMessage] = useState('');
   const [saved, setSaved] = useState(false);
+  const [modelDropdownOpen, setModelDropdownOpen] = useState(false);
+  const [customModel, setCustomModel] = useState('');
   const panelRef = useRef(null);
+  const modelRef = useRef(null);
+
+  const isCustomModel = !getModelProvider(model) && model !== 'gpt-4o';
 
   useEffect(() => {
     if (!isOpen) return;
@@ -18,10 +53,34 @@ export default function SettingsPanel({ isOpen, onClose }) {
     return () => document.removeEventListener('keydown', handler);
   }, [isOpen, onClose]);
 
+  useEffect(() => {
+    if (!isOpen) return;
+    const handler = (e) => {
+      if (modelRef.current && !modelRef.current.contains(e.target)) {
+        setModelDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, [isOpen]);
+
   const handleSave = () => {
-    saveSettings({ apiKey, model, baseUrl });
+    const finalModel = isCustomModel ? customModel || model : model;
+    saveSettings({ apiKey, model: finalModel, baseUrl });
+    if (isCustomModel && customModel) setModel(customModel);
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
+  };
+
+  const handleModelSelect = (m) => {
+    setModel(m);
+    setModelDropdownOpen(false);
+    saveSettings({ apiKey, model: m, baseUrl });
+  };
+
+  const handleCustomToggle = () => {
+    setCustomModel(isCustomModel ? '' : model);
+    setModelDropdownOpen(false);
   };
 
   const handleRemoveKey = () => {
@@ -61,6 +120,9 @@ export default function SettingsPanel({ isOpen, onClose }) {
       setTestMessage(err.name === 'AbortError' ? 'Connection timed out.' : 'Could not reach the API. Check your base URL and internet connection.');
     }
   };
+
+  const modelProvider = getModelProvider(model);
+  const displayModel = isCustomModel && customModel ? customModel : model;
 
   if (!isOpen) return null;
 
@@ -120,11 +182,84 @@ export default function SettingsPanel({ isOpen, onClose }) {
             type="text"
             value={baseUrl}
             onChange={(e) => setBaseUrl(e.target.value)}
-            onBlur={() => saveSettings({ apiKey, model, baseUrl })}
+            onBlur={() => saveSettings({ apiKey, model: isCustomModel && customModel ? customModel : model, baseUrl })}
             placeholder="https://api.openai.com/v1"
             className="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm bg-white focus:border-primary-500 focus:ring-2 focus:ring-primary-100 outline-none transition-colors font-mono"
           />
           <p className="text-xs text-slate-400">Default is OpenAI. Change this to use any OpenAI-compatible provider.</p>
+        </div>
+
+        <div className="space-y-2">
+          <label className="block text-sm font-medium text-slate-700">Model</label>
+
+          {isCustomModel ? (
+            <div className="space-y-2">
+              <input
+                type="text"
+                value={customModel}
+                onChange={(e) => setCustomModel(e.target.value)}
+                onBlur={() => saveSettings({ apiKey, model: customModel || model, baseUrl })}
+                placeholder="Enter model name"
+                className="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm bg-white focus:border-primary-500 focus:ring-2 focus:ring-primary-100 outline-none transition-colors font-mono"
+              />
+              <button
+                type="button"
+                onClick={() => { setModel('gpt-4o'); setCustomModel(''); }}
+                className="text-xs text-primary-600 hover:text-primary-700 cursor-pointer"
+              >
+                Choose from list instead
+              </button>
+            </div>
+          ) : (
+            <div ref={modelRef} className="relative">
+              <button
+                type="button"
+                onClick={() => setModelDropdownOpen(!modelDropdownOpen)}
+                className="w-full flex items-center justify-between border border-slate-200 rounded-lg px-3 py-2.5 text-sm bg-white hover:border-slate-300 transition-colors cursor-pointer text-left"
+              >
+                <span>
+                  <span className="text-slate-800 font-medium">{displayModel}</span>
+                  {modelProvider && (
+                    <span className="text-slate-400 ml-1.5">({modelProvider})</span>
+                  )}
+                </span>
+                <svg className={`w-4 h-4 text-slate-400 transition-transform ${modelDropdownOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+
+              {modelDropdownOpen && (
+                <div className="absolute z-50 w-full mt-1 bg-white border border-slate-200 rounded-lg shadow-lg max-h-72 overflow-y-auto">
+                  {POPULAR_MODELS.map((group) => (
+                    <div key={group.provider}>
+                      <div className="px-3 py-1.5 text-xs font-semibold text-slate-500 bg-slate-50 sticky top-0">
+                        {group.provider}
+                      </div>
+                      {group.models.map((m) => (
+                        <div
+                          key={m}
+                          className={`px-3 py-2 text-sm cursor-pointer transition-colors ${
+                            model === m ? 'bg-primary-50 text-primary-700' : 'hover:bg-slate-50 text-slate-700'
+                          }`}
+                          onClick={() => handleModelSelect(m)}
+                        >
+                          {m}
+                        </div>
+                      ))}
+                    </div>
+                  ))}
+                  <div className="border-t border-slate-100">
+                    <div
+                      className="px-3 py-2 text-sm cursor-pointer text-slate-500 hover:bg-slate-50 transition-colors"
+                      onClick={handleCustomToggle}
+                    >
+                      Custom model...
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         <div className="flex gap-2 flex-wrap">
@@ -173,18 +308,6 @@ export default function SettingsPanel({ isOpen, onClose }) {
             {testMessage}
           </div>
         )}
-
-        <div className="space-y-2">
-          <label className="block text-sm font-medium text-slate-700">Model</label>
-          <input
-            type="text"
-            value={model}
-            onChange={(e) => setModel(e.target.value)}
-            onBlur={() => saveSettings({ apiKey, model, baseUrl })}
-            placeholder="gpt-4o"
-            className="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm bg-white focus:border-primary-500 focus:ring-2 focus:ring-primary-100 outline-none transition-colors font-mono"
-          />
-        </div>
       </div>
     </div>
   );
