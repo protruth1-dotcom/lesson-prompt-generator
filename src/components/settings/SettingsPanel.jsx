@@ -2,8 +2,9 @@ import { useState, useEffect, useRef } from 'react';
 import { loadSettings, saveSettings } from '../../utils/settings';
 
 export default function SettingsPanel({ isOpen, onClose }) {
-  const [apiKey, setApiKey] = useState(() => loadSettings().openaiApiKey);
-  const [model, setModel] = useState(() => loadSettings().openaiModel);
+  const [apiKey, setApiKey] = useState(() => loadSettings().apiKey);
+  const [model, setModel] = useState(() => loadSettings().model);
+  const [baseUrl, setBaseUrl] = useState(() => loadSettings().baseUrl);
   const [showKey, setShowKey] = useState(false);
   const [testStatus, setTestStatus] = useState(null);
   const [testMessage, setTestMessage] = useState('');
@@ -18,14 +19,14 @@ export default function SettingsPanel({ isOpen, onClose }) {
   }, [isOpen, onClose]);
 
   const handleSave = () => {
-    saveSettings({ openaiApiKey: apiKey, openaiModel: model });
+    saveSettings({ apiKey, model, baseUrl });
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
   };
 
   const handleRemoveKey = () => {
     setApiKey('');
-    saveSettings({ openaiApiKey: '', openaiModel: model });
+    saveSettings({ apiKey: '', model, baseUrl });
     setTestStatus(null);
   };
 
@@ -40,7 +41,7 @@ export default function SettingsPanel({ isOpen, onClose }) {
     try {
       const controller = new AbortController();
       const timeout = setTimeout(() => controller.abort(), 15000);
-      const res = await fetch('https://api.openai.com/v1/models', {
+      const res = await fetch(`${baseUrl}/models`, {
         headers: { 'Authorization': `Bearer ${apiKey.trim()}` },
         signal: controller.signal,
       });
@@ -57,7 +58,7 @@ export default function SettingsPanel({ isOpen, onClose }) {
       }
     } catch (err) {
       setTestStatus('error');
-      setTestMessage(err.name === 'AbortError' ? 'Connection timed out.' : 'Could not connect to OpenAI. Check your internet connection.');
+      setTestMessage(err.name === 'AbortError' ? 'Connection timed out.' : 'Could not reach the API. Check your base URL and internet connection.');
     }
   };
 
@@ -83,7 +84,7 @@ export default function SettingsPanel({ isOpen, onClose }) {
         </div>
 
         <div className="space-y-2">
-          <label className="block text-sm font-medium text-slate-700">OpenAI API Key</label>
+          <label className="block text-sm font-medium text-slate-700">API Key</label>
           <div className="relative">
             <input
               type={showKey ? 'text' : 'password'}
@@ -110,7 +111,20 @@ export default function SettingsPanel({ isOpen, onClose }) {
               )}
             </button>
           </div>
-          <p className="text-xs text-slate-400">Your API key stays in your browser and is sent only to OpenAI's servers. We do not store, transmit, or have access to your key.</p>
+          <p className="text-xs text-slate-400">Your key is stored only in your browser and sent directly to the API endpoint you configure below.</p>
+        </div>
+
+        <div className="space-y-2">
+          <label className="block text-sm font-medium text-slate-700">Base URL</label>
+          <input
+            type="text"
+            value={baseUrl}
+            onChange={(e) => setBaseUrl(e.target.value)}
+            onBlur={() => saveSettings({ apiKey, model, baseUrl })}
+            placeholder="https://api.openai.com/v1"
+            className="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm bg-white focus:border-primary-500 focus:ring-2 focus:ring-primary-100 outline-none transition-colors font-mono"
+          />
+          <p className="text-xs text-slate-400">Default is OpenAI. Change this to use any OpenAI-compatible provider.</p>
         </div>
 
         <div className="flex gap-2 flex-wrap">
@@ -166,7 +180,7 @@ export default function SettingsPanel({ isOpen, onClose }) {
             type="text"
             value={model}
             onChange={(e) => setModel(e.target.value)}
-            onBlur={() => saveSettings({ openaiApiKey: apiKey, openaiModel: model })}
+            onBlur={() => saveSettings({ apiKey, model, baseUrl })}
             placeholder="gpt-4o"
             className="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm bg-white focus:border-primary-500 focus:ring-2 focus:ring-primary-100 outline-none transition-colors font-mono"
           />

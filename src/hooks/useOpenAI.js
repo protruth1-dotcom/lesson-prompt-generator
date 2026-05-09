@@ -2,13 +2,13 @@ import { useState, useCallback, useRef } from 'react';
 import { loadSettings } from '../utils/settings';
 
 const ERROR_MESSAGES = {
-  no_key: 'Please add your OpenAI API key in Settings to use AI-generated prompts.',
+  no_key: 'Please add your API key in Settings to use AI-generated prompts.',
   401: 'Invalid API key. Please check your key in Settings.',
   429: 'Too many requests. Please wait a moment and try again.',
-  network: 'Could not connect to OpenAI. Please check your internet connection.',
+  network: 'Could not connect to the API. Please check your internet connection and base URL.',
   timeout: 'Request timed out. The AI may be busy — please try again.',
   content_filter: 'The AI could not generate this prompt. Please try again or use Template mode.',
-  insufficient_quota: 'Your OpenAI account has insufficient credits. Please check your billing at platform.openai.com.',
+  insufficient_quota: 'Your account has insufficient credits. Please check your billing.',
   unknown: 'Something went wrong. Please try again or switch to Template mode.',
 };
 
@@ -19,7 +19,7 @@ export function useOpenAI() {
 
   const generate = useCallback(async (metaPrompt) => {
     const settings = loadSettings();
-    if (!settings.openaiApiKey) {
+    if (!settings.apiKey) {
       setError(ERROR_MESSAGES.no_key);
       return null;
     }
@@ -27,20 +27,19 @@ export function useOpenAI() {
     setLoading(true);
     setError(null);
 
-    // Abort controller with 60s timeout
     const controller = new AbortController();
     abortRef.current = controller;
     const timeoutId = setTimeout(() => controller.abort(), 60000);
 
     try {
-      const res = await fetch('https://api.openai.com/v1/chat/completions', {
+      const res = await fetch(`${settings.baseUrl}/chat/completions`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${settings.openaiApiKey}`,
+          'Authorization': `Bearer ${settings.apiKey}`,
         },
         body: JSON.stringify({
-          model: settings.openaiModel || 'gpt-4o',
+          model: settings.model || 'gpt-4o',
           messages: [
             {
               role: 'system',

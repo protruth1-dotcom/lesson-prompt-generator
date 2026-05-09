@@ -9,7 +9,7 @@ import { loadSettings } from '../../utils/settings';
 const promptModes = ['Template', 'AI Generated'];
 
 export default function GeneratorView({ form, onGenerate, loading }) {
-  const hasApiKey = !!loadSettings().openaiApiKey;
+  const hasApiKey = !!loadSettings().apiKey;
   const isAIMode = form.promptMode === 'AI Generated';
   const needsKey = isAIMode && !hasApiKey;
 
@@ -75,10 +75,10 @@ export default function GeneratorView({ form, onGenerate, loading }) {
           {isAIMode && (
             <p className="text-xs text-slate-500">
               {hasApiKey
-                ? 'Uses your ChatGPT API key to craft a custom prompt tailored to your topic.'
+                ? 'Uses your API key to craft a custom prompt tailored to your topic.'
                 : (
                   <span className="text-amber-600">
-                    API key required. Open Settings (gear icon) to add your OpenAI API key.
+                    API key required. Open Settings (gear icon) to add your API key.
                   </span>
                 )
               }
@@ -92,7 +92,7 @@ export default function GeneratorView({ form, onGenerate, loading }) {
         type="button"
         disabled={!canGenerate}
         onClick={onGenerate}
-        aria-label={needsKey ? 'Add your OpenAI API key in Settings first' : !form.isValid ? 'Please complete all required fields' : 'Generate prompt'}
+        aria-label={needsKey ? 'Add your API key in Settings first' : !form.isValid ? 'Please complete all required fields' : 'Generate prompt'}
         className={`w-full py-3.5 rounded-xl text-base font-semibold transition-all cursor-pointer
           ${canGenerate
             ? isAIMode
@@ -100,7 +100,7 @@ export default function GeneratorView({ form, onGenerate, loading }) {
               : 'bg-primary-600 text-white hover:bg-primary-700 shadow-md hover:shadow-lg active:scale-[0.99]'
             : 'bg-slate-200 text-slate-400 cursor-not-allowed'
           }`}
-        title={needsKey ? 'Add your OpenAI API key in Settings first' : !form.isValid ? 'Please complete all required fields' : ''}
+        title={needsKey ? 'Add your API key in Settings first' : !form.isValid ? 'Please complete all required fields' : ''}
       >
         {loading && (
           <svg className="inline w-4 h-4 mr-2 animate-spin" fill="none" viewBox="0 0 24 24">
