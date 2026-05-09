@@ -115,6 +115,7 @@ export const curriculum = {
         'Describe overall structure (chronology, comparison, cause/effect, problem/solution)',
         'Compare and contrast firsthand and secondhand accounts',
         'Interpret information presented in charts, graphs, diagrams, timelines',
+        'Explain how an author uses reasons and evidence to support particular points',
         'Integrate information from two texts on the same topic',
       ],
       Writing: [
@@ -149,6 +150,7 @@ export const curriculum = {
         'Identify reasons and evidence a speaker provides',
         'Report on a topic or text with facts and relevant details',
         'Add audio recordings and visual displays to presentations',
+        'Differentiate between formal and informal English in presentations and discussions',
       ],
     },
     '5th Grade': {
@@ -198,6 +200,7 @@ export const curriculum = {
         'Use context clues and Greek/Latin affixes and roots',
         'Interpret figurative language in context',
         'Understand and explain word relationships (synonyms, antonyms, homographs)',
+        'Compare and contrast the varieties of English (dialects, registers) used in stories, dramas, or poems',
         'Acquire and use academic and domain-specific vocabulary',
       ],
       'Speaking & Listening': [
@@ -226,8 +229,8 @@ export const curriculum = {
         'Patterns used to transfer information (e.g., coded messages, digitized sound)',
       ],
       'Structure, Function, and Information Processing (LS1)': [
-        'Internal and external structures of plants and animals that support survival, growth, behavior, reproduction',
-        'How animals receive and process information from the environment (senses)',
+        'Internal and external structures of plants and animals that support survival, growth, behavior, and reproduction',
+        'How animals receive information through their senses, process it in their brain, and respond to the environment',
       ],
       'Earth\'s Processes and Features (ESS1, ESS2)': [
         'Patterns of Earth\'s features identifiable using maps',
@@ -331,6 +334,7 @@ export const curriculum = {
         'Three branches of U.S. federal government',
         'The Constitution and Bill of Rights',
         'Checks and balances',
+        'Illinois Constitution — structure, principles, and how it compares to the U.S. Constitution',
         'Role of citizens in democracy (voting, civic participation)',
       ],
       'Geography (SS.G)': [
@@ -418,6 +422,12 @@ export const curriculum = {
         { arabic: 'التيمم', english: 'Model Tayammum — when allowed, steps, permissible items' },
         { arabic: 'الصلاة', english: 'Model Salah — complete method step by step, differences for boys and girls' },
         { arabic: 'أهمية الصلاة', english: 'Importance of Salah — four virtues, difference between belief and disbelief' },
+      ],
+      'التجويد — Tajweed (Basic Rules)': [
+        { arabic: 'مخارج الحروف', english: 'Makharij — articulation points of Arabic letters (basic introduction)' },
+        { arabic: 'أحكام النون الساكنة والتنوين', english: 'Rules of Noon Sakinah and Tanween — Izhar, Idgham, Iqlab, Ikhfa (introductory)' },
+        { arabic: 'أحكام الميم الساكنة', english: 'Rules of Meem Sakinah — Ikhfa Shafawi, Idgham Shafawi, Izhar Shafawi' },
+        { arabic: 'المد الطبيعي', english: 'Al-Madd At-Tabi\'i — natural elongation (2 counts)' },
       ],
       'فضائل الأعمال — Virtues of Actions': [
         { arabic: 'فضائل الوضوء والمسجد', english: 'Virtues of wudu, the masjid, dhikr, Quran' },
@@ -517,6 +527,13 @@ export const curriculum = {
         { arabic: 'فرائض الصلاة', english: 'Fard acts of Salah (Takbir Tahrimah, Qiyam, Qira\'ah, Ruku, Sajdah, Qa\'dah)' },
         { arabic: 'مفسدات الصلاة', english: 'Breakers of Salah (Mufsidat) — detailed rulings' },
         { arabic: 'مكروهات الصلاة', english: 'Disliked acts (Makruhat) of Salah' },
+      ],
+      'التجويد — Tajweed (Intermediate Rules)': [
+        { arabic: 'مراجعة أحكام النون الساكنة والتنوين', english: 'Review of Noon Sakinah and Tanween rules with examples from the Quran' },
+        { arabic: 'المدود', english: 'Types of Madd — Madd Tabi\'i, Madd Wajib Muttasil, Madd Ja\'iz Munfasil, Madd \'Arid Lis-Sukoon, Madd Lazim' },
+        { arabic: 'أحكام الراء', english: 'Rules of Raa — tafkheem (heavy) and tarqeeq (light) pronunciation' },
+        { arabic: 'صفات الحروف', english: 'Sifat al-Huruf — basic characteristics of letters (Hams, Jahr, Shiddah, Rakhawah, etc.)' },
+        { arabic: 'الوقف والابتداء', english: 'Waqf and Ibtida — rules for stopping and starting when reciting Quran' },
       ],
       'اللباس الإسلامي — Islamic Dress Code': [
         { arabic: 'التقوى واللباس', english: 'Taqwa and clothing' },
