@@ -4,29 +4,34 @@ import { loadSettings, saveSettings } from '../../utils/settings';
 const POPULAR_MODELS = [
   {
     provider: 'OpenAI',
+    baseUrl: 'https://api.openai.com/v1',
     models: ['gpt-5.5', 'gpt-4o', 'gpt-4o-mini', 'o1', 'o3-mini', 'gpt-4.1'],
   },
   {
     provider: 'DeepSeek',
+    baseUrl: 'https://api.deepseek.com/v1',
     models: ['deepseek-v4-pro', 'deepseek-chat', 'deepseek-reasoner'],
   },
   {
     provider: 'Gemini',
+    baseUrl: 'https://generativelanguage.googleapis.com/v1beta',
     models: ['gemini-3.1-pro', 'gemini-2.5-flash', 'gemini-2.5-pro'],
   },
   {
     provider: 'Claude',
+    baseUrl: 'https://api.anthropic.com/v1',
     models: ['claude-opus-4.7', 'claude-sonnet-4-20250514', 'claude-opus-4-20250514', 'claude-haiku-3.5'],
   },
   {
     provider: 'Kimi',
+    baseUrl: 'https://api.moonshot.cn/v1',
     models: ['kimi-2.6', 'moonshot-v1-8k', 'moonshot-v1-32k', 'moonshot-v1-128k'],
   },
 ];
 
-function getModelProvider(model) {
+function getModelInfo(model) {
   for (const group of POPULAR_MODELS) {
-    if (group.models.includes(model)) return group.provider;
+    if (group.models.includes(model)) return group;
   }
   return null;
 }
@@ -44,7 +49,7 @@ export default function SettingsPanel({ isOpen, onClose }) {
   const panelRef = useRef(null);
   const modelRef = useRef(null);
 
-  const isCustomModel = !getModelProvider(model) && model !== 'gpt-4o';
+  const isCustomModel = !getModelInfo(model) && model !== 'gpt-4o';
 
   useEffect(() => {
     if (!isOpen) return;
@@ -75,7 +80,10 @@ export default function SettingsPanel({ isOpen, onClose }) {
   const handleModelSelect = (m) => {
     setModel(m);
     setModelDropdownOpen(false);
-    saveSettings({ apiKey, model: m, baseUrl });
+    const info = getModelInfo(m);
+    const newBaseUrl = info?.baseUrl || baseUrl;
+    if (info?.baseUrl) setBaseUrl(newBaseUrl);
+    saveSettings({ apiKey, model: m, baseUrl: newBaseUrl });
   };
 
   const handleCustomToggle = () => {
@@ -121,7 +129,7 @@ export default function SettingsPanel({ isOpen, onClose }) {
     }
   };
 
-  const modelProvider = getModelProvider(model);
+  const modelInfo = getModelInfo(model);
   const displayModel = isCustomModel && customModel ? customModel : model;
 
   if (!isOpen) return null;
@@ -219,8 +227,8 @@ export default function SettingsPanel({ isOpen, onClose }) {
               >
                 <span>
                   <span className="text-slate-800 font-medium">{displayModel}</span>
-                  {modelProvider && (
-                    <span className="text-slate-400 ml-1.5">({modelProvider})</span>
+                  {modelInfo && (
+                    <span className="text-slate-400 ml-1.5">({modelInfo.provider})</span>
                   )}
                 </span>
                 <svg className={`w-4 h-4 text-slate-400 transition-transform ${modelDropdownOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
