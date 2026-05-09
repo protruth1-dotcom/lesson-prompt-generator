@@ -8,16 +8,11 @@ import { loadSettings } from '../../utils/settings';
 
 const promptModes = ['Template', 'AI Generated'];
 
-export default function GeneratorView({ form, onGenerate, loading }) {
-  const hasApiKey = !!loadSettings().apiKey;
+export default function GeneratorView({ form, onGenerate, onCancel, loading }) {
+  const settings = loadSettings();
+  const hasApiKey = !!settings.apiKey;
   const isAIMode = form.promptMode === 'AI Generated';
   const needsKey = isAIMode && !hasApiKey;
-
-  const buttonLabel = loading
-    ? 'Generating...'
-    : isAIMode
-      ? 'Generate with AI'
-      : 'Generate Prompt';
 
   const canGenerate = form.isValid && !loading && !needsKey;
 
@@ -64,7 +59,6 @@ export default function GeneratorView({ form, onGenerate, loading }) {
         manualSum={form.manualSum}
       />
 
-      {/* Prompt Mode Card */}
       <Card title="Prompt Mode">
         <div className="space-y-3">
           <ButtonGroup
@@ -87,29 +81,47 @@ export default function GeneratorView({ form, onGenerate, loading }) {
         </div>
       </Card>
 
-      {/* Generate Button */}
-      <button
-        type="button"
-        disabled={!canGenerate}
-        onClick={onGenerate}
-        aria-label={needsKey ? 'Add your API key in Settings first' : !form.isValid ? 'Please complete all required fields' : 'Generate prompt'}
-        className={`w-full py-3.5 rounded-xl text-base font-semibold transition-all cursor-pointer
-          ${canGenerate
-            ? isAIMode
-              ? 'bg-violet-600 text-white hover:bg-violet-700 shadow-md hover:shadow-lg active:scale-[0.99]'
-              : 'bg-primary-600 text-white hover:bg-primary-700 shadow-md hover:shadow-lg active:scale-[0.99]'
-            : 'bg-slate-200 text-slate-400 cursor-not-allowed'
-          }`}
-        title={needsKey ? 'Add your API key in Settings first' : !form.isValid ? 'Please complete all required fields' : ''}
-      >
-        {loading && (
-          <svg className="inline w-4 h-4 mr-2 animate-spin" fill="none" viewBox="0 0 24 24">
-            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-          </svg>
-        )}
-        {buttonLabel}
-      </button>
+      {loading && isAIMode ? (
+        <div className="bg-violet-50 border border-violet-200 rounded-xl p-5">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="flex gap-1">
+              <span className="w-2.5 h-2.5 bg-violet-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+              <span className="w-2.5 h-2.5 bg-violet-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+              <span className="w-2.5 h-2.5 bg-violet-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+            </div>
+            <span className="text-sm font-medium text-violet-700">
+              AI is crafting your prompt using {settings.model || 'gpt-4o'}
+            </span>
+          </div>
+          <p className="text-xs text-violet-500 mb-4">
+            The AI is building a detailed, topic-specific prompt based on your settings. This may take up to a minute.
+          </p>
+          <button
+            type="button"
+            onClick={onCancel}
+            className="px-4 py-1.5 text-xs font-medium text-violet-600 bg-white border border-violet-200 rounded-lg hover:bg-violet-100 transition-colors cursor-pointer"
+          >
+            Cancel
+          </button>
+        </div>
+      ) : (
+        <button
+          type="button"
+          disabled={!canGenerate}
+          onClick={onGenerate}
+          aria-label={needsKey ? 'Add your API key in Settings first' : !form.isValid ? 'Please complete all required fields' : 'Generate prompt'}
+          className={`w-full py-3.5 rounded-xl text-base font-semibold transition-all cursor-pointer
+            ${canGenerate
+              ? isAIMode
+                ? 'bg-violet-600 text-white hover:bg-violet-700 shadow-md hover:shadow-lg active:scale-[0.99]'
+                : 'bg-primary-600 text-white hover:bg-primary-700 shadow-md hover:shadow-lg active:scale-[0.99]'
+              : 'bg-slate-200 text-slate-400 cursor-not-allowed'
+            }`}
+          title={needsKey ? 'Add your API key in Settings first' : !form.isValid ? 'Please complete all required fields' : ''}
+        >
+          {isAIMode ? 'Generate with AI' : 'Generate Prompt'}
+        </button>
+      )}
     </div>
   );
 }

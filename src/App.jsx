@@ -135,6 +135,7 @@ export default function App() {
           <GeneratorView
             form={form}
             onGenerate={handleGenerate}
+            onCancel={openai.cancel}
             loading={openai.loading}
           />
         )}
