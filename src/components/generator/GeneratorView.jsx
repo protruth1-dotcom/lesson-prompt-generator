@@ -84,10 +84,14 @@ export default function GeneratorView({ form, onGenerate, onCancel, loading }) {
       {loading && isAIMode ? (
         <div className="bg-violet-50 border border-violet-200 rounded-xl p-5">
           <div className="flex items-center gap-3 mb-3">
-            <div className="flex gap-1">
-              <span className="w-2.5 h-2.5 bg-violet-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-              <span className="w-2.5 h-2.5 bg-violet-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-              <span className="w-2.5 h-2.5 bg-violet-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+            <div className="flex items-center gap-1.5">
+              {[0, 1, 2].map((i) => (
+                <span
+                  key={i}
+                  className="w-2.5 h-2.5 bg-violet-500 rounded-full animate-dot-pulse"
+                  style={{ animationDelay: `${i * 0.2}s` }}
+                />
+              ))}
             </div>
             <span className="text-sm font-medium text-violet-700">
               AI is crafting your prompt using {settings.model || 'gpt-4o'}
