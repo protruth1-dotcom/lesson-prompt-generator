@@ -98,52 +98,52 @@ function buildPlaceholderQuestions(topicName, gradeLevel, subject, distribution)
 
       switch (type.key) {
         case 'vocabulary':
-          base.question = `Match each vocabulary term about ${topicName} with its correct definition.`;
+          base.question = `Match each word about ${topicName} with its meaning.`;
           base.options = ['Term A', 'Term B', 'Term C', 'Term D'];
           base.answer = 'See Answer Key';
-          base.explanation = `Vocabulary terms introduce key concepts about ${topicName}. Matching them correctly shows understanding of the lesson content.`;
+          base.explanation = `Understanding key words helps you remember what you learned about ${topicName}.`;
           break;
 
         case 'multipleChoice':
-          base.question = `Question ${qNum} about ${topicName}: [Core concept multiple choice question]`;
-          base.options = ['A. [Correct answer]', 'B. [Plausible distractor]', 'C. [Plausible distractor]', 'D. [Plausible distractor]'];
+          base.question = `[A question about ${topicName} with four answer choices.]`;
+          base.options = ['A. [Correct answer]', 'B. [Another possible answer]', 'C. [Another possible answer]', 'D. [Another possible answer]'];
           base.answer = 'A';
-          base.explanation = `The correct answer is A because [brief reason based on ${topicName} content].`;
+          base.explanation = `A is correct because [reason].`;
           break;
 
         case 'trueFalse':
-          base.question = `True or False: [Statement about ${topicName} that tests a common misconception].`;
+          base.question = `True or False: [A statement about ${topicName}].`;
           base.answer = 'True';
-          base.explanation = `This statement is true because [brief explanation related to ${topicName}].`;
+          base.explanation = `This is true because [reason].`;
           break;
 
         case 'fillBlank':
-          base.question = `Complete the sentence about ${topicName}: "____________ is an important concept because it helps us understand ${topicName}."`;
+          base.question = `Complete the sentence: "____________ is an important part of understanding ${topicName}."`;
           base.wordBank = ['[Term 1]', '[Term 2]', '[Term 3]', '[Term 4]'];
           base.answer = '[Term 1]';
-          base.explanation = `The correct term is "[Term 1]" because [reason related to ${topicName}].`;
+          base.explanation = `"[Term 1]" is the correct answer because [reason].`;
           break;
 
         case 'shortAnswer':
-          base.question = `Explain in your own words: How does ${topicName} connect to something you see or do in everyday life?`;
+          base.question = `In your own words: How does ${topicName} connect to your everyday life?`;
           base.ruledLines = 5;
           base.answer = 'See sample response in Answer Key';
-          base.explanation = `A strong answer connects ${topicName} to a real-world example and uses lesson vocabulary correctly.`;
+          base.explanation = `A strong answer connects ${topicName} to a real example from your life and uses lesson vocabulary.`;
           break;
 
         case 'diagramVisual':
-          base.question = `Look at the diagram of ${topicName} below. Label the missing parts.`;
+          base.question = `Look at the diagram of ${topicName}. Label each part on the lines below.`;
           base.diagramLabels = ['[Part A]', '[Part B]', '[Part C]'];
           base.answer = 'See Answer Key';
-          base.explanation = `Correctly labeling the diagram shows understanding of the structure of ${topicName}.`;
+          base.explanation = `Each label names an important part of ${topicName}.`;
           break;
 
         case 'scenarioBased':
-          base.scenario = `Imagine this situation related to ${topicName}: [Short scenario with 2-3 sentences that a ${gradeLevel} student can relate to].`;
-          base.question = `Based on what you learned about ${topicName}, what would you do in this situation? Explain your reasoning.`;
+          base.scenario = `[A short story about a student your age facing a situation related to ${topicName}.]`;
+          base.question = `What would you do in this situation? Explain your thinking.`;
           base.ruledLines = 6;
           base.answer = 'See sample response in Answer Key';
-          base.explanation = `A strong response applies concepts from the lesson about ${topicName} to the scenario and explains the reasoning clearly.`;
+          base.explanation = `A strong response uses what you learned about ${topicName} and explains your reasoning.`;
           break;
 
         default:
@@ -161,10 +161,10 @@ function buildPlaceholderAnswerKey(questions) {
   return questions.map(q => ({
     number: q.number,
     correctAnswer: q.answer || 'See explanation',
-    explanation: q.explanation || 'Refer to the lesson content for the correct answer.',
+    explanation: q.explanation || 'Check the lesson content for the answer.',
     sampleResponse:
       (q.type === 'shortAnswer' || q.type === 'scenarioBased')
-        ? 'A strong sample response would use lesson vocabulary, connect to the real world, and explain reasoning clearly.'
+        ? 'A good answer uses vocabulary from the lesson and explains your thinking clearly.'
         : undefined,
   }));
 }
@@ -223,75 +223,75 @@ export function createMockWorkbookData(formState) {
     priorKnowledge: {
       title: 'What You Should Already Know',
       items: [
-        `Recall what you know about the basics of ${topicName}.`,
-        `Think about vocabulary or skills from earlier lessons that connect to learning about ${topicName}.`,
-        `Consider a real-world example related to ${topicName} that you have seen or experienced.`,
+        `I know some things about the topic of ${topicName}. Here is what I remember:`,
+        `Words or skills I learned before that connect to ${topicName}:`,
+        `A real-world example I have seen or experienced that relates to ${topicName}:`,
       ],
     },
 
     objectives: {
       title: 'Learning Objectives',
       items: [
-        `By the end of this lesson, you will be able to identify and describe key concepts about ${topicName}.`,
+        `By the end of this lesson, you will be able to identify and describe key ideas about ${topicName}.`,
         `By the end of this lesson, you will be able to explain why ${topicName} matters in real life.`,
-        `By the end of this lesson, you will be able to apply your understanding of ${topicName} to answer questions and solve problems.`,
+        `By the end of this lesson, you will be able to use what you learned about ${topicName} to answer questions and solve problems.`,
       ],
     },
 
     engage: {
       title: 'Engage — Spark Your Curiosity',
-      content: `Spark curiosity about ${topicName}: [A real-world question, surprising fact, or short scenario that grabs attention and makes a ${gradeLevelText} student excited to learn more about ${topicName}.]`,
+      content: `[A real-world question, surprising fact, or short story about ${topicName} that makes you curious and excited to learn more.]`,
     },
 
     explore: {
       title: 'Explore — Discover for Yourself',
       activityType: 'guided-question',
-      content: `Try this before reading the explanation: [A guided question, thought experiment, or observation task that lets the student interact with the concept of ${topicName} on their own. Think: predict, observe, wonder.]`,
+      content: `Try this before you read the explanation: [A question to think about, a quick activity to try, or something to observe that lets you explore ${topicName} on your own before the lesson explains it.]`,
     },
 
     explain: {
-      title: 'Explain — Core Content',
+      title: 'Explain — What You Need to Know',
       contentBlocks: [
-        { type: 'text', text: `Core Concept 1: [Scaffolded explanation of the first key idea about ${topicName}, written at a ${gradeLevelText} reading level with short, clear sentences.]` },
+        { type: 'text', text: `[The first key idea about ${topicName}, explained in short, clear sentences with examples.]` },
         { type: 'check-in', checkInPrompt: 'Think about it: Can you think of your own example?' },
-        { type: 'text', text: `Core Concept 2: [Build on the first concept — introduce the next idea about ${topicName} step by step, connecting it back to what was just explained.]` },
-        { type: 'check-in', checkInPrompt: 'Think about it: How does this connect to Core Concept 1?' },
-        { type: 'visual-placeholder', visualDescription: `[Image: A simple diagram or illustration showing the main idea of ${topicName} — labeled with key parts the student needs to know.]` },
-        { type: 'text', text: `Core Concept 3: [Extend understanding of ${topicName} further — add nuance, an analogy, or a deeper explanation that stretches thinking without overwhelming a ${gradeLevelText} student.]` },
+        { type: 'text', text: `[The next idea about ${topicName} that builds on what you just learned, step by step.]` },
+        { type: 'check-in', checkInPrompt: 'Think about it: How does this connect to the first idea?' },
+        { type: 'visual-placeholder', visualDescription: `[A diagram or picture that shows the main idea of ${topicName}. It has labeled parts to help you understand.]` },
+        { type: 'text', text: `[A deeper look at ${topicName} — an interesting connection, a helpful comparison, or a challenge question.]` },
       ],
       vocabulary: [
-        { term: `[Key Term 1 about ${topicName}]`, definition: '[Student-friendly definition with short, clear language.]', example: '[One sentence using the term naturally.]' },
-        { term: `[Key Term 2 about ${topicName}]`, definition: '[Student-friendly definition with short, clear language.]', example: '[One sentence using the term naturally.]' },
-        { term: `[Key Term 3 about ${topicName}]`, definition: '[Student-friendly definition with short, clear language.]', example: '[One sentence using the term naturally.]' },
-        { term: `[Key Term 4 about ${topicName}]`, definition: '[Student-friendly definition with short, clear language.]', example: '[One sentence using the term naturally.]' },
-        ...(isIslamic ? [{ term: '[Arabic Term]', definition: '[Definition in English]', example: '[Usage example]', isArabic: true }] : []),
+        { term: `[Term 1]`, definition: '[What this word means, in everyday language.]', example: '[For example: ...]' },
+        { term: `[Term 2]`, definition: '[What this word means, in everyday language.]', example: '[For example: ...]' },
+        { term: `[Term 3]`, definition: '[What this word means, in everyday language.]', example: '[For example: ...]' },
+        { term: `[Term 4]`, definition: '[What this word means, in everyday language.]', example: '[For example: ...]' },
+        ...(isIslamic ? [{ term: '[Arabic Term]', definition: '[Meaning in English]', example: '[For example: ...]', isArabic: true }] : []),
       ],
       didYouKnow: Array.from({ length: didYouKnowCount }, (_, i) => ({
         title: `Did You Know? #${i + 1}`,
-        fact: `[A surprising, memorable, or fun fact about ${topicName} that a ${gradeLevelText} student would find interesting. Make it genuinely surprising!]`,
+        fact: `[A surprising or fun fact about ${topicName} that will make you say "wow!"]`,
       })),
       realWorldApplication: {
         title: 'Why Does This Matter in Real Life?',
-        content: `[Connect ${topicName} to something concrete in a ${gradeLevelText} student's daily life. Answer: "Why do I need to learn this?" with a specific, relatable example — at home, at school, in the community, in nature, etc.]`,
+        content: `[A specific, real example of how ${topicName} shows up in your everyday life — at home, at school, in nature, or in your community.]`,
       },
     },
 
     elaborate: {
-      title: 'Elaborate — Apply What You Learned',
-      content: `Now apply your understanding of ${topicName} to a NEW situation you haven't seen before: [A different context, a new scenario, or a follow-up challenge that requires the student to transfer what they learned about ${topicName} to think about something related but different.]`,
+      title: 'Elaborate — Try It Yourself',
+      content: `Now use what you learned about ${topicName} in a whole new way: [A different situation or challenge that asks you to apply what you learned about ${topicName} to something new.]`,
       crossCurricular: crossCurricular ? {
         subject: '[Another subject area]',
-        connection: `[2-3 sentences explaining how ${topicName} connects to another subject like Math, ELA, Science, or Social Studies.]`,
+        connection: `[How ${topicName} connects to what you learn in another subject, like Math, ELA, Science, or Social Studies.]`,
       } : null,
       characterBuilding: isIslamic
-        ? `Something I can practice this week: [A specific, actionable behavior the student can apply from the lesson about ${topicName} in their daily life, rooted in Islamic values.]`
+        ? `Something I can practice this week: [One specific thing you can do this week that puts this lesson into practice in your daily life.]`
         : null,
     },
 
     summary: {
       title: 'Summary — Key Takeaways',
       items: Array.from({ length: summaryCount }, (_, i) =>
-        `Takeaway ${i + 1}: [One concise, student-friendly statement capturing an important idea about ${topicName}.]`
+        `Takeaway ${i + 1}: [The most important thing to remember about ${topicName}.]`
       ),
     },
 
