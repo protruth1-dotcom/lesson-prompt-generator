@@ -162,29 +162,14 @@ export default function SettingsPanel({ isOpen, onClose }) {
 
         <div className="space-y-2">
           <label className="block text-sm font-medium text-slate-700">Model</label>
-          <div className="flex gap-2">
-            {[
-              { value: 'gpt-4o', label: 'GPT-4o (Recommended)' },
-              { value: 'gpt-4o-mini', label: 'GPT-4o Mini (Faster)' },
-            ].map((opt) => (
-              <button
-                key={opt.value}
-                type="button"
-                onClick={() => {
-                  setModel(opt.value);
-                  saveSettings({ openaiApiKey: apiKey, openaiModel: opt.value });
-                }}
-                className={`flex-1 px-3 py-2 rounded-lg text-sm font-medium border transition-all cursor-pointer ${
-                  model === opt.value
-                    ? 'bg-primary-50 border-primary-300 text-primary-700'
-                    : 'bg-white border-slate-200 text-slate-500 hover:border-slate-300'
-                }`}
-                aria-pressed={model === opt.value}
-              >
-                {opt.label}
-              </button>
-            ))}
-          </div>
+          <input
+            type="text"
+            value={model}
+            onChange={(e) => setModel(e.target.value)}
+            onBlur={() => saveSettings({ openaiApiKey: apiKey, openaiModel: model })}
+            placeholder="gpt-4o"
+            className="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm bg-white focus:border-primary-500 focus:ring-2 focus:ring-primary-100 outline-none transition-colors font-mono"
+          />
         </div>
       </div>
     </div>
