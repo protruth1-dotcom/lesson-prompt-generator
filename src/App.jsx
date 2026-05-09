@@ -12,7 +12,7 @@ import { useOpenAI } from './hooks/useOpenAI';
 import { buildPrompt } from './engine/promptBuilder';
 import { buildMetaPrompt } from './engine/metaPromptBuilder';
 import { buildLessonPrompt } from './engine/lessonBuilder';
-import { createMockWorkbookData } from './engine/workbookSchema';
+import { buildWorkbookData } from './engine/workbookSchema';
 import { formatWorkbook } from './engine/workbookFormatter';
 
 export default function App() {
@@ -70,7 +70,11 @@ export default function App() {
       }
     } else {
       const prompt = buildPrompt(form);
-      const workbookData = createMockWorkbookData(form);
+      const workbookData = buildWorkbookData(form);
+      if (!workbookData) {
+        showToast('No workbook content available for this topic yet.');
+        return;
+      }
       const workbookHtml = formatWorkbook(workbookData);
       setPromptData({ ...data, promptText: prompt, workbookData, lessonHtml: workbookHtml });
       setActiveView('preview');
@@ -105,7 +109,11 @@ export default function App() {
       }
     } else {
       const prompt = buildPrompt(form);
-      const workbookData = createMockWorkbookData(form);
+      const workbookData = buildWorkbookData(form);
+      if (!workbookData) {
+        showToast('No workbook content available for this topic yet.');
+        return;
+      }
       const workbookHtml = formatWorkbook(workbookData);
       setPromptData((prev) => ({ ...prev, promptText: prompt, workbookData, lessonHtml: workbookHtml }));
     }
