@@ -6,12 +6,14 @@ import Card from '../layout/Card';
 import ButtonGroup from '../ui/ButtonGroup';
 import { loadSettings } from '../../utils/settings';
 
-const promptModes = ['Template', 'AI Generated'];
+const promptModes = ['Template', 'AI Prompt', 'Direct Lesson'];
 
 export default function GeneratorView({ form, onGenerate, onCancel, onDismissError, loading, error }) {
   const settings = loadSettings();
   const hasApiKey = !!settings.apiKey;
-  const isAIMode = form.promptMode === 'AI Generated';
+  const isAI = form.promptMode === 'AI Generated' || form.promptMode === 'AI Prompt';
+  const isAIMode = isAI || form.promptMode === 'Direct Lesson';
+  const isDirectLesson = form.promptMode === 'Direct Lesson';
   const needsKey = isAIMode && !hasApiKey;
 
   const canGenerate = form.isValid && !loading && !needsKey;
@@ -71,7 +73,9 @@ export default function GeneratorView({ form, onGenerate, onCancel, onDismissErr
           {isAIMode && (
             <p className="text-xs text-slate-500">
               {hasApiKey
-                ? 'Uses your API key to craft a custom prompt tailored to your topic.'
+                ? isDirectLesson
+                  ? 'Generates the complete lesson workbook directly using your API key.'
+                  : 'Uses your API key to craft a custom prompt tailored to your topic.'
                 : (
                   <span className="text-amber-600">
                     API key required. Open Settings (gear icon) to add your API key.
@@ -96,11 +100,15 @@ export default function GeneratorView({ form, onGenerate, onCancel, onDismissErr
               ))}
             </div>
             <span className="text-sm font-medium text-violet-700">
-              AI is crafting your prompt using {settings.model || 'gpt-4o'}
+              {isDirectLesson
+                ? `AI is creating your workbook using ${settings.model || 'gpt-4o'}`
+                : `AI is crafting your prompt using ${settings.model || 'gpt-4o'}`}
             </span>
           </div>
           <p className="text-xs text-violet-500 mb-4">
-            The AI is building a detailed, topic-specific prompt based on your settings. This may take up to a minute.
+            {isDirectLesson
+              ? 'Generating a complete, themed lesson workbook with all content, quiz, and answer key. This may take up to 2 minutes.'
+              : 'The AI is building a detailed, topic-specific prompt based on your settings. This may take up to a minute.'}
           </p>
           <button
             type="button"
@@ -147,7 +155,7 @@ export default function GeneratorView({ form, onGenerate, onCancel, onDismissErr
             }`}
           title={needsKey ? 'Add your API key in Settings first' : !form.isValid ? 'Please complete all required fields' : ''}
         >
-          {isAIMode ? 'Generate with AI' : 'Generate Prompt'}
+          {isDirectLesson ? 'Generate Workbook' : isAIMode ? 'Generate with AI' : 'Generate Prompt'}
         </button>
       )}
     </div>

@@ -11,6 +11,7 @@ import { useClipboard } from './hooks/useClipboard';
 import { useOpenAI } from './hooks/useOpenAI';
 import { buildPrompt } from './engine/promptBuilder';
 import { buildMetaPrompt } from './engine/metaPromptBuilder';
+import { buildLessonPrompt } from './engine/lessonBuilder';
 
 export default function App() {
   const [activeView, setActiveView] = useState('generator');
@@ -47,11 +48,20 @@ export default function App() {
   const handleGenerate = useCallback(async () => {
     const data = buildPromptData();
 
-    if (form.promptMode === 'AI Generated') {
+    if (form.promptMode === 'AI Generated' || form.promptMode === 'AI Prompt') {
       const metaPrompt = buildMetaPrompt(form);
       const result = await openai.generate(metaPrompt);
       if (result) {
         setPromptData({ ...data, promptText: result });
+        setActiveView('preview');
+      } else if (openai.error) {
+        showToast(openai.error);
+      }
+    } else if (form.promptMode === 'Direct Lesson') {
+      const lessonPrompt = buildLessonPrompt(form);
+      const result = await openai.generate(lessonPrompt, { maxTokens: 16000, timeout: 120000 });
+      if (result) {
+        setPromptData({ ...data, promptText: '', lessonHtml: result });
         setActiveView('preview');
       } else if (openai.error) {
         showToast(openai.error);
@@ -73,11 +83,19 @@ export default function App() {
     }
     rateLimitRef.current = now;
 
-    if (promptData.promptMode === 'AI Generated') {
+    if (promptData.promptMode === 'AI Generated' || promptData.promptMode === 'AI Prompt') {
       const metaPrompt = buildMetaPrompt(form);
       const result = await openai.generate(metaPrompt);
       if (result) {
         setPromptData((prev) => ({ ...prev, promptText: result }));
+      } else if (openai.error) {
+        showToast(openai.error);
+      }
+    } else if (promptData.promptMode === 'Direct Lesson') {
+      const lessonPrompt = buildLessonPrompt(form);
+      const result = await openai.generate(lessonPrompt, { maxTokens: 16000, timeout: 120000 });
+      if (result) {
+        setPromptData((prev) => ({ ...prev, lessonHtml: result }));
       } else if (openai.error) {
         showToast(openai.error);
       }
@@ -110,6 +128,7 @@ export default function App() {
       totalQuestions: data.totalQuestions,
       difficulty: data.difficulty,
       promptText: data.promptText,
+      lessonHtml: data.lessonHtml || '',
     };
     try {
       storage.save(entry);

@@ -26,7 +26,7 @@ export function useOpenAI() {
   const [error, setError] = useState(null);
   const abortRef = useRef(null);
 
-  const generate = useCallback(async (metaPrompt) => {
+  const generate = useCallback(async (metaPrompt, options = {}) => {
     const settings = loadSettings();
     if (!settings.apiKey) {
       setError(ERROR_MESSAGES.no_key);
@@ -38,7 +38,8 @@ export function useOpenAI() {
 
     const controller = new AbortController();
     abortRef.current = controller;
-    const timeoutId = setTimeout(() => controller.abort(), 60000);
+    const timeoutMs = options.timeout || 60000;
+    const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
     const baseUrl = settings.baseUrl.replace(/\/+$/, '');
 
@@ -61,7 +62,7 @@ export function useOpenAI() {
               content: metaPrompt,
             },
           ],
-          max_tokens: 8000,
+          max_tokens: options.maxTokens || 8000,
           temperature: 0.7,
         }),
         signal: controller.signal,
