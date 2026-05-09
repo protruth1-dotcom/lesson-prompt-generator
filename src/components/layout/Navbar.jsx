@@ -8,9 +8,18 @@ export default function Navbar({ activeView, onNavigate, onOpenSettings }) {
     <nav className="bg-white border-b border-slate-200 sticky top-0 z-40">
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between h-14">
-          <h1 className="text-lg font-bold text-primary-700 tracking-tight">
-            Lesson Prompt Generator
-          </h1>
+          <div className="flex items-center gap-2.5">
+            <svg className="w-7 h-7 shrink-0" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="48" height="48" rx="12" fill="#0d9488"/>
+              <path d="M14 12h8v20l-4-3-4 3V12z" fill="#fff" opacity="0.9"/>
+              <path d="M26 12h8v20l-4-3-4 3V12z" fill="#fff" opacity="0.7"/>
+              <path d="M22 6l1.5 4-1.5-4zM25 8l-4 1.5 4-1.5zM19 8l4 1.5-4-1.5zM22 10l-1.5-4 1.5 4z" fill="#fbbf24"/>
+              <circle cx="22" cy="8" r="1" fill="#f59e0b"/>
+            </svg>
+            <h1 className="text-lg font-bold text-primary-700 tracking-tight">
+              Lesson Prompt Generator
+            </h1>
+          </div>
           <div className="flex items-center gap-1">
             {tabs.map((tab) => (
               <button
