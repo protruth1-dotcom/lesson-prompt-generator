@@ -18,16 +18,16 @@ export default function PreviewView({ promptData, onBack, onCopy, onSave, onRege
   const lessonHtml = promptData.lessonHtml || '';
 
   const handleSave = () => {
-    onSave({ ...promptData, promptText: editedText, lessonHtml: isDirectLesson ? lessonHtml : '' });
+    onSave({ ...promptData, promptText: editedText, lessonHtml });
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
   };
 
   const handleDownloadPDF = useCallback(() => {
-    if (isDirectLesson && lessonHtml) {
+    if (lessonHtml) {
       downloadPDF(lessonHtml);
     }
-  }, [isDirectLesson, lessonHtml]);
+  }, [lessonHtml]);
 
   const handleCopyHTML = useCallback(() => {
     if (lessonHtml) {
