@@ -96,8 +96,7 @@ export default function SearchableDropdown({ options, value, onChange, placehold
   return (
     <div ref={containerRef} className="relative">
       <div
-        className={`flex items-center border rounded-lg px-3 py-2.5 cursor-pointer bg-white transition-colors
-          ${isOpen ? 'border-primary-500 ring-2 ring-primary-100' : 'border-slate-200 hover:border-slate-300'}`}
+        className={`dropdown-trigger ${isOpen ? 'dropdown-trigger--open' : ''}`}
         onClick={handleOpen}
       >
         {isOpen ? (
@@ -112,19 +111,19 @@ export default function SearchableDropdown({ options, value, onChange, placehold
             onKeyDown={handleKeyDown}
           />
         ) : (
-          <span className={`flex-1 text-sm truncate ${value ? 'text-slate-800' : 'text-slate-400'}`}>
+          <span className={`flex-1 text-sm truncate ${value ? 'text-ink' : 'text-ink-soft'}`}>
             {selectedLabel || placeholder}
           </span>
         )}
-        <svg className={`w-4 h-4 text-slate-400 transition-transform shrink-0 ${isOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg className={`w-4 h-4 text-ink-soft transition-transform shrink-0 ${isOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
         </svg>
       </div>
 
       {isOpen && (
-        <div className="absolute z-50 w-full mt-1 bg-white border border-slate-200 rounded-lg shadow-lg max-h-64 overflow-y-auto" role="listbox">
+        <div className="dropdown-menu" role="listbox">
           {filtered.length === 0 ? (
-            <div className="px-3 py-2 text-sm text-slate-400">No results found</div>
+            <div className="dropdown-empty">No results found</div>
           ) : (
             <div ref={listRef}>
               {filtered.map((opt, i) => {
@@ -140,23 +139,22 @@ export default function SearchableDropdown({ options, value, onChange, placehold
                 return (
                   <div key={`${category}-${label}-${i}`}>
                     {showCategoryHeader && (
-                      <div className="px-3 py-1.5 text-xs font-semibold text-slate-500 bg-slate-50 sticky top-0">
+                      <div className="dropdown-category-header">
                         {category}
                       </div>
                     )}
                     <div
                       role="option"
                       aria-selected={isSelected}
-                      className={`px-3 py-2 text-sm cursor-pointer transition-colors
-                        ${isSelected ? 'bg-primary-50 text-primary-700' : isFocused ? 'bg-primary-100 text-primary-800' : 'hover:bg-slate-50 text-slate-700'}`}
+                      className={`dropdown-item ${isSelected ? 'dropdown-item--selected' : isFocused ? 'dropdown-item--highlighted' : ''}`}
                       onClick={() => handleSelect(topic)}
                       onMouseEnter={() => setFocusedIndex(i)}
                     >
                       {renderOption ? renderOption(topic) : (
                         typeof topic === 'object' && topic.arabic ? (
                           <span>
-                            <span lang="ar" dir="rtl" className="font-arabic">{topic.arabic}</span>
-                            <span className="text-slate-400"> — </span>
+                            <span lang="ar" dir="rtl" className="arabic-term">{topic.arabic}</span>
+                            <span className="text-ink-soft"> — </span>
                             <span>{topic.english}</span>
                           </span>
                         ) : label

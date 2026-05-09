@@ -25,11 +25,11 @@ export default function LessonSettingsCard({
       <div className="space-y-5">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">Target AI</label>
+            <label className="block text-sm font-medium text-ink mb-2">Target AI</label>
             <select
               value={targetAI}
               onChange={(e) => onTargetAIChange(e.target.value)}
-              className="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm bg-white hover:border-slate-300 focus:border-primary-500 focus:ring-2 focus:ring-primary-100 outline-none transition-colors"
+              className="input w-full"
             >
               {aiTargets.map((ai) => (
                 <option key={ai} value={ai}>{ai}</option>

@@ -5,7 +5,7 @@ const tabs = [
 
 export default function Navbar({ activeView, onNavigate, onOpenSettings }) {
   return (
-    <nav className="bg-white border-b border-slate-200 sticky top-0 z-40">
+    <nav className="bg-paper border-b border-[#E8E2D6] sticky top-0 z-40">
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between h-14">
           <button
@@ -15,13 +15,13 @@ export default function Navbar({ activeView, onNavigate, onOpenSettings }) {
             aria-label="Go to generator"
           >
             <svg className="w-7 h-7 shrink-0" width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect width="48" height="48" rx="12" fill="#0d9488"/>
+              <rect width="48" height="48" rx="12" fill="#2A4035"/>
               <path d="M12 14h9v18l-4.5-3-4.5 3V14z" fill="#fff" opacity="0.9"/>
               <path d="M27 14h9v18l-4.5-3-4.5 3V14z" fill="#fff" opacity="0.7"/>
-              <path d="M24 8l2 5-2-5zM28 11l-5 2 5-2zM20 11l5 2-5-2zM24 14l-2-5 2 5z" fill="#fbbf24"/>
-              <circle cx="24" cy="11" r="1.5" fill="#f59e0b"/>
+              <path d="M24 8l2 5-2-5zM28 11l-5 2 5-2zM20 11l5 2-5-2zM24 14l-2-5 2 5z" fill="#FCD34D"/>
+              <circle cx="24" cy="11" r="1.5" fill="#F59E0B"/>
             </svg>
-            <h1 className="text-lg font-bold text-primary-700 tracking-tight">
+            <h1 className="text-lg font-bold text-ink tracking-tight">
               Lesson Prompt Generator
             </h1>
           </button>
@@ -32,11 +32,7 @@ export default function Navbar({ activeView, onNavigate, onOpenSettings }) {
                 type="button"
                 aria-current={activeView === tab.key || (activeView === 'preview' && tab.key === 'generator') ? 'page' : undefined}
                 onClick={() => onNavigate(tab.key)}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer
-                  ${activeView === tab.key || (activeView === 'preview' && tab.key === 'generator')
-                    ? 'bg-primary-50 text-primary-700'
-                    : 'text-slate-500 hover:text-slate-700 hover:bg-slate-50'
-                  }`}
+                className={`tab-nav ${activeView === tab.key || (activeView === 'preview' && tab.key === 'generator') ? 'tab-nav--active' : ''}`}
               >
                 {tab.label}
               </button>
@@ -44,7 +40,7 @@ export default function Navbar({ activeView, onNavigate, onOpenSettings }) {
             <button
               type="button"
               onClick={onOpenSettings}
-              className="ml-1 p-2 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors cursor-pointer"
+              className="ml-1 p-2 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-lined transition-colors cursor-pointer"
               aria-label="Settings"
               title="Settings"
             >

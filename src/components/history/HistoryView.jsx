@@ -18,26 +18,25 @@ export default function HistoryView({ items, onView, onCopy, onDelete }) {
   return (
     <div>
       <div className="flex items-center justify-between mb-4 flex-wrap gap-3">
-        <h2 className="text-lg font-semibold text-slate-800">Saved Prompts</h2>
+        <h2 className="text-lg font-semibold text-ink">Saved Prompts</h2>
         <button
           type="button"
           onClick={handleExport}
           disabled={items.length === 0}
-          className="px-3 py-1.5 text-xs font-medium text-slate-600 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+          className="btn-secondary text-xs disabled:opacity-40 disabled:cursor-not-allowed"
         >
           Export All
         </button>
       </div>
 
-      <p className="text-xs text-slate-400 mb-4">
+      <p className="text-xs text-ink-soft mb-4">
         Prompts are saved to this browser only. Export to keep a backup.
       </p>
 
       {items.length === 0 ? (
-        <div className="text-center py-16">
-          <div className="text-4xl mb-3">📝</div>
-          <p className="text-slate-500 text-sm">No saved prompts yet.</p>
-          <p className="text-slate-400 text-sm mt-1">Generate your first prompt to get started.</p>
+        <div className="state-empty">
+          <h3 className="state-empty-title">No saved prompts yet</h3>
+          <p className="state-empty-message">Generate your first prompt to get started.</p>
         </div>
       ) : (
         <div className="space-y-3">

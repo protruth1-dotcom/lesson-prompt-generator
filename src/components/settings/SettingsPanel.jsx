@@ -135,16 +135,14 @@ export default function SettingsPanel({ isOpen, onClose }) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4" role="dialog" aria-modal="true" aria-labelledby="settings-dialog-title">
-      <div className="fixed inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
-
-      <div ref={panelRef} className="relative bg-white rounded-2xl shadow-2xl w-full max-w-lg p-6 space-y-5 animate-slide-up">
+    <div className="settings-backdrop" role="dialog" aria-modal="true" aria-labelledby="settings-dialog-title" onClick={onClose}>
+      <div ref={panelRef} className="settings-panel settings-panel--enter" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center justify-between">
-          <h2 id="settings-dialog-title" className="text-lg font-bold text-slate-800">Settings</h2>
+          <h2 id="settings-dialog-title" className="text-lg font-bold text-ink">Settings</h2>
           <button
             type="button"
             onClick={onClose}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors cursor-pointer"
+            className="p-1.5 rounded-lg text-ink-soft hover:text-ink hover:bg-paper-lined transition-colors cursor-pointer"
             aria-label="Close settings"
           >
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -153,20 +151,20 @@ export default function SettingsPanel({ isOpen, onClose }) {
           </button>
         </div>
 
-        <div className="space-y-2">
-          <label className="block text-sm font-medium text-slate-700">API Key</label>
+        <div className="settings-section">
+          <label className="settings-label">API Key</label>
           <div className="relative">
             <input
               type={showKey ? 'text' : 'password'}
               value={apiKey}
               onChange={(e) => { setApiKey(e.target.value); setTestStatus(null); }}
               placeholder="sk-..."
-              className="w-full border border-slate-200 rounded-lg px-3 py-2.5 pr-10 text-sm bg-white focus:border-primary-500 focus:ring-2 focus:ring-primary-100 outline-none transition-colors font-mono"
+              className="input w-full pr-10 font-mono"
             />
             <button
               type="button"
               onClick={() => setShowKey(!showKey)}
-              className="absolute right-2 top-1/2 -translate-y-1/2 p-1 text-slate-400 hover:text-slate-600 cursor-pointer"
+              className="absolute right-2 top-1/2 -translate-y-1/2 p-1 text-ink-soft hover:text-ink cursor-pointer"
               aria-label={showKey ? 'Hide key' : 'Show key'}
             >
               {showKey ? (
@@ -181,24 +179,24 @@ export default function SettingsPanel({ isOpen, onClose }) {
               )}
             </button>
           </div>
-          <p className="text-xs text-slate-400">Your key is stored only in your browser and sent directly to the API endpoint you configure below.</p>
+          <p className="settings-hint">Your key is stored only in your browser and sent directly to the API endpoint you configure below.</p>
         </div>
 
-        <div className="space-y-2">
-          <label className="block text-sm font-medium text-slate-700">Base URL</label>
+        <div className="settings-section">
+          <label className="settings-label">Base URL</label>
           <input
             type="text"
             value={baseUrl}
             onChange={(e) => setBaseUrl(e.target.value)}
             onBlur={() => saveSettings({ apiKey, model: isCustomModel && customModel ? customModel : model, baseUrl })}
             placeholder="https://api.openai.com/v1"
-            className="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm bg-white focus:border-primary-500 focus:ring-2 focus:ring-primary-100 outline-none transition-colors font-mono"
+            className="input w-full font-mono"
           />
-          <p className="text-xs text-slate-400">Default is OpenAI. Change this to use any OpenAI-compatible provider.</p>
+          <p className="settings-hint">Default is OpenAI. Change this to use any OpenAI-compatible provider.</p>
         </div>
 
-        <div className="space-y-2">
-          <label className="block text-sm font-medium text-slate-700">Model</label>
+        <div className="settings-section">
+          <label className="settings-label">Model</label>
 
           {isCustomModel ? (
             <div className="space-y-2">
@@ -208,12 +206,12 @@ export default function SettingsPanel({ isOpen, onClose }) {
                 onChange={(e) => setCustomModel(e.target.value)}
                 onBlur={() => saveSettings({ apiKey, model: customModel || model, baseUrl })}
                 placeholder="Enter model name"
-                className="w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm bg-white focus:border-primary-500 focus:ring-2 focus:ring-primary-100 outline-none transition-colors font-mono"
+                className="input w-full font-mono"
               />
               <button
                 type="button"
                 onClick={() => { setModel('gpt-4o'); setCustomModel(''); }}
-                className="text-xs text-primary-600 hover:text-primary-700 cursor-pointer"
+                className="text-xs text-chalk-blue hover:underline cursor-pointer"
               >
                 Choose from list instead
               </button>
@@ -223,32 +221,30 @@ export default function SettingsPanel({ isOpen, onClose }) {
               <button
                 type="button"
                 onClick={() => setModelDropdownOpen(!modelDropdownOpen)}
-                className="w-full flex items-center justify-between border border-slate-200 rounded-lg px-3 py-2.5 text-sm bg-white hover:border-slate-300 transition-colors cursor-pointer text-left"
+                className="dropdown-trigger text-left"
               >
                 <span>
-                  <span className="text-slate-800 font-medium">{displayModel}</span>
+                  <span className="text-ink font-medium">{displayModel}</span>
                   {modelInfo && (
-                    <span className="text-slate-400 ml-1.5">({modelInfo.provider})</span>
+                    <span className="text-ink-soft ml-1.5">({modelInfo.provider})</span>
                   )}
                 </span>
-                <svg className={`w-4 h-4 text-slate-400 transition-transform ${modelDropdownOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className={`w-4 h-4 text-ink-soft transition-transform ${modelDropdownOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                 </svg>
               </button>
 
               {modelDropdownOpen && (
-                <div className="absolute z-50 w-full mt-1 bg-white border border-slate-200 rounded-lg shadow-lg max-h-72 overflow-y-auto">
+                <div className="dropdown-menu">
                   {POPULAR_MODELS.map((group) => (
                     <div key={group.provider}>
-                      <div className="px-3 py-1.5 text-xs font-semibold text-slate-500 bg-slate-50 sticky top-0">
+                      <div className="dropdown-category-header">
                         {group.provider}
                       </div>
                       {group.models.map((m) => (
                         <div
                           key={m}
-                          className={`px-3 py-2 text-sm cursor-pointer transition-colors ${
-                            model === m ? 'bg-primary-50 text-primary-700' : 'hover:bg-slate-50 text-slate-700'
-                          }`}
+                          className={`dropdown-item ${model === m ? 'dropdown-item--selected' : ''}`}
                           onClick={() => handleModelSelect(m)}
                         >
                           {m}
@@ -256,9 +252,9 @@ export default function SettingsPanel({ isOpen, onClose }) {
                       ))}
                     </div>
                   ))}
-                  <div className="border-t border-slate-100">
+                  <div className="border-t border-[#E8E2D6]">
                     <div
-                      className="px-3 py-2 text-sm cursor-pointer text-slate-500 hover:bg-slate-50 transition-colors"
+                      className="dropdown-item text-ink-soft"
                       onClick={handleCustomToggle}
                     >
                       Custom model...
@@ -274,11 +270,7 @@ export default function SettingsPanel({ isOpen, onClose }) {
           <button
             type="button"
             onClick={handleSave}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer ${
-              saved
-                ? 'bg-emerald-500 text-white'
-                : 'bg-primary-600 text-white hover:bg-primary-700'
-            }`}
+            className={`btn-primary ${saved ? 'bg-stamp-green' : ''}`}
           >
             {saved ? 'Saved!' : 'Save Key'}
           </button>
@@ -286,7 +278,7 @@ export default function SettingsPanel({ isOpen, onClose }) {
             type="button"
             onClick={handleTest}
             disabled={testStatus === 'testing'}
-            className="px-4 py-2 rounded-lg text-sm font-medium border border-slate-200 bg-white text-slate-600 hover:bg-slate-50 transition-all cursor-pointer disabled:opacity-50"
+            className="btn-secondary"
           >
             {testStatus === 'testing' ? (
               <span className="flex items-center gap-1.5">
@@ -302,7 +294,7 @@ export default function SettingsPanel({ isOpen, onClose }) {
             <button
               type="button"
               onClick={handleRemoveKey}
-              className="px-4 py-2 rounded-lg text-sm font-medium text-red-500 border border-red-200 hover:bg-red-50 transition-all cursor-pointer"
+              className="btn-destructive"
             >
               Remove Key
             </button>
@@ -311,7 +303,7 @@ export default function SettingsPanel({ isOpen, onClose }) {
 
         {testStatus && testStatus !== 'testing' && (
           <div role="status" className={`text-sm rounded-lg px-3 py-2 ${
-            testStatus === 'success' ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-700'
+            testStatus === 'success' ? 'state-success' : 'state-error'
           }`}>
             {testMessage}
           </div>

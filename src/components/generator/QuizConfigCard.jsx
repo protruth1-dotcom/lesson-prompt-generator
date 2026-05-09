@@ -58,7 +58,7 @@ export default function QuizConfigCard({
                 compact
               />
             ))}
-            <div className={`text-sm font-medium mt-2 ${manualSum === totalQuestions ? 'text-emerald-600' : 'text-rose-500'}`}>
+            <div className={`text-sm font-medium mt-2 ${manualSum === totalQuestions ? 'text-stamp-green' : 'text-apple-red'}`}>
               Total: {manualSum} / {totalQuestions}
               {manualSum !== totalQuestions && (
                 <span className="block text-xs font-normal mt-1">

@@ -88,24 +88,24 @@ export default function GeneratorView({ form, onGenerate, onCancel, onDismissErr
       </Card>
 
       {loading && isAIMode ? (
-        <div className="bg-violet-50 border border-violet-200 rounded-xl p-5">
+        <div className="state-loading">
           <div className="flex items-center gap-3 mb-3">
-            <div className="flex items-center gap-1.5">
+            <div className="loading-chalk-dust">
               {[0, 1, 2].map((i) => (
                 <span
                   key={i}
-                  className="w-2.5 h-2.5 bg-violet-500 rounded-full animate-dot-pulse"
+                  className="loading-chalk-dust-particle"
                   style={{ animationDelay: `${i * 0.2}s` }}
                 />
               ))}
             </div>
-            <span className="text-sm font-medium text-violet-700">
+            <span className="text-sm font-medium text-ink">
               {isDirectLesson
                 ? `AI is creating your workbook using ${settings.model || 'gpt-4o'}`
                 : `AI is crafting your prompt using ${settings.model || 'gpt-4o'}`}
             </span>
           </div>
-          <p className="text-xs text-violet-500 mb-4">
+          <p className="text-xs text-ink-soft mb-4">
             {isDirectLesson
               ? 'Generating a complete, themed lesson workbook with all content, quiz, and answer key. This may take up to 2 minutes.'
               : 'The AI is building a detailed, topic-specific prompt based on your settings. This may take up to a minute.'}
@@ -113,25 +113,25 @@ export default function GeneratorView({ form, onGenerate, onCancel, onDismissErr
           <button
             type="button"
             onClick={onCancel}
-            className="px-4 py-1.5 text-xs font-medium text-violet-600 bg-white border border-violet-200 rounded-lg hover:bg-violet-100 transition-colors cursor-pointer"
+            className="btn-secondary"
           >
             Cancel
           </button>
         </div>
       ) : error ? (
-        <div className="bg-red-50 border border-red-200 rounded-xl p-4">
+        <div className="state-error">
           <div className="flex items-start gap-2">
-            <svg className="w-4 h-4 text-red-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="w-4 h-4 text-apple-red mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             <div className="flex-1">
-              <p className="text-sm font-medium text-red-700">Generation failed</p>
-              <p className="text-xs text-red-500 mt-1">{error}</p>
+              <p className="text-sm font-medium text-ink">Generation failed</p>
+              <p className="text-xs text-ink-soft mt-1">{error}</p>
             </div>
             <button
               type="button"
               onClick={onDismissError}
-              className="text-red-400 hover:text-red-600 cursor-pointer shrink-0"
+              className="text-ink-soft hover:text-ink cursor-pointer shrink-0"
               aria-label="Dismiss error"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -148,10 +148,8 @@ export default function GeneratorView({ form, onGenerate, onCancel, onDismissErr
           aria-label={needsKey ? 'Add your API key in Settings first' : !form.isValid ? 'Please complete all required fields' : 'Generate prompt'}
           className={`w-full py-3.5 rounded-xl text-base font-semibold transition-all cursor-pointer
             ${canGenerate
-              ? isAIMode
-                ? 'bg-violet-600 text-white hover:bg-violet-700 shadow-md hover:shadow-lg active:scale-[0.99]'
-                : 'bg-primary-600 text-white hover:bg-primary-700 shadow-md hover:shadow-lg active:scale-[0.99]'
-              : 'bg-slate-200 text-slate-400 cursor-not-allowed'
+              ? 'btn-primary'
+              : 'bg-paper-lined text-ink-soft cursor-not-allowed border border-rule-line'
             }`}
           title={needsKey ? 'Add your API key in Settings first' : !form.isValid ? 'Please complete all required fields' : ''}
         >

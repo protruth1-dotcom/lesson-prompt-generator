@@ -144,12 +144,18 @@ export default function App() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-paper">
       <Navbar
         activeView={activeView}
         onNavigate={setActiveView}
         onOpenSettings={() => { setSettingsOpen(true); setSettingsKey(k => k + 1); }}
       />
+
+      {activeView === 'generator' && (
+        <div className="chalkboard-surface chalkboard-surface--strip">
+          <span className="chalk-heading">Let's build today's lesson</span>
+        </div>
+      )}
 
       <main className="max-w-4xl mx-auto px-4 sm:px-6 py-6">
         {activeView === 'generator' && (

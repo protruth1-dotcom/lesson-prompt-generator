@@ -43,49 +43,52 @@ export default function NumberInput({ value, onChange, min = 0, max = 100, label
   return (
     <div className={compact ? 'flex items-center gap-2' : ''}>
       {label && (
-        <label className={`text-sm font-medium text-slate-700 ${compact ? 'flex-1' : 'block mb-2'}`}>
+        <label className={`text-sm font-medium text-ink ${compact ? 'flex-1' : 'block mb-2'}`}>
           {label}
         </label>
       )}
-      <div className="flex items-center gap-0 border border-slate-200 rounded-lg overflow-hidden w-fit">
+      <div className="number-input-group">
         <button
           type="button"
           onClick={decrement}
           disabled={value <= min}
-          className="px-3 py-1.5 text-slate-600 hover:bg-slate-100 disabled:opacity-30 cursor-pointer disabled:cursor-not-allowed transition-colors"
+          className="number-input-btn"
           aria-label="Decrease"
         >
           -
         </button>
         {isEditing ? (
-          <input
-            ref={inputRef}
-            type="number"
-            value={editValue}
-            onChange={(e) => setEditValue(e.target.value)}
-            onBlur={handleBlur}
-            onKeyDown={handleKeyDown}
-            onFocus={handleFocus}
-            className="w-16 px-2 py-1.5 text-sm font-semibold text-slate-800 text-center bg-white outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-            min={min}
-            max={max}
-            aria-label={label || 'Number input'}
-          />
+          <div className="number-input-value">
+            <input
+              ref={inputRef}
+              type="number"
+              value={editValue}
+              onChange={(e) => setEditValue(e.target.value)}
+              onBlur={handleBlur}
+              onKeyDown={handleKeyDown}
+              onFocus={handleFocus}
+              min={min}
+              max={max}
+              aria-label={label || 'Number input'}
+            />
+          </div>
         ) : (
-          <button
-            type="button"
+          <div
+            role="button"
+            tabIndex={0}
             onClick={handleFocus}
-            className="px-4 py-1.5 text-sm font-semibold text-slate-800 min-w-[2.5rem] text-center bg-white hover:bg-primary-50 cursor-pointer transition-colors"
+            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleFocus(); }}
+            className="number-input-value"
             aria-label={`${value}. Click to edit.`}
           >
             {value}
-          </button>
+          </div>
         )}
         <button
           type="button"
           onClick={increment}
           disabled={value >= max}
-          className="px-3 py-1.5 text-slate-600 hover:bg-slate-100 disabled:opacity-30 cursor-pointer disabled:cursor-not-allowed transition-colors"
+          className="number-input-btn"
           aria-label="Increase"
         >
           +

@@ -1,8 +1,8 @@
 export default function Card({ title, children, className = '' }) {
   return (
-    <div className={`bg-white rounded-xl border border-slate-200 shadow-sm p-5 sm:p-6 ${className}`}>
+    <div className={`card p-5 sm:p-6 ${className}`}>
       {title && (
-        <h2 className="text-base font-semibold text-slate-800 mb-4">{title}</h2>
+        <h2 className="text-base font-semibold text-ink mb-4">{title}</h2>
       )}
       {children}
     </div>
