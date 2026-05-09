@@ -5,7 +5,7 @@ import { buildQuizBlock } from './quizBuilder';
 import { getTopicName } from '../data/curriculum';
 import { deliveryNotes, printDeliveryNotes } from '../data/platformCommands';
 
-function themeToStyle(theme, gradeLevel) {
+function themeToStyle(theme) {
   const styles = {
     'Rainbow Bright': 'Use a cheerful rainbow-inspired color palette (soft reds, oranges, yellows, greens, blues, purples). Decorate section headers with small rainbow arcs or colorful stars. Include a cute smiling sun character in the header. Use bright, happy, warm tones throughout.',
     'Space Galaxy': 'Use a cosmic color palette (deep navy blues, starry whites, planet purples, and orange/yellow accents). Decorate headers with small stars, planets, or rocket ship icons. Design special boxes with rounded "planet" card styling. Include a friendly astronaut or alien mascot appearing in callout boxes.',
@@ -49,7 +49,7 @@ function buildPrintOutputFormat(gradeLevel, topicName, subject, grade, isIslamic
 Generate the ENTIRE lesson and quiz as a single, self-contained HTML file with embedded CSS designed specifically for PRINTING. This file should open in a browser and look like a beautifully designed, professional educational handout that can be printed or saved as PDF.
 
 ### Theme:
-Apply the "${theme}" theme throughout the entire document — not just a few accent colors, but a fully themed design a ${gradeLevel} student would be excited to receive.${themeToStyle(theme, gradeLevel)}
+Apply the "${theme}" theme throughout the entire document — not just a few accent colors, but a fully themed design a ${gradeLevel} student would be excited to receive.${themeToStyle(theme)}
 
 ### Download and Print Buttons:
 - Include a fixed top bar with two buttons: "Download as PDF" and "Print"
