@@ -636,7 +636,6 @@ function buildBody(meta, sections) {
 </div>
 
 ${buildCoverPage(meta, sections)}
-${buildSection(sections.priorKnowledge, '📋', renderPriorKnowledge)}
 ${buildSection(sections.objectives, '🎯', renderObjectives)}
 ${buildSection(sections.engage, '💡', renderEngage)}
 ${buildSection(sections.explore, '🔍', renderExplore)}
@@ -645,7 +644,9 @@ ${buildSection(sections.elaborate, '🧩', renderElaborate)}
 ${buildSection(sections.summary, '✅', renderSummary)}
 
 <div class="page-break"></div>
-${buildSection(sections.quiz, '', renderQuiz)}
+<div class="workbook-body">
+${renderQuiz(sections.quiz)}
+</div>
 
 <div class="page-break"></div>
 ${renderAnswerKey(sections.quiz)}
@@ -688,17 +689,6 @@ function buildSection(section, icon, renderFn) {
 ${header}
 <div class="workbook-body">
 ${renderFn(section)}
-</div>`;
-}
-
-function renderPriorKnowledge(section) {
-  return `
-<div class="section-card keep-together">
-  <div>${section.items.map(item => `
-    <div class="checklist-item">
-      <div class="checkbox"></div>
-      <span>${esc(item)}</span>
-    </div>`).join('')}</div>
 </div>`;
 }
 
