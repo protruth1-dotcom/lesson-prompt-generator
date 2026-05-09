@@ -64,12 +64,12 @@ export default function SettingsPanel({ isOpen, onClose }) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4">
+    <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4" role="dialog" aria-modal="true" aria-labelledby="settings-dialog-title">
       <div className="fixed inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
 
       <div ref={panelRef} className="relative bg-white rounded-2xl shadow-2xl w-full max-w-lg p-6 space-y-5 animate-slide-up">
         <div className="flex items-center justify-between">
-          <h2 className="text-lg font-bold text-slate-800">Settings</h2>
+          <h2 id="settings-dialog-title" className="text-lg font-bold text-slate-800">Settings</h2>
           <button
             type="button"
             onClick={onClose}
@@ -153,7 +153,7 @@ export default function SettingsPanel({ isOpen, onClose }) {
         </div>
 
         {testStatus && testStatus !== 'testing' && (
-          <div className={`text-sm rounded-lg px-3 py-2 ${
+          <div role="status" className={`text-sm rounded-lg px-3 py-2 ${
             testStatus === 'success' ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-700'
           }`}>
             {testMessage}

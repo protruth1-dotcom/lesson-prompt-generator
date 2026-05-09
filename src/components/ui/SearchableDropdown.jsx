@@ -107,6 +107,7 @@ export default function SearchableDropdown({ options, value, onChange, placehold
             value={search}
             onChange={(e) => { setSearch(e.target.value); setFocusedIndex(0); }}
             placeholder={selectedLabel || placeholder}
+            aria-label="Search topics"
             className="flex-1 outline-none text-sm bg-transparent"
             onKeyDown={handleKeyDown}
           />

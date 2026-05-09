@@ -83,6 +83,7 @@ export default function PreviewView({ promptData, onBack, onCopy, onSave, onRege
       <textarea
         value={editedText}
         onChange={(e) => setEditedText(e.target.value)}
+        aria-label="Editable prompt text"
         className="w-full min-h-[500px] p-4 border border-slate-200 rounded-xl bg-white text-sm leading-relaxed text-slate-800 font-mono resize-y outline-none focus:border-primary-500 focus:ring-2 focus:ring-primary-100"
         spellCheck={false}
       />

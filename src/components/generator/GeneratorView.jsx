@@ -92,6 +92,7 @@ export default function GeneratorView({ form, onGenerate, loading }) {
         type="button"
         disabled={!canGenerate}
         onClick={onGenerate}
+        aria-label={needsKey ? 'Add your OpenAI API key in Settings first' : !form.isValid ? 'Please complete all required fields' : 'Generate prompt'}
         className={`w-full py-3.5 rounded-xl text-base font-semibold transition-all cursor-pointer
           ${canGenerate
             ? isAIMode

@@ -16,6 +16,7 @@ export default function Navbar({ activeView, onNavigate, onOpenSettings }) {
               <button
                 key={tab.key}
                 type="button"
+                aria-current={activeView === tab.key || (activeView === 'preview' && tab.key === 'generator') ? 'page' : undefined}
                 onClick={() => onNavigate(tab.key)}
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors cursor-pointer
                   ${activeView === tab.key || (activeView === 'preview' && tab.key === 'generator')
