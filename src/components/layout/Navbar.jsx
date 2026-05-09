@@ -8,7 +8,12 @@ export default function Navbar({ activeView, onNavigate, onOpenSettings }) {
     <nav className="bg-white border-b border-slate-200 sticky top-0 z-40">
       <div className="max-w-4xl mx-auto px-4 sm:px-6">
         <div className="flex items-center justify-between h-14">
-          <div className="flex items-center gap-2.5">
+          <button
+            type="button"
+            onClick={() => onNavigate('generator')}
+            className="flex items-center gap-2.5 cursor-pointer hover:opacity-80 transition-opacity"
+            aria-label="Go to generator"
+          >
             <svg className="w-7 h-7 shrink-0" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
               <rect width="48" height="48" rx="12" fill="#0d9488"/>
               <path d="M14 12h8v20l-4-3-4 3V12z" fill="#fff" opacity="0.9"/>
@@ -19,7 +24,7 @@ export default function Navbar({ activeView, onNavigate, onOpenSettings }) {
             <h1 className="text-lg font-bold text-primary-700 tracking-tight">
               Lesson Prompt Generator
             </h1>
-          </div>
+          </button>
           <div className="flex items-center gap-1">
             {tabs.map((tab) => (
               <button
