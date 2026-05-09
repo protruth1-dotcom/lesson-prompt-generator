@@ -157,7 +157,6 @@ export default function App() {
             onView={handleViewFromHistory}
             onCopy={handleCopy}
             onDelete={storage.remove}
-            onImport={storage.importAll}
           />
         )}
       </main>
