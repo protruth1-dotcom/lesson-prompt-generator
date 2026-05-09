@@ -57,61 +57,40 @@ Define in Tailwind v4's `@theme` block inside `src/index.css`. The `--color-*` n
   --font-size-2xl:   2rem;
   --font-size-3xl:   3rem;
 }
-```
+Usage rules:
 
-**Usage rules:**
+Chalkboard green: primary CTAs and section headers only (sparingly)
+Paper cream: 70-80% of any screen
+Pencil yellow: active/selected states only
+Sticky-note tones: 1-2 callouts per page max
+Apple red: destructive/warning only (never a general accent)
+Stamp green: save success, copy feedback, test-success
+Stamp violet: AI generation indicators
+Contrast audit:
 
-- Chalkboard green: primary CTAs and section headers only (sparingly)
-- Paper cream: 70-80% of any screen
-- Pencil yellow: active/selected states only
-- Sticky-note tones: 1-2 callouts per page max
-- Apple red: destructive/warning only (never a general accent)
-- Stamp green: save success, copy feedback, test-success
-- Stamp violet: AI generation indicators
+Pair	Ratio	Pass AA?
+ink (#1F2937) on paper (#FBF8F3)	13.7:1	Yes
+ink-soft (#4B5563) on paper (#FBF8F3)	6.8:1	Yes
+chalk (#F8FAFC) on chalkboard (#2A4035)	5.6:1	Yes (bold only at small sizes)
+apple-red (#DC2626) on paper (#FBF8F3)	5.5:1	Yes
+Rule: All text on chalkboard must be at least font-weight 600 and at least --font-size-sm. Caveat only on chalkboard at --text-xl or larger.
 
-**Contrast audit:**
+Typography
+Four fonts. One <link> in index.html:
 
-| Pair | Ratio | Pass AA? |
-|---|---|---|
-| ink (#1F2937) on paper (#FBF8F3) | 13.7:1 | Yes |
-| ink-soft (#4B5563) on paper (#FBF8F3) | 6.8:1 | Yes |
-| chalk (#F8FAFC) on chalkboard (#2A4035) | 5.6:1 | Yes (bold only at small sizes) |
-| apple-red (#DC2626) on paper (#FBF8F3) | 5.5:1 | Yes |
-
-**Rule:** All text on chalkboard must be at least font-weight 600 and at least `--font-size-sm`. Caveat only on chalkboard at `--text-xl` or larger.
-
----
-
-## Typography
-
-Four fonts. One `<link>` in `index.html`:
-
-```html
 <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Caveat:wght@400;700&family=Noto+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
-```
+Font	Use	Weights
+Quicksand	Body, UI, buttons, labels	400, 500, 600
+Fraunces	Headings, page titles, lesson titles, cover page	600, 700
+Caveat	Chalkboard strip heading only	700
+Noto Sans Arabic	Arabic text (Islamic Studies)	400, 600, 700
+Fraunces note: It's a variable font. Use:
 
-| Font | Use | Weights |
-|---|---|---|
-| Quicksand | Body, UI, buttons, labels | 400, 500, 600 |
-| Fraunces | Headings, page titles, lesson titles, cover page | 600, 700 |
-| Caveat | Chalkboard strip heading only | 700 |
-| Noto Sans Arabic | Arabic text (Islamic Studies) | 400, 600, 700 |
-
-**Fraunces note:** It's a variable font. Use:
-
-```css
 .heading { font-family: 'Fraunces', serif; font-weight: 600; font-optical-sizing: auto; }
-```
+Anti-patterns: Never Comic Sans. Caveat only on the chalkboard strip. Fraunces never for body text.
 
-**Anti-patterns:** Never Comic Sans. Caveat only on the chalkboard strip. Fraunces never for body text.
-
----
-
-## Surface Treatments
-
-### 1. Notebook paper (lesson output card only)
-
-```css
+Surface Treatments
+1. Notebook paper (lesson output card only)
 .paper-surface {
   background: var(--color-paper-lined);
   background-image:
@@ -124,13 +103,9 @@ Four fonts. One `<link>` in `index.html`:
   padding: 32px 24px 24px 64px;
   overflow: auto;
 }
-```
+Content inside should use line-height: 2rem to align with the 32px ruled-line rhythm.
 
-Content inside should use `line-height: 2rem` to align with the 32px ruled-line rhythm.
-
-### 2. Chalkboard surface (CTAs + header strip)
-
-```css
+2. Chalkboard surface (CTAs + header strip)
 .chalkboard-surface {
   background: var(--color-chalkboard);
   background-image:
@@ -160,13 +135,9 @@ Content inside should use `line-height: 2rem` to align with the 32px ruled-line 
   color: var(--color-chalk);
   text-shadow: 0 1px 0 rgba(0,0,0,0.3);
 }
-```
+The chalkboard strip lives OUTSIDE the max-w-4xl container, full viewport width, between Navbar and <main>.
 
-The chalkboard strip lives OUTSIDE the `max-w-4xl` container, full viewport width, between Navbar and `<main>`.
-
-### 3. Sticky-note callout
-
-```css
+3. Sticky-note callout
 .sticky-note {
   background: var(--color-post-it-yellow);
   padding: 16px 20px;
@@ -192,17 +163,10 @@ The chalkboard strip lives OUTSIDE the `max-w-4xl` container, full viewport widt
   background: rgba(252, 211, 77, 0.7);
   border-radius: 1px;
 }
-```
-
 1-2 per page max.
 
----
-
-## Component Patterns
-
-### Buttons
-
-```css
+Component Patterns
+Buttons
 .btn-primary {
   background: var(--color-chalkboard);
   color: var(--color-chalk);
@@ -261,13 +225,9 @@ The chalkboard strip lives OUTSIDE the `max-w-4xl` container, full viewport widt
   cursor: pointer;
 }
 .btn-destructive:hover { background: #B91C1C; }
-```
+Disabled buttons: add opacity-50 cursor-not-allowed and remove hover effects.
 
-Disabled buttons: add `opacity-50 cursor-not-allowed` and remove hover effects.
-
-### Cards
-
-```css
+Cards
 .card {
   background: var(--color-paper);
   border: 1px solid #E8E2D6;
@@ -275,11 +235,7 @@ Disabled buttons: add `opacity-50 cursor-not-allowed` and remove hover effects.
   padding: 24px;
   box-shadow: 0 1px 0 rgba(255,255,255,0.7) inset, 0 2px 6px rgba(31,41,55,0.05);
 }
-```
-
-### Inputs
-
-```css
+Inputs
 .input {
   background: var(--color-white-bone);
   border: 1px solid #D6D0C2;
@@ -294,11 +250,7 @@ Disabled buttons: add `opacity-50 cursor-not-allowed` and remove hover effects.
 .input:focus { outline: none; border-bottom-color: var(--color-pencil-yellow); border-bottom-width: 3px; }
 .input::placeholder { color: var(--color-ink-soft); opacity: 0.6; }
 .input:disabled { opacity: 0.5; cursor: not-allowed; }
-```
-
-### Badges
-
-```css
+Badges
 .badge {
   display: inline-flex;
   align-items: center;
@@ -312,11 +264,7 @@ Disabled buttons: add `opacity-50 cursor-not-allowed` and remove hover effects.
   color: var(--color-ink);
 }
 .badge--selected { background: var(--color-pencil-yellow); border-color: var(--color-pencil-yellow); }
-```
-
-### Nav Tabs (Generator / History)
-
-```css
+Nav Tabs (Generator / History)
 .tab-nav {
   font-family: var(--font-sans);
   font-weight: 500;
@@ -328,13 +276,9 @@ Disabled buttons: add `opacity-50 cursor-not-allowed` and remove hover effects.
 }
 .tab-nav:hover { color: var(--color-ink); }
 .tab-nav--active { color: var(--color-ink); border-bottom-color: var(--color-pencil-yellow); }
-```
-
-### ButtonGroup (pill selectors)
-
+ButtonGroup (pill selectors)
 Used for: Grade, Subject, Lesson Length, Student Level, Theme, Difficulty, Output Format.
 
-```css
 .btn-group { display: flex; flex-wrap: wrap; gap: 6px; }
 
 .btn-group-item {
@@ -353,11 +297,7 @@ Used for: Grade, Subject, Lesson Length, Student Level, Theme, Difficulty, Outpu
 .btn-group-item--active { background: var(--color-pencil-yellow); color: var(--color-ink); border-color: var(--color-pencil-yellow); font-weight: 600; }
 .btn-group-item:focus-visible { outline: 2px solid var(--color-chalkboard); outline-offset: 1px; }
 .btn-group-item:disabled { opacity: 0.4; cursor: not-allowed; }
-```
-
-### TabToggle (quiz mode Auto/Manual)
-
-```css
+TabToggle (quiz mode Auto/Manual)
 .tab-toggle { display: inline-flex; background: var(--color-paper-lined); border-radius: 8px; padding: 3px; gap: 2px; }
 
 .tab-toggle-item {
@@ -374,21 +314,13 @@ Used for: Grade, Subject, Lesson Length, Student Level, Theme, Difficulty, Outpu
 }
 .tab-toggle-item:hover { color: var(--color-ink); }
 .tab-toggle-item--active { background: var(--color-white-bone); color: var(--color-ink); font-weight: 600; box-shadow: 0 1px 3px rgba(31,41,55,0.08); }
-```
-
-### ToggleSwitch (Cross-Curricular)
-
-```css
+ToggleSwitch (Cross-Curricular)
 .toggle-switch { position: relative; width: 44px; height: 24px; border-radius: 12px; background: var(--color-rule-line); border: none; transition: background-color 150ms ease; cursor: pointer; }
 .toggle-switch--on { background: var(--color-chalkboard); }
 .toggle-switch::after { content: ''; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: white; box-shadow: 0 1px 2px rgba(0,0,0,0.15); transition: transform 150ms ease; }
 .toggle-switch--on::after { transform: translateX(20px); }
 .toggle-switch:focus-visible { outline: 2px solid var(--color-pencil-yellow); outline-offset: 2px; }
-```
-
-### NumberInput (stepper)
-
-```css
+NumberInput (stepper)
 .number-input-group { display: inline-flex; align-items: center; gap: 0; }
 
 .number-input-btn {
@@ -418,15 +350,11 @@ Used for: Grade, Subject, Lesson Length, Student Level, Theme, Difficulty, Outpu
 .number-input-value input { width: 100%; border: none; background: transparent; font: inherit; color: inherit; text-align: center; }
 .number-input-value input:focus { outline: none; }
 .number-input-value:focus-within { border-bottom-color: var(--color-pencil-yellow); border-bottom-width: 3px; }
-```
-
-### DistributionBar
-
+DistributionBar
 7 segment colors across a chalkboard-friendly muted palette:
 
-`chalkboard (dark green) → pencil-yellow → chalk-blue → eraser-pink → slate-soft → stamp-violet → apple-red`
+chalkboard (dark green) → pencil-yellow → chalk-blue → eraser-pink → slate-soft → stamp-violet → apple-red
 
-```css
 .dist-bar { display: flex; height: 10px; border-radius: 5px; overflow: hidden; background: var(--color-rule-line); }
 .dist-bar-segment-1 { background: var(--color-chalkboard); }
 .dist-bar-segment-2 { background: var(--color-pencil-yellow); }
@@ -435,13 +363,9 @@ Used for: Grade, Subject, Lesson Length, Student Level, Theme, Difficulty, Outpu
 .dist-bar-segment-5 { background: var(--color-slate-soft); }
 .dist-bar-segment-6 { background: var(--color-stamp-violet); }
 .dist-bar-segment-7 { background: var(--color-apple-red); }
-```
-
 Legend dots use the same colors.
 
-### SearchableDropdown
-
-```css
+SearchableDropdown
 .dropdown-trigger {
   display: flex; align-items: center; justify-content: space-between;
   width: 100%; padding: 10px 12px;
@@ -468,11 +392,7 @@ Legend dots use the same colors.
 .dropdown-item--selected { background: var(--color-post-it-yellow); font-weight: 600; }
 .dropdown-item .arabic-term { font-family: var(--font-arabic); direction: rtl; font-size: var(--font-size-base); }
 .dropdown-empty { padding: 16px; text-align: center; font-family: var(--font-sans); font-size: var(--font-size-sm); color: var(--color-ink-soft); }
-```
-
-### Toast
-
-```css
+Toast
 .toast {
   position: fixed; bottom: 24px; right: 24px; z-index: 100;
   padding: 12px 20px; border-radius: 8px;
@@ -491,11 +411,7 @@ Legend dots use the same colors.
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: translateY(0); }
 }
-```
-
-### ConfirmDialog
-
-```css
+ConfirmDialog
 .dialog-backdrop { position: fixed; inset: 0; z-index: 90; background: rgba(31,41,55,0.4); display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
 
 .dialog-panel { background: var(--color-white-bone); border: 1px solid #E8E2D6; border-radius: 12px; padding: 24px; max-width: 400px; width: 90%; box-shadow: 0 20px 40px rgba(31,41,55,0.15); }
@@ -505,11 +421,7 @@ Legend dots use the same colors.
 .dialog-message { font-family: var(--font-sans); font-size: var(--font-size-base); color: var(--color-ink-soft); line-height: 1.6; margin-bottom: 20px; }
 
 .dialog-actions { display: flex; gap: 12px; justify-content: flex-end; }
-```
-
-### Settings Modal
-
-```css
+Settings Modal
 .settings-backdrop { position: fixed; inset: 0; z-index: 100; background: rgba(31,41,55,0.4); display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
 
 .settings-panel { background: var(--color-white-bone); border: 1px solid #E8E2D6; border-radius: 12px; padding: 32px; max-width: 520px; width: 90%; max-height: 90vh; overflow-y: auto; box-shadow: 0 20px 40px rgba(31,41,55,0.15); }
@@ -526,11 +438,7 @@ Legend dots use the same colors.
 
 .settings-model-select { width: 100%; padding: 10px 12px; background: var(--color-white-bone); border: 1px solid #D6D0C2; border-bottom: 2px solid var(--color-chalkboard); border-radius: 4px 4px 0 0; font-family: var(--font-sans); font-size: var(--font-size-base); color: var(--color-ink); cursor: pointer; appearance: none; }
 .settings-model-select:focus { outline: none; border-bottom-color: var(--color-pencil-yellow); }
-```
-
-### State Cards
-
-```css
+State Cards
 .state-error {
   background: #FEF2F2;
   border: 1px solid #FECACA;
@@ -576,11 +484,7 @@ Legend dots use the same colors.
   margin-bottom: 4px;
 }
 .state-empty-message { font-size: var(--font-size-sm); }
-```
-
-### AI Generation Indicator Badges
-
-```css
+AI Generation Indicator Badges
 .state-ai-indicator {
   display: inline-flex; align-items: center; gap: 6px;
   padding: 4px 12px; border-radius: 999px;
@@ -592,13 +496,9 @@ Legend dots use the same colors.
   background: #ECFDF5; border-color: #A7F3D0;
   color: var(--color-stamp-green);
 }
-```
-
-### Loading Animation (chalk dust particles)
-
+Loading Animation (chalk dust particles)
 Replaces the current dot-pulse animation.
 
-```css
 .loading-chalk-dust { display: inline-flex; align-items: center; gap: 4px; }
 
 .loading-chalk-dust-particle {
@@ -613,24 +513,14 @@ Replaces the current dot-pulse animation.
   0%, 100% { opacity: 0.3; transform: translateY(0); }
   50% { opacity: 1; transform: translateY(-4px); }
 }
-```
+Logo Recolor
+Current logo SVG uses old teal (#0d9488) and amber (#fbbf24). Recolor:
 
----
-
-## Logo Recolor
-
-Current logo SVG uses old teal (`#0d9488`) and amber (`#fbbf24`). Recolor:
-
-- Book body → `#2A4035` (chalkboard green)
-- Spark/sun → `#FCD34D` (pencil yellow)
-
----
-
-## Print Styles
-
+Book body → #2A4035 (chalkboard green)
+Spark/sun → #FCD34D (pencil yellow)
+Print Styles
 Embedded in generated workbook HTML (not in the main app CSS — workbooks are standalone HTML files):
 
-```css
 @media print {
   @page { margin: 15mm; size: A4; }
   body { print-color-adjust: exact; -webkit-print-color-adjust: exact; }
@@ -640,55 +530,35 @@ Embedded in generated workbook HTML (not in the main app CSS — workbooks are s
   .workbook-section-header { background: var(--color-chalkboard) !important; color: var(--color-chalk) !important; print-color-adjust: exact; }
   .workbook-ruled-line { border-bottom: 1px solid var(--color-rule-line) !important; }
 }
-```
+Visual Elements
+Element	Where	How
+Ruled paper lines	Lesson output card only	.paper-surface CSS gradient
+Spiral binding	Top edge of lesson output card	CSS radial-gradient circle pattern
+Paper clip	History items	Lucide Paperclip icon, 60% opacity
+Dotted divider	Between sections	border-top: 2px dashed var(--color-rule-line)
+Chalk underline	Active nav tab	border-bottom: 3px solid var(--color-pencil-yellow)
+Rule: 2-3 decorative elements per page max.
 
----
+Animations
+All behind prefers-reduced-motion.
 
-## Visual Elements
-
-| Element | Where | How |
-|---|---|---|
-| Ruled paper lines | Lesson output card only | `.paper-surface` CSS gradient |
-| Spiral binding | Top edge of lesson output card | CSS radial-gradient circle pattern |
-| Paper clip | History items | Lucide `Paperclip` icon, 60% opacity |
-| Dotted divider | Between sections | `border-top: 2px dashed var(--color-rule-line)` |
-| Chalk underline | Active nav tab | `border-bottom: 3px solid var(--color-pencil-yellow)` |
-
-**Rule:** 2-3 decorative elements per page max.
-
----
-
-## Animations
-
-All behind `prefers-reduced-motion`.
-
-| Interaction | Effect | Duration |
-|---|---|---|
-| Button hover | Lift 1px, shadow grows | 120ms ease |
-| Tab change | Pencil-yellow underline appears | 200ms ease-out |
-| Card appears | Fade + slide up 4px | 240ms ease-out |
-| Sticky note appears | Fade + rotate to -1deg | 260ms ease-out |
-| Lesson generates | Chalk-dust particle float | 600ms loop |
-| Save success | Green checkmark indicator | 800ms (auto-dismiss) |
-| Toast | Slide up + fade | 200ms ease-out |
-| Modal | Scale + fade | 200ms ease-out |
-
-```css
+Interaction	Effect	Duration
+Button hover	Lift 1px, shadow grows	120ms ease
+Tab change	Pencil-yellow underline appears	200ms ease-out
+Card appears	Fade + slide up 4px	240ms ease-out
+Sticky note appears	Fade + rotate to -1deg	260ms ease-out
+Lesson generates	Chalk-dust particle float	600ms loop
+Save success	Green checkmark indicator	800ms (auto-dismiss)
+Toast	Slide up + fade	200ms ease-out
+Modal	Scale + fade	200ms ease-out
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
 }
-```
-
----
-
-## Page Layouts
-
-### Generator Page
-
-```
+Page Layouts
+Generator Page
 NAVBAR (cream bg, full width, sticky)
   [Fraunces logo]     Generator    History    Settings
 
@@ -706,57 +576,40 @@ CHALKBOARD STRIP (full viewport width, 56px, outside <main>)
 
   STICKY NOTE (yellow, slight tilt)
     "Switch to Direct Lesson mode if you want a finished workbook PDF instantly."
-```
+Lesson Preview
+The output card uses .paper-surface (ruled lines + red margin). Title in Fraunces. Body text follows 32px line rhythm. Download/Copy buttons in a chalkboard-green floating bar bottom-right.
 
-### Lesson Preview
+History Page
+Vertical stack of .card items. Each has: paper-clip icon (top-right, 60% opacity), Fraunces lesson title, grade/subject badges, Quicksand date. Hover: card lifts 2px. No rotation.
 
-The output card uses `.paper-surface` (ruled lines + red margin). Title in Fraunces. Body text follows 32px line rhythm. Download/Copy buttons in a chalkboard-green floating bar bottom-right.
+Settings
+Modal overlay with .settings-panel. API key removal uses .state-warning. Test connection uses .state-success or .state-error.
 
-### History Page
-
-Vertical stack of `.card` items. Each has: paper-clip icon (top-right, 60% opacity), Fraunces lesson title, grade/subject badges, Quicksand date. Hover: card lifts 2px. No rotation.
-
-### Settings
-
-Modal overlay with `.settings-panel`. API key removal uses `.state-warning`. Test connection uses `.state-success` or `.state-error`.
-
----
-
-## Anti-Patterns
-
-- Never Comic Sans
-- No cartoon mascots / bouncing emoji
-- No background music or sound effects
-- Never `#000` pure black
-- No saturated RGB everywhere — keep it muted/dusty
-- Skeuomorphic accents only — paper surface only on lesson output, chalkboard only on CTAs/headers
-- No more than 4 fonts loaded
-- No patronizing copy — talk like an adult
-- Every decorative element must serve a function
-- 200ms animations feel intentional, 800ms feel cute, 1500ms feel broken
-
----
-
-## Application Order
-
-1. **Color tokens + fonts** — replace `@theme` block in `index.css`, swap Google Fonts `<link>` in `index.html` (biggest visual shift)
-2. **Buttons + inputs** — apply new button/input classes globally
-3. **Cards + page background** — switch to cream paper, update card styling
-4. **Chalkboard strip** — add between Navbar and `<main>`
-5. **Paper-surface for lesson output** — ruled-paper background on the preview area
-6. **Sticky-note + decorative flourishes** — 1-2 stickies, paper-clips in History
-7. **Animations + micro-interactions** — final polish
-
+Anti-Patterns
+Never Comic Sans
+No cartoon mascots / bouncing emoji
+No background music or sound effects
+Never #000 pure black
+No saturated RGB everywhere — keep it muted/dusty
+Skeuomorphic accents only — paper surface only on lesson output, chalkboard only on CTAs/headers
+No more than 4 fonts loaded
+No patronizing copy — talk like an adult
+Every decorative element must serve a function
+200ms animations feel intentional, 800ms feel cute, 1500ms feel broken
+Application Order
+Color tokens + fonts — replace @theme block in index.css, swap Google Fonts <link> in index.html (biggest visual shift)
+Buttons + inputs — apply new button/input classes globally
+Cards + page background — switch to cream paper, update card styling
+Chalkboard strip — add between Navbar and <main>
+Paper-surface for lesson output — ruled-paper background on the preview area
+Sticky-note + decorative flourishes — 1-2 stickies, paper-clips in History
+Animations + micro-interactions — final polish
 After step 3, the app looks dramatically different. Steps 4-7 are atmosphere.
 
----
-
-## Resolved Design Decisions
-
-| Question | Decision |
-|---|---|
-| Caveat vs Quicksand on chalkboard? | Caveat only on the decorative strip. Quicksand 600 everywhere else on chalkboard (buttons, section headers) |
-| History cards rotated? | No. Paper-clip icon carries the "stack of papers" idea without layout chaos |
-| Paper-clips and push-pins? | Paper-clips on history cards only. No push-pins (no pinning feature to warrant them) |
-| Empty state icon? | No emoji. Text-only: Fraunces heading + Quicksand body text |
-| Existing theme names (Rainbow Bright, Space Galaxy, etc.)? | Keep as-is. Changing them breaks prompt builder engines and history data |
+Resolved Design Decisions
+Question	Decision
+Caveat vs Quicksand on chalkboard?	Caveat only on the decorative strip. Quicksand 600 everywhere else on chalkboard (buttons, section headers)
+History cards rotated?	No. Paper-clip icon carries the "stack of papers" idea without layout chaos
+Paper-clips and push-pins?	Paper-clips on history cards only. No push-pins (no pinning feature to warrant them)
+Empty state icon?	No emoji. Text-only: Fraunces heading + Quicksand body text
+Existing theme names (Rainbow Bright, Space Galaxy, etc.)?	Keep as-is. Changing them breaks prompt builder engines and history data
