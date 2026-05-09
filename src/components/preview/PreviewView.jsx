@@ -27,7 +27,7 @@ export default function PreviewView({ promptData, onBack, onCopy, onSave, onRege
     if (isDirectLesson && lessonHtml) {
       downloadPDF(lessonHtml);
     }
-  }, [isDirectLesson, lessonHtml, promptData]);
+  }, [isDirectLesson, lessonHtml]);
 
   const handleCopyHTML = useCallback(() => {
     if (lessonHtml) {
