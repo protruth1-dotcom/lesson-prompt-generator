@@ -4,23 +4,23 @@ import { loadSettings, saveSettings } from '../../utils/settings';
 const POPULAR_MODELS = [
   {
     provider: 'OpenAI',
-    models: ['gpt-4o', 'gpt-4o-mini', 'o1', 'o3-mini', 'gpt-4.1'],
+    models: ['gpt-5.5', 'gpt-4o', 'gpt-4o-mini', 'o1', 'o3-mini', 'gpt-4.1'],
   },
   {
     provider: 'DeepSeek',
-    models: ['deepseek-chat', 'deepseek-reasoner'],
+    models: ['deepseek-v4-pro', 'deepseek-chat', 'deepseek-reasoner'],
   },
   {
     provider: 'Gemini',
-    models: ['gemini-2.5-flash', 'gemini-2.5-pro'],
+    models: ['gemini-3.1-pro', 'gemini-2.5-flash', 'gemini-2.5-pro'],
   },
   {
     provider: 'Claude',
-    models: ['claude-sonnet-4-20250514', 'claude-opus-4-20250514', 'claude-haiku-3.5'],
+    models: ['claude-opus-4.7', 'claude-sonnet-4-20250514', 'claude-opus-4-20250514', 'claude-haiku-3.5'],
   },
   {
     provider: 'Kimi',
-    models: ['moonshot-v1-8k', 'moonshot-v1-32k', 'moonshot-v1-128k'],
+    models: ['kimi-2.6', 'moonshot-v1-8k', 'moonshot-v1-32k', 'moonshot-v1-128k'],
   },
 ];
 
