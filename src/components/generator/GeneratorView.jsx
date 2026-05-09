@@ -44,6 +44,8 @@ export default function GeneratorView({ form, onGenerate, onCancel, onDismissErr
         onCrossCurricularChange={form.setCrossCurricular}
         outputFormat={form.outputFormat}
         onOutputFormatChange={form.setOutputFormat}
+        theme={form.theme}
+        onThemeChange={form.setTheme}
       />
 
       <QuizConfigCard

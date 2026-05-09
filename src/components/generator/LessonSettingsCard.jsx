@@ -10,6 +10,7 @@ const lessonLengths = [
 ];
 const studentLevels = ['Below Level', 'On Level', 'Above Level'];
 const outputFormats = ['Interactive', 'Print'];
+const themes = ['Rainbow Bright', 'Space Galaxy', 'Ocean Adventure', 'Jungle Safari', 'Superhero', 'Dinosaur World', 'Sports'];
 
 export default function LessonSettingsCard({
   targetAI, onTargetAIChange,
@@ -17,6 +18,7 @@ export default function LessonSettingsCard({
   studentLevel, onStudentLevelChange,
   crossCurricular, onCrossCurricularChange,
   outputFormat, onOutputFormatChange,
+  theme, onThemeChange,
 }) {
   return (
     <Card title="Lesson Settings">
@@ -53,6 +55,14 @@ export default function LessonSettingsCard({
             onChange={onStudentLevelChange}
           />
         </div>
+        {outputFormat === 'Print' && (
+          <ButtonGroup
+            label="Theme"
+            options={themes}
+            value={theme}
+            onChange={onThemeChange}
+          />
+        )}
         <ToggleSwitch
           label="Include cross-curricular connections"
           checked={crossCurricular}

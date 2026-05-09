@@ -11,11 +11,12 @@ import { deliveryNotes, printDeliveryNotes } from '../data/platformCommands';
  * that the user then pastes into any AI to generate a lesson.
  */
 export function buildMetaPrompt(formState) {
-  const {
-    grade, subject, topic, targetAI, lessonLength,
-    studentLevel, crossCurricular, outputFormat = 'Interactive',
-    quizMode, totalQuestions, difficulty, manualCounts,
-  } = formState;
+    const {
+      grade, subject, topic, targetAI, lessonLength,
+      studentLevel, crossCurricular, outputFormat = 'Interactive',
+      quizMode, totalQuestions, difficulty, manualCounts,
+      theme = 'Rainbow Bright',
+    } = formState;
 
   const gv = gradeVariables[grade];
   const sv = studentLevelVariables[studentLevel];
@@ -43,7 +44,7 @@ export function buildMetaPrompt(formState) {
 
   // Output format summary
   const outputFormatSummary = isPrint
-    ? `Print-ready HTML — a beautifully designed, professional educational handout with embedded CSS optimized for printing/PDF. Includes: download/print buttons (hidden when printing), page breaks between lesson/quiz/answer key, print-optimized colors, page numbers, footer with subject/topic/grade. The quiz is static (write-on-paper format with bubble circles, ruled lines, blank labels). The answer key is included on a separate page at the end.`
+    ? `Print-ready HTML with "${theme}" theme — a beautifully designed, themed educational handout with embedded CSS optimized for printing/PDF. Includes: themed download/print buttons (hidden when printing), page breaks between lesson/quiz/answer key, print-optimized colors, themed decorative elements, page numbers, footer with subject/topic/grade. The quiz is static (write-on-paper format with bubble circles, ruled lines, blank labels). The answer key is included on a separate page at the end.`
     : `Interactive HTML/CSS/JS — a single-file web application the student opens in a browser. Includes: colorful student-friendly design, section navigation with progress indicator, interactive quiz with auto-grading (drag-and-drop matching, clickable MC, inline text inputs) and built-in AI checker for written responses, scoring screen with tier messages and review. No answer key — the app handles grading.`;
 
   return `You are an expert educational prompt engineer. Your job is to write a highly detailed, comprehensive prompt that will be pasted into another AI (such as Claude, Gemini, or ChatGPT) to generate a complete ${gv.gradeLevel} lesson and quiz.
@@ -55,6 +56,7 @@ PARAMETERS:
 - Student Level: ${sv.studentLevel} — ${sv.studentLevelDetail}
 - Lesson Length: ${lv.lessonLengthDescription}
 - Output Format: ${outputFormat} (${outputFormatSummary})
+- Theme: ${theme}${isPrint ? ` — apply this theme throughout the document with themed colors, icons, mascots, and decorative elements` : ''}
 - Target AI: ${targetAI}
 - Cross-Curricular Connections: ${crossCurricular ? 'Yes' : 'No'}
 - Quiz Mode: ${quizMode}

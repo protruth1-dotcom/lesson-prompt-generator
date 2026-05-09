@@ -5,6 +5,19 @@ import { buildQuizBlock } from './quizBuilder';
 import { getTopicName } from '../data/curriculum';
 import { deliveryNotes, printDeliveryNotes } from '../data/platformCommands';
 
+function themeToStyle(theme, gradeLevel) {
+  const styles = {
+    'Rainbow Bright': 'Use a cheerful rainbow-inspired color palette (soft reds, oranges, yellows, greens, blues, purples). Decorate section headers with small rainbow arcs or colorful stars. Include a cute smiling sun character in the header. Use bright, happy, warm tones throughout.',
+    'Space Galaxy': 'Use a cosmic color palette (deep navy blues, starry whites, planet purples, and orange/yellow accents). Decorate headers with small stars, planets, or rocket ship icons. Design special boxes with rounded "planet" card styling. Include a friendly astronaut or alien mascot appearing in callout boxes.',
+    'Ocean Adventure': 'Use an ocean-inspired color palette (teals, aqua blues, sandy beiges, coral pinks). Decorate headers with small wave, shell, or fish icons. Design special boxes with wave-shaped top borders. Include friendly sea creature mascots (whale, dolphin, turtle) in callout boxes.',
+    'Jungle Safari': 'Use a jungle-inspired palette (lush greens, earthy browns, sunny yellows, bright tropical flower accents). Decorate headers with small leaf, vine, or paw print icons. Design special boxes with leafy borders. Include friendly animal mascots (monkey, parrot, elephant) in callout boxes.',
+    'Superhero': 'Use a bold comic-book palette (primary reds, blues, yellows with dark outlines). Decorate headers with action star bursts, lightning bolts, or shield icons. Design special boxes as comic-style panels with slightly rounded corners and thick borders. Use bold, energetic styling throughout.',
+    'Dinosaur World': 'Use a prehistoric palette (earthy greens, browns, volcanic oranges, amber yellows). Decorate headers with small dinosaur footprint icons or fossil patterns. Design special boxes with rocky/stone card styling. Include friendly cartoon dinosaur mascots appearing in callout boxes.',
+    'Sports': 'Use an energetic sports palette (team colors: bold reds, blues, greens, with white space). Decorate headers with small ball, trophy, or star icons. Design special boxes as scoreboard-style cards. Use clean, dynamic layouts with trophy or medal accents for achievements.',
+  };
+  return '\n' + (styles[theme] || styles['Rainbow Bright']);
+}
+
 function buildInteractiveOutputFormat(gradeLevel, isIslamic, islamicArabicHtml) {
   return `## OUTPUT FORMAT
 
@@ -30,10 +43,13 @@ The entire application — HTML structure, CSS styling, and JavaScript logic —
 Do NOT use any frameworks (no React, no Vue, no Angular). Use vanilla HTML, CSS, and JavaScript only. The file must work by simply opening it in any modern web browser.${islamicArabicHtml}`;
 }
 
-function buildPrintOutputFormat(gradeLevel, topicName, subject, grade, isIslamic) {
+function buildPrintOutputFormat(gradeLevel, topicName, subject, grade, isIslamic, theme) {
   return `## OUTPUT FORMAT
 
 Generate the ENTIRE lesson and quiz as a single, self-contained HTML file with embedded CSS designed specifically for PRINTING. This file should open in a browser and look like a beautifully designed, professional educational handout that can be printed or saved as PDF.
+
+### Theme:
+Apply the "${theme}" theme throughout the entire document — not just a few accent colors, but a fully themed design a ${gradeLevel} student would be excited to receive.${themeToStyle(theme, gradeLevel)}
 
 ### Download and Print Buttons:
 - Include a fixed top bar with two buttons: "Download as PDF" and "Print"
@@ -133,6 +149,7 @@ export function buildPrompt(formState) {
       grade, subject, topic, targetAI, lessonLength,
       studentLevel, crossCurricular, outputFormat = 'Interactive',
       quizMode, totalQuestions, difficulty, manualCounts,
+      theme = 'Rainbow Bright',
     } = formState;
 
     if (!grade || !subject || !topic) {
@@ -256,9 +273,9 @@ Before the quiz, provide a clear review section with ${lv.summaryPointCount} key
   });
 
   // 9. Output format block
-  const outputFormatBlock = isPrint
-    ? buildPrintOutputFormat(gv.gradeLevel, topicName, subject, gv.grade, isIslamic)
-    : buildInteractiveOutputFormat(gv.gradeLevel, isIslamic, islamicArabicHtml);
+    const outputFormatBlock = isPrint
+      ? buildPrintOutputFormat(gv.gradeLevel, topicName, subject, gv.grade, isIslamic, theme)
+      : buildInteractiveOutputFormat(gv.gradeLevel, isIslamic, islamicArabicHtml);
 
   // 10. Delivery note (platform-specific)
   const deliveryMap = isPrint ? printDeliveryNotes : deliveryNotes;

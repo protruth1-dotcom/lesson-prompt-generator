@@ -11,6 +11,7 @@ export function useFormState() {
   const [studentLevel, setStudentLevel] = useState('On Level');
   const [crossCurricular, setCrossCurricular] = useState(false);
   const [outputFormat, setOutputFormat] = useState('Interactive');
+  const [theme, setTheme] = useState('Rainbow Bright');
   const [promptMode, setPromptMode] = useState('Template');
   const [quizMode, setQuizMode] = useState('Auto');
   const [totalQuestions, setTotalQuestions] = useState(10);
@@ -62,6 +63,7 @@ export function useFormState() {
     studentLevel, setStudentLevel,
     crossCurricular, setCrossCurricular,
     outputFormat, setOutputFormat,
+    theme, setTheme,
     promptMode, setPromptMode,
     quizMode, setQuizMode,
     totalQuestions, setTotalQuestions,
