@@ -1,4 +1,4 @@
-import { getTopicLabel } from '../../data/curriculum';
+import { getTopicName } from '../../data/curriculum';
 
 export default function HistoryCard({ entry, onView, onCopy, onDelete }) {
   const date = new Date(entry.createdAt).toLocaleDateString('en-US', {
@@ -6,7 +6,7 @@ export default function HistoryCard({ entry, onView, onCopy, onDelete }) {
     hour: 'numeric', minute: '2-digit',
   });
 
-  const topicLabel = getTopicLabel(entry.topic);
+  const topicLabel = getTopicName(entry.topic);
 
   return (
     <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-4 sm:p-5">

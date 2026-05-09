@@ -561,15 +561,7 @@ export function getTopics(grade, subject) {
   return topics;
 }
 
-// Returns the display label for a topic
-export function getTopicLabel(topic) {
-  if (typeof topic === 'object' && topic.arabic) {
-    return `${topic.arabic} — ${topic.english}`;
-  }
-  return topic;
-}
-
-// Returns the topic name used in the prompt (English for Islamic Studies, plain string for others)
+// Returns the topic name used in prompts and display labels
 export function getTopicName(topic) {
   if (typeof topic === 'object' && topic.arabic) {
     return `${topic.arabic} — ${topic.english}`;

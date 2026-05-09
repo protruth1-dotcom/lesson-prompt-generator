@@ -1,6 +1,6 @@
 export default function ToggleSwitch({ checked, onChange, label }) {
   return (
-    <label className="flex items-center gap-3 cursor-pointer">
+    <div className="flex items-center gap-3">
       <span className="text-sm font-medium text-slate-700">{label}</span>
       <button
         type="button"
@@ -15,6 +15,6 @@ export default function ToggleSwitch({ checked, onChange, label }) {
             ${checked ? 'translate-x-6' : 'translate-x-1'}`}
         />
       </button>
-    </label>
+    </div>
   );
 }

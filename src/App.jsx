@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import Navbar from './components/layout/Navbar';
 import GeneratorView from './components/generator/GeneratorView';
 import PreviewView from './components/preview/PreviewView';
@@ -16,7 +16,9 @@ export default function App() {
   const [activeView, setActiveView] = useState('generator');
   const [promptData, setPromptData] = useState(null);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [settingsKey, setSettingsKey] = useState(0);
   const [toast, setToast] = useState({ visible: false, message: '' });
+  const rateLimitRef = useRef(0);
   const form = useFormState();
   const storage = useLocalStorage();
   const clipboard = useClipboard();
@@ -62,6 +64,13 @@ export default function App() {
 
   const handleRegenerate = useCallback(async () => {
     if (!promptData) return;
+
+    const now = Date.now();
+    if (now - rateLimitRef.current < 3000) {
+      showToast('Please wait a moment before regenerating.');
+      return;
+    }
+    rateLimitRef.current = now;
 
     if (promptData.promptMode === 'AI Generated') {
       const metaPrompt = buildMetaPrompt(form);
@@ -118,7 +127,7 @@ export default function App() {
       <Navbar
         activeView={activeView}
         onNavigate={setActiveView}
-        onOpenSettings={() => setSettingsOpen(true)}
+        onOpenSettings={() => { setSettingsOpen(true); setSettingsKey(k => k + 1); }}
       />
 
       <main className="max-w-4xl mx-auto px-4 sm:px-6 py-6">
@@ -153,6 +162,7 @@ export default function App() {
       </main>
 
       <SettingsPanel
+        key={settingsKey}
         isOpen={settingsOpen}
         onClose={() => setSettingsOpen(false)}
       />

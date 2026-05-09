@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { getTopicLabel } from '../../data/curriculum';
+import { getTopicName } from '../../data/curriculum';
 
 export default function PreviewView({ promptData, onBack, onCopy, onSave, onRegenerate, copied, loading }) {
   const [editedText, setEditedText] = useState(promptData.promptText);
@@ -16,7 +16,7 @@ export default function PreviewView({ promptData, onBack, onCopy, onSave, onRege
   const chips = [
     promptData.grade,
     promptData.subject,
-    getTopicLabel(promptData.topic),
+    getTopicName(promptData.topic),
     promptData.targetAI,
     promptData.lessonLength,
     promptData.studentLevel,

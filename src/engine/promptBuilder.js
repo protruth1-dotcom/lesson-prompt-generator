@@ -128,21 +128,30 @@ Do NOT use any JavaScript frameworks. Use vanilla HTML, CSS, and minimal JavaScr
 }
 
 export function buildPrompt(formState) {
-  const {
-    grade, subject, topic, targetAI, lessonLength,
-    studentLevel, crossCurricular, outputFormat = 'Interactive',
-    quizMode, totalQuestions, difficulty, manualCounts,
-  } = formState;
+  try {
+    const {
+      grade, subject, topic, targetAI, lessonLength,
+      studentLevel, crossCurricular, outputFormat = 'Interactive',
+      quizMode, totalQuestions, difficulty, manualCounts,
+    } = formState;
 
-  // Resolve variables
-  const gv = gradeVariables[grade];
-  const sv = studentLevelVariables[studentLevel];
-  const lv = lessonLengthVariables[lessonLength];
-  const topicName = getTopicName(topic);
-  const isIslamic = subject === 'Islamic Studies';
-  const isPrint = outputFormat === 'Print';
+    if (!grade || !subject || !topic) {
+      throw new Error('Missing required fields: grade, subject, and topic are required to build a prompt.');
+    }
 
-  // 1. Opening role instruction
+    // Resolve variables
+    const gv = gradeVariables[grade];
+    const sv = studentLevelVariables[studentLevel];
+    const lv = lessonLengthVariables[lessonLength];
+    const topicName = getTopicName(topic);
+    const isIslamic = subject === 'Islamic Studies';
+    const isPrint = outputFormat === 'Print';
+
+    if (!gv || !sv || !lv) {
+      throw new Error('Could not resolve lesson configuration. Please check your selections.');
+    }
+
+    // 1. Opening role instruction
   const opening = `You are an expert ${gv.gradeLevel} teacher creating a lesson for ${sv.studentLevelDescription}. The lesson is on the subject of ${subject}: ${topicName}.`;
 
   // 2. Islamic Studies block (conditional)
@@ -256,18 +265,22 @@ Before the quiz, provide a clear review section with ${lv.summaryPointCount} key
   const delivery = deliveryMap[targetAI] || deliveryMap.Other;
 
   // Assemble
-  return [
-    opening,
-    islamicBlock,
-    '\n\n---\n\n',
-    requirements,
-    '\n\n---\n\n',
-    lessonStructure,
-    '\n\n### 8. QUIZ\n',
-    quizBlock,
-    '\n\n---\n\n',
-    outputFormatBlock,
-    '\n\n---\n\n',
-    delivery,
-  ].join('');
+    return [
+      opening,
+      islamicBlock,
+      '\n\n---\n\n',
+      requirements,
+      '\n\n---\n\n',
+      lessonStructure,
+      '\n\n### 8. QUIZ\n',
+      quizBlock,
+      '\n\n---\n\n',
+      outputFormatBlock,
+      '\n\n---\n\n',
+      delivery,
+    ].join('');
+  } catch (err) {
+    console.error('Failed to build prompt:', err);
+    return `Error building prompt: ${err.message}\n\nPlease check your lesson settings and try again. If the problem persists, refresh the page.`;
+  }
 }

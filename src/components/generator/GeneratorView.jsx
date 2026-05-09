@@ -4,7 +4,7 @@ import LessonSettingsCard from './LessonSettingsCard';
 import QuizConfigCard from './QuizConfigCard';
 import Card from '../layout/Card';
 import ButtonGroup from '../ui/ButtonGroup';
-import { loadSettings } from '../settings/SettingsPanel';
+import { loadSettings } from '../../utils/settings';
 
 const promptModes = ['Template', 'AI Generated'];
 

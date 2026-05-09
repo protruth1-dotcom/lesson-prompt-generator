@@ -1,5 +1,5 @@
 import { useState, useCallback, useRef } from 'react';
-import { loadSettings } from '../components/settings/SettingsPanel';
+import { loadSettings } from '../utils/settings';
 
 const ERROR_MESSAGES = {
   no_key: 'Please add your OpenAI API key in Settings to use AI-generated prompts.',

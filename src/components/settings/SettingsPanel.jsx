@@ -1,49 +1,15 @@
 import { useState, useEffect, useRef } from 'react';
-
-const SETTINGS_KEY = 'lpg_settings';
-
-function encode(str) { return btoa(str); }
-function decode(str) { try { return atob(str); } catch { return ''; } }
-
-export function loadSettings() {
-  try {
-    const raw = JSON.parse(localStorage.getItem(SETTINGS_KEY)) || {};
-    return {
-      openaiApiKey: raw.openaiApiKey ? decode(raw.openaiApiKey) : '',
-      openaiModel: raw.openaiModel || 'gpt-4o',
-    };
-  } catch {
-    return { openaiApiKey: '', openaiModel: 'gpt-4o' };
-  }
-}
-
-function saveSettings(settings) {
-  localStorage.setItem(SETTINGS_KEY, JSON.stringify({
-    openaiApiKey: settings.openaiApiKey ? encode(settings.openaiApiKey) : '',
-    openaiModel: settings.openaiModel,
-  }));
-}
+import { loadSettings, saveSettings } from '../../utils/settings';
 
 export default function SettingsPanel({ isOpen, onClose }) {
-  const [apiKey, setApiKey] = useState('');
-  const [model, setModel] = useState('gpt-4o');
+  const [apiKey, setApiKey] = useState(() => loadSettings().openaiApiKey);
+  const [model, setModel] = useState(() => loadSettings().openaiModel);
   const [showKey, setShowKey] = useState(false);
-  const [testStatus, setTestStatus] = useState(null); // null | 'testing' | 'success' | 'error'
+  const [testStatus, setTestStatus] = useState(null);
   const [testMessage, setTestMessage] = useState('');
   const [saved, setSaved] = useState(false);
   const panelRef = useRef(null);
 
-  useEffect(() => {
-    if (isOpen) {
-      const s = loadSettings();
-      setApiKey(s.openaiApiKey);
-      setModel(s.openaiModel);
-      setTestStatus(null);
-      setSaved(false);
-    }
-  }, [isOpen]);
-
-  // Close on Escape
   useEffect(() => {
     if (!isOpen) return;
     const handler = (e) => { if (e.key === 'Escape') onClose(); };
@@ -99,12 +65,9 @@ export default function SettingsPanel({ isOpen, onClose }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4">
-      {/* Backdrop */}
       <div className="fixed inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
 
-      {/* Panel */}
       <div ref={panelRef} className="relative bg-white rounded-2xl shadow-2xl w-full max-w-lg p-6 space-y-5 animate-slide-up">
-        {/* Header */}
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-bold text-slate-800">Settings</h2>
           <button
@@ -119,7 +82,6 @@ export default function SettingsPanel({ isOpen, onClose }) {
           </button>
         </div>
 
-        {/* API Key */}
         <div className="space-y-2">
           <label className="block text-sm font-medium text-slate-700">OpenAI API Key</label>
           <div className="relative">
@@ -151,7 +113,6 @@ export default function SettingsPanel({ isOpen, onClose }) {
           <p className="text-xs text-slate-400">Your API key stays in your browser and is sent only to OpenAI's servers. We do not store, transmit, or have access to your key.</p>
         </div>
 
-        {/* Action buttons row */}
         <div className="flex gap-2 flex-wrap">
           <button
             type="button"
@@ -191,7 +152,6 @@ export default function SettingsPanel({ isOpen, onClose }) {
           )}
         </div>
 
-        {/* Test result */}
         {testStatus && testStatus !== 'testing' && (
           <div className={`text-sm rounded-lg px-3 py-2 ${
             testStatus === 'success' ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-700'
@@ -200,7 +160,6 @@ export default function SettingsPanel({ isOpen, onClose }) {
           </div>
         )}
 
-        {/* Model selector */}
         <div className="space-y-2">
           <label className="block text-sm font-medium text-slate-700">Model</label>
           <div className="flex gap-2">

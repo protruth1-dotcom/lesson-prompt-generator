@@ -1,10 +1,10 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { getTopics } from '../data/curriculum';
 import { calculateAutoDistribution } from '../data/quizDistributions';
 
 export function useFormState() {
-  const [grade, setGrade] = useState(null);
-  const [subject, setSubject] = useState(null);
+  const [grade, setGradeRaw] = useState(null);
+  const [subject, setSubjectRaw] = useState(null);
   const [topic, setTopic] = useState(null);
   const [targetAI, setTargetAI] = useState('Claude');
   const [lessonLength, setLessonLength] = useState('Medium');
@@ -25,27 +25,29 @@ export function useFormState() {
     scenarioBased: 0,
   });
 
-  // Derived: topics list for current grade + subject
+  const setGrade = useCallback((val) => {
+    setGradeRaw(val);
+    setTopic(null);
+  }, []);
+  const setSubject = useCallback((val) => {
+    setSubjectRaw(val);
+    setTopic(null);
+  }, []);
+
   const topics = useMemo(() => getTopics(grade, subject), [grade, subject]);
 
-  // Derived: auto distribution
   const autoDistribution = useMemo(() => {
     if (quizMode !== 'Auto' || !subject) return null;
     return calculateAutoDistribution(subject, difficulty, totalQuestions);
   }, [subject, difficulty, totalQuestions, quizMode]);
 
-  // Derived: manual sum
   const manualSum = useMemo(
     () => Object.values(manualCounts).reduce((a, b) => a + b, 0),
-    [manualCounts]
+    [manualCounts],
   );
 
-  // Derived: form validity
   const isValid = grade && subject && topic &&
     (quizMode === 'Auto' || manualSum === totalQuestions);
-
-  // Reset topic when grade or subject changes
-  useEffect(() => { setTopic(null); }, [grade, subject]);
 
   const updateManualCount = (key, value) => {
     setManualCounts((prev) => ({ ...prev, [key]: Math.max(0, value) }));
