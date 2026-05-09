@@ -1,0 +1,578 @@
+// Complete curriculum data for all 5 subjects x 2 grades
+// Islamic Studies topics are { arabic, english } objects; all others are plain strings
+
+export const curriculum = {
+  Math: {
+    '4th Grade': {
+      'Operations & Algebraic Thinking': [
+        'Interpret multiplication equations as comparisons',
+        'Multiply or divide to solve word problems (multiplicative comparison)',
+        'Solve multi-step word problems with whole numbers (four operations)',
+        'Find factor pairs for whole numbers 1–100',
+        'Determine prime or composite numbers',
+        'Generate and analyze number or shape patterns',
+        'Use equations with a letter standing for the unknown quantity',
+      ],
+      'Number & Operations in Base Ten': [
+        'Place value understanding for multi-digit whole numbers',
+        'Read and write multi-digit whole numbers (expanded form, word form, standard form)',
+        'Compare two multi-digit numbers using >, =, <',
+        'Round multi-digit whole numbers to any place',
+        'Fluently add and subtract multi-digit whole numbers (standard algorithm)',
+        'Multiply a whole number up to four digits by a one-digit number',
+        'Multiply two two-digit numbers',
+        'Divide multi-digit numbers by one-digit divisors (up to four-digit dividends)',
+        'Relationship between place values (a digit represents ten times what it represents in the place to its right)',
+      ],
+      'Number & Operations — Fractions': [
+        'Equivalent fractions using visual models',
+        'Compare two fractions with different numerators and denominators',
+        'Add and subtract fractions with like denominators',
+        'Add and subtract mixed numbers with like denominators',
+        'Multiply a fraction by a whole number',
+        'Understand decimal notation for fractions (tenths and hundredths)',
+        'Compare two decimals to hundredths',
+      ],
+      'Measurement & Data': [
+        'Relative sizes of measurement units (km, m, cm; kg, g; lb, oz; L, mL; hr, min, sec)',
+        'Word problems involving measurement conversions',
+        'Apply area and perimeter formulas for rectangles',
+        'Represent and interpret data using line plots (fractions: 1/2, 1/4, 1/8)',
+        'Understand angle measurement concepts (degrees)',
+        'Measure and sketch angles using a protractor',
+        'Solve addition and subtraction problems involving angles',
+        'Elapsed time word problems',
+      ],
+      Geometry: [
+        'Points, lines, line segments, rays, and angles (right, acute, obtuse)',
+        'Classify two-dimensional figures by parallel and perpendicular lines',
+        'Identify and draw lines of symmetry',
+        'Recognize right triangles',
+        'Classify triangles (acute, obtuse, right, scalene, isosceles, equilateral)',
+      ],
+    },
+    '5th Grade': {
+      'Operations & Algebraic Thinking': [
+        'Write and interpret numerical expressions with parentheses, brackets, braces',
+        'Evaluate expressions with grouping symbols',
+        'Analyze patterns and relationships between two sequences',
+        'Generate two numerical patterns using two given rules',
+      ],
+      'Number & Operations in Base Ten': [
+        'Understand the place value system (powers of 10)',
+        'Read, write, and compare decimals to thousandths',
+        'Round decimals to any place',
+        'Fluently multiply multi-digit whole numbers (standard algorithm)',
+        'Divide whole numbers with up to four-digit dividends and two-digit divisors',
+        'Add, subtract, multiply, and divide decimals to hundredths',
+        'Explain patterns in number of zeros and placement of decimal point in products/quotients',
+        'Use whole-number exponents to denote powers of 10',
+      ],
+      'Number & Operations — Fractions': [
+        'Add and subtract fractions with unlike denominators',
+        'Solve word problems involving addition and subtraction of fractions',
+        'Interpret a fraction as division of the numerator by the denominator',
+        'Multiply a fraction or whole number by a fraction',
+        'Interpret multiplication of fractions as scaling (resizing)',
+        'Solve real-world problems involving multiplication of fractions and mixed numbers',
+        'Divide unit fractions by whole numbers and whole numbers by unit fractions',
+      ],
+      'Measurement & Data': [
+        'Convert measurement units within a given system (e.g., cm to m)',
+        'Represent and interpret data using line plots (fractions)',
+        'Understand volume as an attribute of solid figures',
+        'Measure volume by counting unit cubes',
+        'Apply formulas for volume of rectangular prisms (V = l × w × h)',
+        'Solve real-world problems involving volume',
+        'Solve problems involving volume of composite figures (additive volume)',
+      ],
+      Geometry: [
+        'Graph points on the coordinate plane (first quadrant)',
+        'Represent real-world problems by graphing points on a coordinate plane',
+        'Classify two-dimensional figures in a hierarchy based on properties',
+        'Understand attributes of categories apply to subcategories',
+      ],
+    },
+  },
+
+  ELA: {
+    '4th Grade': {
+      'Reading — Literature': [
+        'Refer to details and examples in a text when explaining what the text says',
+        'Determine the theme of a story, drama, or poem from details',
+        'Describe a character, setting, or event using specific details',
+        'Determine the meaning of words and phrases (including figurative language)',
+        'Explain differences between poems, drama, and prose (structural elements)',
+        'Compare and contrast point of view (first person vs. third person)',
+        'Make connections between text and visual/oral presentation',
+        'Compare and contrast themes and topics across stories from different cultures',
+      ],
+      'Reading — Informational Text': [
+        'Refer to details and examples when explaining informational text',
+        'Determine the main idea and summarize key supporting details',
+        'Explain events, procedures, ideas, or concepts in historical, scientific, or technical texts',
+        'Determine meaning of academic vocabulary in informational text',
+        'Describe overall structure (chronology, comparison, cause/effect, problem/solution)',
+        'Compare and contrast firsthand and secondhand accounts',
+        'Interpret information presented in charts, graphs, diagrams, timelines',
+        'Integrate information from two texts on the same topic',
+      ],
+      Writing: [
+        'Write opinion pieces with clear reasons and supporting details',
+        'Write informative/explanatory texts (introduce topic, group information, use facts/definitions)',
+        'Write narratives with descriptive details and clear event sequences',
+        'Produce clear and coherent writing appropriate to task, purpose, audience',
+        'Develop and strengthen writing through planning, revising, and editing',
+        'Use technology to produce and publish writing (keyboarding skills)',
+        'Conduct short research projects',
+        'Recall relevant information from experiences or gather from print/digital sources',
+      ],
+      Language: [
+        'Use relative pronouns and relative adverbs',
+        'Form and use progressive verb tenses',
+        'Use modal auxiliaries (can, may, must)',
+        'Order adjectives within sentences',
+        'Produce complete sentences and correct fragments/run-ons',
+        'Use correct capitalization',
+        'Use commas and quotation marks in dialogue',
+        'Choose punctuation for effect',
+        'Spell grade-appropriate words correctly',
+        'Use context clues to determine word meaning',
+        'Use Greek and Latin affixes and roots as clues to meaning',
+        'Understand figurative language (similes, metaphors)',
+        'Explain common idioms, adages, and proverbs',
+        'Distinguish between synonyms and antonyms',
+      ],
+      'Speaking & Listening': [
+        'Engage effectively in collaborative discussions',
+        'Paraphrase portions of text read aloud or information presented',
+        'Identify reasons and evidence a speaker provides',
+        'Report on a topic or text with facts and relevant details',
+        'Add audio recordings and visual displays to presentations',
+      ],
+    },
+    '5th Grade': {
+      'Reading — Literature': [
+        'Quote accurately from a text when explaining and drawing inferences',
+        'Determine the theme and summarize the text',
+        'Compare and contrast two or more characters, settings, or events',
+        'Determine the meaning of words and phrases (figurative language, including metaphors and similes)',
+        'Explain how chapters, scenes, or stanzas fit together to provide overall structure',
+        "Describe how a narrator's or speaker's point of view influences the story",
+        'Analyze how visual and multimedia elements contribute to meaning, tone, or beauty',
+        'Compare and contrast stories in the same genre on similar themes and topics',
+      ],
+      'Reading — Informational Text': [
+        'Quote accurately to explain text and draw inferences',
+        'Determine two or more main ideas and explain how key details support them',
+        'Explain relationships or interactions between concepts, ideas, or events',
+        'Determine meaning of academic vocabulary',
+        'Compare and contrast overall structure of two or more texts',
+        'Analyze multiple accounts of the same event or topic',
+        'Draw on information from multiple print or digital sources',
+        'Explain how an author uses reasons and evidence to support particular points',
+        'Integrate information from several texts on the same topic',
+      ],
+      Writing: [
+        'Write opinion pieces with logically ordered reasons and a concluding statement',
+        'Write informative/explanatory texts with headings, illustrations, and formatting',
+        'Write narratives using dialogue, pacing, and description',
+        'Produce clear, coherent writing',
+        'Develop and strengthen writing through planning, revising, editing, rewriting',
+        'Use technology to produce and publish writing (keyboarding)',
+        'Conduct short research projects using several sources',
+        'Summarize or paraphrase information from notes and provide a list of sources',
+        'Draw evidence from literary or informational texts to support analysis and reflection',
+      ],
+      Language: [
+        'Explain the function of conjunctions, prepositions, and interjections',
+        'Form and use the perfect verb tenses',
+        'Use verb tense to convey times, sequences, states, and conditions',
+        'Recognize and correct inappropriate shifts in verb tense',
+        'Use correlative conjunctions',
+        'Use punctuation to separate items in a series',
+        'Use a comma to separate an introductory element from the rest of the sentence',
+        'Use a comma to set off words "yes" and "no," tag questions, direct address',
+        'Use underlining, quotation marks, or italics for titles',
+        'Spell grade-appropriate words correctly',
+        'Use context clues and Greek/Latin affixes and roots',
+        'Interpret figurative language in context',
+        'Understand and explain word relationships (synonyms, antonyms, homographs)',
+        'Acquire and use academic and domain-specific vocabulary',
+      ],
+      'Speaking & Listening': [
+        'Engage effectively in collaborative discussions (come prepared, follow rules, pose/respond to questions)',
+        'Summarize a written text read aloud or information presented',
+        'Summarize points a speaker makes and explain how claims are supported by reasons and evidence',
+        'Report on a topic or present an opinion, sequencing ideas logically',
+        'Include multimedia and visual displays in presentations',
+        'Adapt speech to context and task, using formal English when appropriate',
+      ],
+    },
+  },
+
+  Science: {
+    '4th Grade': {
+      'Energy (PS3)': [
+        'Relationship between speed of an object and its energy',
+        'Energy transfer through sound, light, heat, and electric currents',
+        'Energy changes when objects collide',
+        'Design, test, and refine a device that converts energy from one form to another',
+      ],
+      'Waves and Information (PS4)': [
+        'Wave patterns: amplitude and wavelength',
+        'Waves can cause objects to move',
+        'Light reflecting from objects and entering the eye allows us to see',
+        'Patterns used to transfer information (e.g., coded messages, digitized sound)',
+      ],
+      'Structure, Function, and Information Processing (LS1)': [
+        'Internal and external structures of plants and animals that support survival, growth, behavior, reproduction',
+        'How animals receive and process information from the environment (senses)',
+      ],
+      'Earth\'s Processes and Features (ESS1, ESS2)': [
+        'Patterns of Earth\'s features identifiable using maps',
+        'Rock layers and fossils as evidence of past environments',
+        'Effects of weathering and erosion by water, ice, wind, and vegetation',
+        'Rate of erosion and changes to Earth\'s surface over time',
+      ],
+      'Natural Hazards (ESS3)': [
+        'Natural Earth processes that cause hazards (earthquakes, floods, tsunamis, volcanic eruptions)',
+        'Generate and compare solutions to reduce the impact of natural hazards on humans',
+      ],
+      'Engineering Design (ETS1)': [
+        'Define a simple design problem (criteria and constraints)',
+        'Generate and compare multiple solutions',
+        'Plan and carry out fair tests to improve a model or prototype',
+      ],
+    },
+    '5th Grade': {
+      'Matter and Its Interactions (PS1)': [
+        'Matter is made of particles too small to be seen',
+        'Properties of materials used to identify them (hardness, flexibility, etc.)',
+        'Mixtures and solutions — dissolving, mixing, temperature effects',
+        'Chemical reactions — new substances formed when substances are mixed',
+        'Conservation of matter — total weight does not change during physical/chemical changes',
+        'Whether mixing two or more substances results in new substances',
+      ],
+      'Forces and Interactions (PS2)': [
+        'Gravitational force exerted by Earth on objects is directed down',
+        'Unbalanced forces cause changes in motion',
+      ],
+      'Matter and Energy in Ecosystems (LS1, LS2)': [
+        'How plants get materials for growth (air, water → photosynthesis)',
+        'How animals get energy from food (food chains, food webs)',
+        'Decomposers and their role in ecosystems',
+        'Movement of matter among plants, animals, decomposers, and the environment',
+      ],
+      'Earth and Space Systems (ESS1)': [
+        'Patterns of daily changes in length and direction of shadows',
+        'Seasonal patterns of sunrise and sunset (related to Earth\'s tilt and orbit)',
+        'Stars\' apparent brightness related to their distance from Earth',
+        'Earth\'s orbit and revolution around the sun',
+      ],
+      'Earth\'s Systems and Human Impact (ESS2, ESS3)': [
+        'Earth\'s major systems: geosphere, hydrosphere, atmosphere, biosphere',
+        'Distribution of freshwater and saltwater on Earth',
+        'How communities use science ideas to protect Earth\'s resources and environment',
+      ],
+      'Engineering Design (ETS1)': [
+        'Define a design problem with multiple criteria and constraints',
+        'Generate and compare multiple solutions using research',
+        'Plan and carry out tests, analyze data, and improve solutions based on results',
+      ],
+    },
+  },
+
+  'Social Studies': {
+    '4th Grade': {
+      'Civics (SS.CV)': [
+        'Distinguish responsibilities and powers of government officials at local, state, and national levels',
+        'How democracy relies on responsible citizen participation',
+        'Core civic virtues: honesty, mutual respect, cooperation, attentiveness to multiple perspectives',
+        'Democratic principles: equality, freedom, liberty, respect for individual rights',
+        'How rules and laws change society and how people change rules and laws in Illinois',
+        'Illinois state government structure (three branches)',
+        'Role of local government in providing services',
+      ],
+      'Geography (SS.G)': [
+        'Construct and interpret maps of Illinois and the United States',
+        'How cultural and environmental characteristics of Illinois places change over time',
+        'Current movements of goods, people, jobs, and information to, from, and within Illinois',
+        'Physical geography of Illinois: rivers, plains, Lake Michigan, regions',
+        'Human impact on the Illinois environment',
+        'Urban, suburban, and rural communities in Illinois',
+      ],
+      'Economics (SS.EC)': [
+        'How profits reward and influence sellers',
+        'How goods and services are produced using human, natural, and capital resources',
+        'How spending choices are influenced by price and other factors (e.g., advertising)',
+        'Income can be saved, spent on goods and services, or used to pay taxes',
+        'Illinois industries and economic regions',
+      ],
+      'History (SS.H)': [
+        'Connections among historical contexts and why individuals and groups differed in perspectives on Illinois issues',
+        'How individuals contributed to the founding and development of Illinois',
+        'Probable causes and effects of events and developments in Illinois history',
+        'Native American nations of Illinois',
+        'European exploration and settlement of Illinois',
+        'Illinois path to statehood (1818)',
+        'Illinois role in the Civil War and Underground Railroad',
+        'Immigration and migration patterns in Illinois',
+        'Key historical figures in Illinois history',
+        'Using artifacts and primary sources to investigate history',
+      ],
+    },
+    '5th Grade': {
+      'Civics (SS.CV)': [
+        'Distinguish responsibilities and powers of government officials at various levels and branches',
+        'Origins and purposes of rules, laws, and key U.S. constitutional principles',
+        'Compare origins, functions, and structure of different systems of government',
+        'How policies are developed to address public problems',
+        'Three branches of U.S. federal government',
+        'The Constitution and Bill of Rights',
+        'Checks and balances',
+        'Role of citizens in democracy (voting, civic participation)',
+      ],
+      'Geography (SS.G)': [
+        'How cultural and environmental characteristics of U.S. places change over time',
+        'How humans have utilized natural resources in the United States',
+        'Effects of catastrophic environmental events and technological developments on the nation',
+        'Compare environmental characteristics of the U.S. to other world regions',
+        'Physical geography of the United States (regions, landforms, climate zones, bodies of water)',
+        'How geography influenced historical events and settlement patterns',
+        'Map and globe skills (latitude, longitude, hemispheres)',
+      ],
+      'Economics (SS.EC)': [
+        'Why and how individuals, businesses, and nations specialize and trade',
+        'How positive incentives influence people\'s choices',
+        'Ways government pays for goods and services it provides',
+        'Interest as the price borrowers pay for using someone else\'s money',
+        'The American economy (free enterprise basics)',
+        'Opportunity cost and economic decision-making',
+        'How the economy changed over time (agricultural → industrial → technological)',
+      ],
+      'History (SS.H)': [
+        'Create and use chronological sequences of related events to compare developments',
+        'Use information about historical sources (maker, date, origin, audience, purpose) to evaluate usefulness',
+        'Probable causes and effects of events and developments in U.S. history',
+        'Early peoples and civilizations of North America',
+        'European exploration and colonization',
+        'Colonial life and the road to the American Revolution',
+        'The American Revolution (causes, key events, key figures)',
+        'The Declaration of Independence',
+        'Formation of the U.S. government and the Constitution',
+        'Westward expansion (Louisiana Purchase, Lewis and Clark, Oregon Trail)',
+        'Causes and effects of the Civil War',
+        'Reconstruction and its impacts',
+      ],
+    },
+  },
+
+  'Islamic Studies': {
+    '4th Grade': {
+      'أسماء الله الحسنى — Names of Allah': [
+        { arabic: 'الغَفَّار', english: 'Al-Ghaffar (The All-Forgiving) — story of the man who killed 99 people' },
+        { arabic: 'المُنتَقِم', english: 'Al-Muntaqim (The Avenger) — story of Prophet Salih and Thamud' },
+        { arabic: 'العَدْل', english: "Al-'Adl (The Most Just) — justice on the Day of Judgement" },
+        { arabic: 'الشَّكُور', english: 'Ash-Shakur (The Most Appreciative) — recording of deeds' },
+        { arabic: 'الوَدُود', english: "Al-Wadud (The Most Loving) — Allah's love compared to a mother's love" },
+      ],
+      'الملائكة — Angels and Their Duties': [
+        { arabic: 'الملائكة وطبيعتهم', english: 'Angels created from light, cannot disobey Allah' },
+        { arabic: 'الملائكة الأربعة الرئيسيون', english: 'Four main angels: Jibril, Mika\'il, Israfil, Malakul Mawt — detailed roles' },
+        { arabic: 'ملائكة الجنة والنار', english: 'Angels of Paradise (Ridwan) and Hell (Malik)' },
+        { arabic: 'منكر ونكير', english: 'Munkar and Nakir — questioning in the grave' },
+        { arabic: 'الكرام الكاتبين', english: 'Kiraman Katibin — recording angels' },
+        { arabic: 'السيّاحون', english: 'Sayyahun — roaming angels seeking gatherings of remembrance' },
+      ],
+      'صفات الأنبياء — Characteristics and Duties of the Prophets': [
+        { arabic: 'صفات الأنبياء الخمس', english: 'Five characteristics: intelligence, sinlessness, honesty, good appearance, male' },
+        { arabic: 'واجبات الأنبياء الخمس', english: 'Five duties: spreading message, explaining, guiding, being role models, judging' },
+        { arabic: 'قصة سليمان عليه السلام', english: 'Story of Prophet Sulayman judging between two women' },
+      ],
+      'المعجزات — Miracles (Mu\'jizah)': [
+        { arabic: 'الإسراء والمعراج', english: "Al-Isra' wal Mi'raj" },
+        { arabic: 'انشقاق القمر', english: 'Splitting of the moon' },
+        { arabic: 'معجزات موسى عليه السلام', english: "Musa's stick turning into a snake, splitting the sea" },
+        { arabic: 'معجزات عيسى عليه السلام', english: 'Isa speaking in the cradle, curing blind and lepers, bringing dead to life' },
+      ],
+      'علامات الساعة — Signs of the Last Day (Part 1)': [
+        { arabic: 'العلامات الصغرى', english: 'Minor signs: tall buildings, music, widespread alcohol, increased killings' },
+        { arabic: 'العلامات الكبرى', english: "Major signs: Dajjal, the coming of Isa, Ya'juj and Ma'juj" },
+      ],
+      'يوم القيامة — Day of Judgement': [
+        { arabic: 'الروح في القبر', english: 'Soul in the grave, questioning by Munkar and Nakir' },
+        { arabic: 'نفخ الصور', english: 'Blowing of the horn (Israfil)' },
+        { arabic: 'أسئلة يوم القيامة الخمسة', english: 'Five questions on the Day of Judgement' },
+        { arabic: 'الميزان', english: 'Weighing of deeds (Mizan)' },
+        { arabic: 'الصراط', english: 'Crossing the bridge (Sirat)' },
+      ],
+      'الجنة والنار — Paradise and Hell': [
+        { arabic: 'وصف الجنة', english: 'Description of Paradise: soil, pebbles, rivers, fruits, homes' },
+        { arabic: 'وصف النار', english: 'Description of Hell: gates, fire, punishments, food and drink of its people' },
+      ],
+      'الفقه — Fiqh (Purification and Prayer)': [
+        { arabic: 'النجاسة', english: 'Najasah — definition, types, how to clean impurity' },
+        { arabic: 'الوضوء', english: 'Model Wudu — complete steps, dua after wudu, seven things to remember' },
+        { arabic: 'الغسل', english: 'Model Ghusl — steps and five important points' },
+        { arabic: 'التيمم', english: 'Model Tayammum — when allowed, steps, permissible items' },
+        { arabic: 'الصلاة', english: 'Model Salah — complete method step by step, differences for boys and girls' },
+        { arabic: 'أهمية الصلاة', english: 'Importance of Salah — four virtues, difference between belief and disbelief' },
+      ],
+      'فضائل الأعمال — Virtues of Actions': [
+        { arabic: 'فضائل الوضوء والمسجد', english: 'Virtues of wudu, the masjid, dhikr, Quran' },
+        { arabic: 'الذنوب والشرك', english: 'Two types of shirk, sins (disobeying parents, stealing, lying), repentance' },
+      ],
+      'التقويم الإسلامي — Islamic Calendar': [
+        { arabic: 'الأشهر الهجرية', english: 'Hijri calendar — twelve Islamic months in order' },
+        { arabic: 'الأشهر المهمة', english: 'Significance of key months (Muharram, Ramadan, Dhul Hijjah, etc.)' },
+      ],
+      'السيرة النبوية — Seerah (Prophetic Biography)': [
+        { arabic: 'المولد والطفولة وغار حراء', english: 'Birth, childhood, cave of Hira, first revelation' },
+        { arabic: 'الدعوة السرية والجهرية', english: 'Secret and public call to Islam' },
+        { arabic: 'اضطهاد المسلمين والهجرة إلى الحبشة', english: 'Persecution of Muslims, migration to Abyssinia' },
+        { arabic: 'الهجرة إلى المدينة', english: 'Hijrah to Madinah' },
+        { arabic: 'غزوة بدر', english: 'Battle of Badr' },
+        { arabic: 'غزوة أحد', english: 'Battle of Uhud' },
+        { arabic: 'غزوة الخندق', english: 'Battle of the Trench (Khandaq)' },
+        { arabic: 'صلح الحديبية', english: 'Treaty of Hudaybiyyah' },
+      ],
+      'قصص الأنبياء — Stories of the Prophets': [
+        { arabic: 'إبراهيم عليه السلام — الجزء ١', english: 'Ibrahim (as) — Part 1: childhood, breaking idols, thrown into fire' },
+        { arabic: 'إبراهيم عليه السلام — الجزء ٢', english: 'Ibrahim (as) — Part 2: Namrud, marriage, Hajar and Ismail, Zamzam' },
+        { arabic: 'إبراهيم عليه السلام — الجزء ٣', english: "Ibrahim (as) — Part 3: sacrifice of Ismail, building the Ka'bah" },
+        { arabic: 'ذو القرنين', english: "Dhul Qarnayn — journey to East and West, barrier against Ya'juj and Ma'juj" },
+      ],
+      'الأخلاق والصحابة — Good Character and Companions': [
+        { arabic: 'المؤاخاة', english: 'Brotherhood (Mu\'akhah) between Muhajirun and Ansar' },
+        { arabic: 'الحب في الله', english: 'Loving for the sake of Allah' },
+        { arabic: 'أبو هريرة رضي الله عنه', english: 'Abu Hurayrah (ra) — greatest narrator of hadith' },
+        { arabic: 'عبد الله بن مسعود رضي الله عنه', english: 'Abdullah ibn Mas\'ud (ra) — closeness to the Prophet' },
+        { arabic: 'نسيبة بنت كعب رضي الله عنها', english: 'Nusaybah bint Ka\'ab (ra) — bravery in Battle of Uhud' },
+      ],
+      'حب النبي ﷺ — Love for the Prophet': [
+        { arabic: 'كيف نحب النبي ﷺ', english: 'How to express love for the Prophet' },
+        { arabic: 'الصلاة على النبي ﷺ', english: 'Salawat (sending blessings)' },
+        { arabic: 'الشفاعة', english: 'Shafa\'ah (intercession)' },
+      ],
+      'الصيام ورمضان — Fasting and Ramadan': [
+        { arabic: 'أحكام الصيام', english: 'Rules of fasting, what breaks the fast' },
+        { arabic: 'السحور والإفطار', english: 'Suhur and Iftar' },
+        { arabic: 'صلاة التراويح', english: 'Tarawih prayer' },
+        { arabic: 'ليلة القدر', english: 'Laylatul Qadr' },
+        { arabic: 'عيد الفطر وعيد الأضحى', english: 'Eid ul-Fitr and Eid ul-Adha' },
+      ],
+      'آداب — Manners': [
+        { arabic: 'آداب الطعام والشراب', english: 'Manners of eating and drinking' },
+        { arabic: 'آداب المسجد', english: 'Manners of the Masjid' },
+        { arabic: 'الحلال والحرام في الطعام', english: 'Halal and Haram food' },
+      ],
+    },
+    '5th Grade': {
+      'أسماء الله الحسنى — Names of Allah': [
+        { arabic: 'الرَّبّ', english: 'Ar-Rabb (The Lord, Nurturer) — how Allah provides from before birth to after death' },
+        { arabic: 'المَلِك', english: 'Al-Malik (The King) — unlimited power of Allah' },
+        { arabic: 'القَيُّوم', english: 'Al-Qayyum (The Self-Sustaining) — how Allah maintains the universe' },
+        { arabic: 'المُصَوِّر', english: 'Al-Musawwir (The Fashioner) — uniqueness of creation' },
+        { arabic: 'عالم الغيب والشهادة', english: "'Alimul Ghayb wash-Shahadah (Knower of Seen and Unseen)" },
+      ],
+      'الملائكة والكتب والرسل — Angels, Books, and Messengers': [
+        { arabic: 'الملائكة الحارسون', english: 'Guardian angels, angels of Al-Baytul Ma\'mur, angels who pray for believers' },
+        { arabic: 'الملائكة تتشكل', english: 'Angels changing shape — story of the blind, bald, and leper' },
+        { arabic: 'الملائكة تنصر المسلمين', english: 'Angels helping Muslims in battle' },
+        { arabic: 'كتب الله', english: 'Books of Allah: Tawrah, Zabur, Injil, Quran — changes in previous books' },
+        { arabic: 'الفرق بين الرسول والنبي', english: 'Difference between Rasul and Nabi' },
+        { arabic: 'خاتم النبيين', english: 'Seal of the Prophets' },
+      ],
+      'علامات الساعة — Signs of the Last Day (Part 2)': [
+        { arabic: 'الإمام المهدي', english: 'Imam Mahdi — identity, appearance, role' },
+        { arabic: 'الدجال', english: 'Dajjal (detailed) — physical appearance, tricks, paradise and hell of Dajjal' },
+        { arabic: 'نزول عيسى عليه السلام', english: 'Descent of Isa (as) — killing of Dajjal at gate of Ludd' },
+        { arabic: 'الدابة', english: 'The Beast (Dabbah)' },
+      ],
+      'الموت والبرزخ — Death and the Grave': [
+        { arabic: 'ملك الموت', english: "Angel of death's approach to believers vs. disbelievers" },
+        { arabic: 'رحلة الروح', english: 'Journey of the soul after death' },
+        { arabic: 'أسئلة القبر', english: 'Questions in the grave' },
+        { arabic: 'عليون وسجين', english: 'Illiyyun and Sijjeen' },
+      ],
+      'وصف يوم القيامة — Description of the Last Day': [
+        { arabic: 'البعث من القبور', english: 'Resurrection from graves' },
+        { arabic: 'كتاب الأعمال', english: 'Book of deeds — right hand vs. left hand' },
+        { arabic: 'الميزان والصراط', english: 'The scales (Mizan) and the bridge (Sirat)' },
+      ],
+      'من النار إلى الجنة — From Hell to Paradise': [
+        { arabic: 'وصف جهنم', english: 'Description of Jahannam (depth, walls, heat, food, drink)' },
+        { arabic: 'آخر من يدخل الجنة', english: 'Last person to enter Paradise' },
+        { arabic: 'وصف الجنة', english: 'Description of Jannah (shade, rivers, age of inhabitants)' },
+      ],
+      'الفقه — Fiqh (Detailed Rulings)': [
+        { arabic: 'أنواع الأحكام', english: 'Types of Islamic Rulings: Fard, Wajib, Sunnah, Nafl, Mubah, Makruh, Haram' },
+        { arabic: 'أحكام الوضوء', english: 'Wudu: Fard acts, Sunnah acts, Makruh acts' },
+        { arabic: 'أحكام الغسل', english: 'Ghusl: Fard acts, Sunnah acts, Makruh acts' },
+        { arabic: 'أحكام التيمم', english: 'Tayammum: three fard acts, what breaks it' },
+        { arabic: 'أوقات الصلاة', english: 'Times of Salah (five prayers — exact start and end times)' },
+        { arabic: 'السنن المؤكدة وغير المؤكدة', english: "Sunnah Mu'akkadah and Ghayr Mu'akkadah prayers" },
+        { arabic: 'صلاة الوتر', english: 'Witr Salah — method' },
+        { arabic: 'فرائض الصلاة', english: 'Fard acts of Salah (Takbir Tahrimah, Qiyam, Qira\'ah, Ruku, Sajdah, Qa\'dah)' },
+        { arabic: 'مفسدات الصلاة', english: 'Breakers of Salah (Mufsidat) — detailed rulings' },
+        { arabic: 'مكروهات الصلاة', english: 'Disliked acts (Makruhat) of Salah' },
+      ],
+      'اللباس الإسلامي — Islamic Dress Code': [
+        { arabic: 'التقوى واللباس', english: 'Taqwa and clothing' },
+        { arabic: 'لباس الرجال', english: "Guidelines for men's clothing (ankles, silk, shorts)" },
+        { arabic: 'الحجاب', english: "Hijab for women — who a woman doesn't wear hijab in front of" },
+      ],
+      'أحكام الصيام — Rules and Rewards for Fasting': [
+        { arabic: 'الصيام فرض', english: 'Fasting as Fard — benefits and virtues' },
+        { arabic: 'المكروهات في الصيام', english: 'Disliked actions during fasting' },
+        { arabic: 'ليلة القدر والاعتكاف', english: "Laylatul Qadr — significance, I'tikaf" },
+      ],
+      'حسن الخلق — Good Character and Sins': [
+        { arabic: 'الحسنات والسيئات', english: 'Good deeds vs. bad deeds' },
+        { arabic: 'الصدق والأمانة', english: 'Truthfulness, stealing, name-calling, bullying, vandalism' },
+        { arabic: 'الصداقة', english: 'Friendship and hurting others' },
+      ],
+      'قصص الأنبياء — Stories of the Prophets': [
+        { arabic: 'أيوب عليه السلام', english: "Ayyub (as) — patience in illness, Allah's cure, golden locusts" },
+        { arabic: 'يونس عليه السلام', english: "Yunus (as) — leaving his people, the whale, his dua, people's repentance" },
+        { arabic: 'داود وجالوت', english: "Dawud and Jalut — story of Talut's army, Dawud defeating Jalut" },
+        { arabic: 'داود عليه السلام', english: 'Dawud (as) — Zabur, iron armor, dividing his days, Sulayman as his son' },
+      ],
+      'السيرة النبوية — Seerah (Prophetic Biography)': [
+        { arabic: 'رسالة هرقل', english: "Letter to Heraclius — conversation between Heraclius and Abu Sufyan" },
+        { arabic: 'فتح مكة', english: "Conquest of Makkah — treaty violation, Abu Sufyan's visit, entering Makkah, 360 idols destroyed, Prophet's speech of forgiveness" },
+      ],
+    },
+  },
+};
+
+// Returns a flat array of all topics for a given grade + subject
+export function getTopics(grade, subject) {
+  if (!grade || !subject) return [];
+  const subjectData = curriculum[subject]?.[grade];
+  if (!subjectData) return [];
+  const topics = [];
+  for (const [category, topicList] of Object.entries(subjectData)) {
+    for (const topic of topicList) {
+      topics.push({ category, topic });
+    }
+  }
+  return topics;
+}
+
+// Returns the display label for a topic
+export function getTopicLabel(topic) {
+  if (typeof topic === 'object' && topic.arabic) {
+    return `${topic.arabic} — ${topic.english}`;
+  }
+  return topic;
+}
+
+// Returns the topic name used in the prompt (English for Islamic Studies, plain string for others)
+export function getTopicName(topic) {
+  if (typeof topic === 'object' && topic.arabic) {
+    return `${topic.arabic} — ${topic.english}`;
+  }
+  return topic;
+}
