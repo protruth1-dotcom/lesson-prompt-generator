@@ -70,7 +70,7 @@ export default function PreviewView({ promptData, onBack, onCopy, onSave, onRege
           </span>
         </div>
         <div className="flex gap-2">
-          {isDirectLesson && lessonHtml && (
+          {lessonHtml && (
             <>
               <button
                 type="button"
@@ -88,7 +88,7 @@ export default function PreviewView({ promptData, onBack, onCopy, onSave, onRege
               </button>
             </>
           )}
-          {!isDirectLesson && (
+          {!lessonHtml && (
             <>
               <button
                 type="button"
@@ -117,23 +117,17 @@ export default function PreviewView({ promptData, onBack, onCopy, onSave, onRege
         ))}
       </div>
 
-      {isDirectLesson ? (
-        lessonHtml ? (
-          <div className="paper-surface" style={{ minHeight: '70vh' }}>
-            <iframe
-              ref={iframeRef}
-              srcDoc={lessonHtml}
-              title="Lesson Preview"
-              className="w-full"
-              style={{ height: 'calc(100vh - 280px)', minHeight: '600px', border: 'none' }}
-              sandbox="allow-scripts"
-            />
-          </div>
-        ) : (
-          <div className="state-empty">
-            <p className="state-empty-message">No lesson content to display.</p>
-          </div>
-        )
+      {lessonHtml ? (
+        <div className="paper-surface" style={{ minHeight: '70vh' }}>
+          <iframe
+            ref={iframeRef}
+            srcDoc={lessonHtml}
+            title="Lesson Preview"
+            className="w-full"
+            style={{ height: 'calc(100vh - 280px)', minHeight: '600px', border: 'none' }}
+            sandbox="allow-scripts"
+          />
+        </div>
       ) : (
         <textarea
           value={editedText}
@@ -142,6 +136,21 @@ export default function PreviewView({ promptData, onBack, onCopy, onSave, onRege
           className="w-full min-h-[500px] p-4 border border-[#D6D0C2] rounded-xl bg-white-bone text-sm leading-relaxed text-ink font-mono resize-y outline-none focus:border-pencil-yellow focus:ring-2 focus:ring-post-it-yellow"
           spellCheck={false}
         />
+      )}
+
+      {!isDirectLesson && lessonHtml && (
+        <details className="mt-4">
+          <summary className="text-sm font-semibold text-ink-soft cursor-pointer hover:text-ink">
+            View Generated Prompt (for external AI use)
+          </summary>
+          <textarea
+            value={editedText}
+            onChange={(e) => setEditedText(e.target.value)}
+            aria-label="Editable prompt text"
+            className="w-full min-h-[300px] mt-2 p-4 border border-[#D6D0C2] rounded-xl bg-white-bone text-sm leading-relaxed text-ink font-mono resize-y outline-none focus:border-pencil-yellow focus:ring-2 focus:ring-post-it-yellow"
+            spellCheck={false}
+          />
+        </details>
       )}
 
       <div className="flex justify-between items-center pt-2">
@@ -171,7 +180,7 @@ export default function PreviewView({ promptData, onBack, onCopy, onSave, onRege
               ) : isDirectLesson ? 'Regenerate Lesson' : isAI ? 'Regenerate with AI' : 'Regenerate'}
             </button>
           )}
-          {isDirectLesson && lessonHtml && (
+          {lessonHtml && (
             <>
               <button
                 type="button"
@@ -189,7 +198,7 @@ export default function PreviewView({ promptData, onBack, onCopy, onSave, onRege
               </button>
             </>
           )}
-          {!isDirectLesson && (
+          {!lessonHtml && (
             <button
               type="button"
               onClick={() => onCopy(editedText)}
