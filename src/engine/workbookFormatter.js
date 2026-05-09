@@ -1,8 +1,18 @@
-export function formatWorkbook(data) {
+/**
+ * Format a workbook as standalone HTML.
+ *
+ * @param {Object} data — WorkbookData (see workbookSchema.js)
+ * @param {Object} [options]
+ * @param {boolean} [options.includeAnswerKey=false] — false for the student
+ *        workbook (default), true for the teacher version.
+ * @returns {string} self-contained HTML document
+ */
+export function formatWorkbook(data, options = {}) {
   const { meta, sections } = data;
+  const { includeAnswerKey = false } = options;
 
   const css = buildCSS();
-  const body = buildBody(meta, sections);
+  const body = buildBody(meta, sections, { includeAnswerKey });
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -834,9 +844,13 @@ function renderVocabQuestion(q) {
     `<div class="vocab-match-row"><span class="vocab-match-blank"></span> ${esc(opt)}</div>`
   ).join('');
 
-  const rightDefs = (q.options || []).map((_, i) =>
-    `<div class="vocab-match-row">${String.fromCharCode(65 + i)}. [Definition for option ${String.fromCharCode(65 + i)}]</div>`
-  ).join('');
+  const rightDefs = q.definitions
+    ? q.definitions.map((def, i) =>
+      `<div class="vocab-match-row">${String.fromCharCode(65 + i)}. ${esc(def)}</div>`
+    ).join('')
+    : (q.options || []).map((_, i) =>
+      `<div class="vocab-match-row">${String.fromCharCode(65 + i)}. [Definition for option ${String.fromCharCode(65 + i)}]</div>`
+    ).join('');
 
   return `
 <div class="quiz-question keep-together">
@@ -910,13 +924,15 @@ function renderDiagramQuestion(q) {
     `<div class="vocab-match-row"><span class="vocab-match-blank"></span> ${esc(l)}</div>`
   ).join('');
 
+  const desc = q.diagramDescription || 'Draw your work here.';
+
   return `
 <div class="quiz-question keep-together">
   <div class="quiz-question-number">Question ${q.number}</div>
   <p class="quiz-question-text">${esc(q.question)}</p>
   <div class="content-block-visual">
     <div class="visual-placeholder-icon">📐</div>
-    <p>[Diagram: Refer to lesson visual for ${esc(q.question)}]</p>
+    <p>${esc(desc)}</p>
   </div>
   <div class="vocab-matching-left">
     ${labels}

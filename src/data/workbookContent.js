@@ -17,12 +17,15 @@ export const workbookContent = {
           ],
         },
         engage: {
+          title: 'Engage — Spark Your Curiosity',
           content: 'Imagine you are listening to a friend tell you a scary story around a campfire. The fire crackles, your friend\'s voice drops to a whisper during the tense moments, and their eyes go wide at the scary part. Now imagine reading that exact same story silently in a book, alone in your room. Which version feels more frightening? Why? Stories change depending on how we experience them. A movie version might show you exactly what a character looks like, while a book leaves it to your imagination. An audiobook lets you hear the character\'s voice, but a written text lets you go back and reread your favorite parts. In this lesson, you will learn how to compare these different ways of telling the same story.',
         },
         explore: {
+          title: 'Explore — Discover for Yourself',
           content: 'Read this short text excerpt: "The door creaked open slowly. A cold breeze swept through the hallway. Maya held her breath and pressed her back against the wall. Something moved in the shadows." Now imagine seeing this scene in a movie. What would you see on the screen that the words do not tell you? What sounds would you hear? What would the actor\'s face show you? Write down at least three things the movie version could add that the text does not include. Then think: are those additions good? Do they help you understand the story better, or do they take away something from your imagination?',
         },
         explain: {
+          title: 'Explain — What You Need to Know',
           contentBlocks: [
             {
               type: 'text',
@@ -86,11 +89,13 @@ export const workbookContent = {
           },
         },
         elaborate: {
+          title: 'Elaborate — Try It Yourself',
           content: 'Choose a story you know well — it could be from a book, a movie, a video game, or a family story someone told you. Your task is to present the same story in two different ways. First, write a short summary of the story in your own words. Then, plan how you would tell the same story as an oral presentation to your class. Think about: How would you use your voice? Where would you pause for effect? What hand gestures or facial expressions would you use? How would speaking the story change the experience for your audience compared to them reading your written summary? Write both your written summary and your oral presentation plan below.',
           crossCurricular: null,
           characterBuilding: null,
         },
         summary: {
+          title: 'Summary — Key Takeaways',
           items: [
             'A story changes depending on how you experience it. Reading, watching, and listening each give you a different understanding of the same material.',
             'A visual presentation (like a movie or a picture) shows you details that the written text leaves to your imagination. This can be helpful, but it can also limit your own creativity.',
@@ -99,12 +104,20 @@ export const workbookContent = {
           ],
         },
         quiz: {
+          title: 'Quiz: Make connections between text and visual/oral presentation',
+          headerInfo: 'Name: ___________________  Date: _______________',
           questions: [
             {
               number: 1,
               type: 'vocabulary',
               question: 'Match each vocabulary word with its correct definition.',
               options: ['Visual presentation', 'Oral presentation', 'Compare', 'Media'],
+              definitions: [
+                'A way of sharing a story or information that you can see with your eyes, like a movie, a play, a diagram, or a picture.',
+                'A way of sharing a story or information that is spoken out loud, like a storyteller, an audiobook, or a speech.',
+                'To look at two or more things and notice how they are alike and how they are different.',
+                'The different ways information and stories can be shared, such as through books, movies, audio recordings, or websites.',
+              ],
               answer: 'B, D, A, C',
               explanation: 'Visual presentation (B) is something you see. Oral presentation (D) is spoken. Compare (A) means to look for similarities and differences. Media (C) refers to different ways stories can be shared.',
             },
@@ -145,6 +158,7 @@ export const workbookContent = {
               type: 'diagramVisual',
               question: 'Think about the story of The Three Little Pigs. Draw a simple picture of one scene below, labeling the parts that would be the same in both a written version and a visual version.',
               diagramLabels: ['The setting (where the story happens)', 'The character (who is in this scene)', 'The action (what is happening)'],
+              diagramDescription: 'Draw your picture here. Label the setting, character, and action.',
               answer: 'Any drawing that shows a scene from the story with the three labeled parts. The setting, character, and action should be visible.',
               explanation: 'Whether you read about the three pigs building their houses or watch it in a cartoon, certain core elements stay the same: the setting (a countryside with three houses), the characters (the pigs and the wolf), and the action (building houses and the wolf trying to blow them down). These are the bones of the story that every version shares.',
             },
@@ -213,12 +227,15 @@ export const workbookContent = {
           ],
         },
         engage: {
+          title: 'Engage — Spark Your Curiosity',
           content: 'Two students are arguing about a story they both just read. Alex says, "The main character is really kind." Jordan says, "I disagree — I think the character is selfish." Who is right? How could they settle this argument? Alex could say, "On page 12, the character shares their lunch with a student who forgot theirs." Now Alex has used a specific detail from the text to back up their claim. This is exactly what strong readers do — they do not just state their opinions. They point to the text and say, "Look, right here. This is my evidence." In this lesson, you will learn how to find and use details from a text to explain and support your ideas.',
         },
         explore: {
+          title: 'Explore — Discover for Yourself',
           content: 'Read this short passage: "Lena walked into the classroom and noticed a new student sitting alone in the back corner. The new student looked down at their desk and did not make eye contact with anyone. Lena took a deep breath, walked over, and said, \'Hi, I\'m Lena. Do you want to sit with me and my friends at lunch?\'" Now answer these two questions: First, what kind of person is Lena? Write your answer in one sentence. Second, which specific words or details from the passage helped you figure that out? Underline or list the exact parts of the text that gave you your answer. Notice how much stronger your answer feels when you point to the text instead of just guessing.',
         },
         explain: {
+          title: 'Explain — What You Need to Know',
           contentBlocks: [
             {
               type: 'text',
@@ -282,11 +299,13 @@ export const workbookContent = {
           },
         },
         elaborate: {
+          title: 'Elaborate — Try It Yourself',
           content: 'Read the short story below. Then, write a paragraph that answers this question: What kind of friend is Marcus? Your paragraph must include a clear claim, at least one specific detail from the text, and an explanation of how that detail supports your claim. Underline the detail you chose from the text.\n\n---\n\nStory: "Marcus saw that Jamal had dropped his notebook in the hallway. Papers were scattered everywhere, and students were stepping on them as they rushed to class. Marcus stopped, even though the bell was about to ring. He knelt down and helped Jamal gather every single paper. Then he walked with Jamal to class, even though it meant they would both be late."\n\n---\n\nNow write your paragraph below.',
           crossCurricular: null,
           characterBuilding: null,
         },
         summary: {
+          title: 'Summary — Key Takeaways',
           items: [
             'Referring to details and examples in a text means pointing to specific words, sentences, or scenes that support your explanation of what the text says.',
             'The claim-detail-explanation formula helps you build strong written responses: state your idea, give evidence from the text, and explain how the evidence supports your idea.',
@@ -295,12 +314,20 @@ export const workbookContent = {
           ],
         },
         quiz: {
+          title: 'Quiz: Refer to details and examples in a text when explaining',
+          headerInfo: 'Name: ___________________  Date: _______________',
           questions: [
             {
               number: 1,
               type: 'vocabulary',
               question: 'Match each word with its correct definition.',
               options: ['Detail', 'Example', 'Claim', 'Evidence'],
+              definitions: [
+                'A small, specific piece of information in a text, such as a character\'s action, a descriptive word, or a line of dialogue.',
+                'A larger piece of evidence from the text, like a full scene, a paragraph, or a pattern of events that supports your idea.',
+                'A statement about the text that you believe is true and that you can support with evidence from the text.',
+                'The specific details and examples from the text that you use to prove your claim is correct.',
+              ],
               answer: 'C, B, A, D',
               explanation: 'Detail (C): A small, specific piece of information. Example (B): A larger piece of evidence like a paragraph or scene. Claim (A): A statement about the text you believe is true. Evidence (D): The details and examples you use to prove your claim.',
             },
@@ -340,6 +367,7 @@ export const workbookContent = {
               type: 'diagramVisual',
               question: 'Draw a simple three-part diagram below showing the claim-detail-explanation formula. Label each part and write your own example for a story you know.',
               diagramLabels: ['Claim', 'Detail from Text', 'Explanation'],
+              diagramDescription: 'Draw your three-part diagram here. Label each box and write your example inside.',
               answer: 'A diagram with three connected boxes showing: (1) a claim about a character or story, (2) a specific detail from the text that supports it, and (3) an explanation of how the detail proves the claim.',
               explanation: 'The claim-detail-explanation formula helps organize your thinking. Each part builds on the one before it — the claim states your idea, the detail provides evidence, and the explanation ties them together.',
             },
