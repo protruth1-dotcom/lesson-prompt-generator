@@ -13,12 +13,25 @@ const ERROR_MESSAGES = {
 };
 
 function extractContent(data) {
-  const content = data?.choices?.[0]?.message?.content
+  const raw = data?.choices?.[0]?.message?.content
     || data?.choices?.[0]?.text
     || data?.content
     || data?.response;
-  if (content) return content;
-  return null;
+  if (!raw) return null;
+
+  let content = raw.trim();
+
+  if (content.startsWith('```html')) {
+    content = content.slice(7);
+  } else if (content.startsWith('```')) {
+    content = content.slice(3);
+  }
+
+  if (content.endsWith('```')) {
+    content = content.slice(0, -3);
+  }
+
+  return content.trim();
 }
 
 export function useOpenAI() {
