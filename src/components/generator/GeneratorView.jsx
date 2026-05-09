@@ -71,13 +71,13 @@ export default function GeneratorView({ form, onGenerate, onCancel, onDismissErr
             onChange={form.setPromptMode}
           />
           {isAIMode && (
-            <p className="text-xs text-slate-500">
+            <p className="text-xs text-ink-soft">
               {hasApiKey
                 ? isDirectLesson
                   ? 'Generates the complete lesson workbook directly using your API key.'
                   : 'Uses your API key to craft a custom prompt tailored to your topic.'
                 : (
-                  <span className="text-amber-600">
+                  <span className="text-apple-red">
                     API key required. Open Settings (gear icon) to add your API key.
                   </span>
                 )

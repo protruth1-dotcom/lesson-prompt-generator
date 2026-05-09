@@ -75,18 +75,14 @@ export default function PreviewView({ promptData, onBack, onCopy, onSave, onRege
               <button
                 type="button"
                 onClick={handleCopyHTML}
-                className={`px-4 py-2 rounded-lg text-sm font-medium border transition-all cursor-pointer ${
-                  saved
-                    ? 'bg-emerald-50 text-emerald-600 border-emerald-200'
-                    : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
-                }`}
+                className={`btn-secondary ${saved ? 'bg-stamp-green text-white border-stamp-green' : ''}`}
               >
                 {saved ? 'Copied HTML!' : 'Copy HTML'}
               </button>
               <button
                 type="button"
                 onClick={handleDownloadPDF}
-                className="px-4 py-2 rounded-lg text-sm font-medium bg-primary-600 text-white hover:bg-primary-700 transition-all cursor-pointer"
+                className="btn-primary"
               >
                 Download PDF
               </button>
@@ -97,22 +93,14 @@ export default function PreviewView({ promptData, onBack, onCopy, onSave, onRege
               <button
                 type="button"
                 onClick={() => onCopy(editedText)}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer ${
-                  copied
-                    ? 'bg-emerald-500 text-white'
-                    : 'bg-primary-600 text-white hover:bg-primary-700'
-                }`}
+                className={`btn-primary ${copied ? 'bg-stamp-green' : ''}`}
               >
                 {copied ? 'Copied!' : 'Copy to Clipboard'}
               </button>
               <button
                 type="button"
                 onClick={handleSave}
-                className={`px-4 py-2 rounded-lg text-sm font-medium border transition-all cursor-pointer ${
-                  saved
-                    ? 'bg-emerald-50 text-emerald-600 border-emerald-200'
-                    : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
-                }`}
+                className={`btn-secondary ${saved ? 'bg-stamp-green text-white border-stamp-green' : ''}`}
               >
                 {saved ? 'Saved!' : 'Save to History'}
               </button>
