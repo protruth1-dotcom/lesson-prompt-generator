@@ -8,7 +8,7 @@ import { loadSettings } from '../../utils/settings';
 
 const promptModes = ['Template', 'AI Generated'];
 
-export default function GeneratorView({ form, onGenerate, onCancel, loading }) {
+export default function GeneratorView({ form, onGenerate, onCancel, onDismissError, loading, error }) {
   const settings = loadSettings();
   const hasApiKey = !!settings.apiKey;
   const isAIMode = form.promptMode === 'AI Generated';
@@ -107,6 +107,28 @@ export default function GeneratorView({ form, onGenerate, onCancel, loading }) {
           >
             Cancel
           </button>
+        </div>
+      ) : error ? (
+        <div className="bg-red-50 border border-red-200 rounded-xl p-4">
+          <div className="flex items-start gap-2">
+            <svg className="w-4 h-4 text-red-500 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <div className="flex-1">
+              <p className="text-sm font-medium text-red-700">Generation failed</p>
+              <p className="text-xs text-red-500 mt-1">{error}</p>
+            </div>
+            <button
+              type="button"
+              onClick={onDismissError}
+              className="text-red-400 hover:text-red-600 cursor-pointer shrink-0"
+              aria-label="Dismiss error"
+            >
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
         </div>
       ) : (
         <button

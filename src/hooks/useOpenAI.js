@@ -5,12 +5,21 @@ const ERROR_MESSAGES = {
   no_key: 'Please add your API key in Settings to use AI-generated prompts.',
   401: 'Invalid API key. Please check your key in Settings.',
   429: 'Too many requests. Please wait a moment and try again.',
-  network: 'Could not connect to the API. Please check your internet connection and base URL.',
+  network: 'Could not connect to the API. Check your base URL and internet connection.',
   timeout: 'Request timed out. The AI may be busy — please try again.',
-  content_filter: 'The AI could not generate this prompt. Please try again or use Template mode.',
+  empty_response: 'The AI returned an empty response. Check your model name and base URL.',
   insufficient_quota: 'Your account has insufficient credits. Please check your billing.',
   unknown: 'Something went wrong. Please try again or switch to Template mode.',
 };
+
+function extractContent(data) {
+  const content = data?.choices?.[0]?.message?.content
+    || data?.choices?.[0]?.text
+    || data?.content
+    || data?.response;
+  if (content) return content;
+  return null;
+}
 
 export function useOpenAI() {
   const [loading, setLoading] = useState(false);
@@ -31,8 +40,10 @@ export function useOpenAI() {
     abortRef.current = controller;
     const timeoutId = setTimeout(() => controller.abort(), 60000);
 
+    const baseUrl = settings.baseUrl.replace(/\/+$/, '');
+
     try {
-      const res = await fetch(`${settings.baseUrl}/chat/completions`, {
+      const res = await fetch(`${baseUrl}/chat/completions`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -59,29 +70,35 @@ export function useOpenAI() {
       clearTimeout(timeoutId);
 
       if (!res.ok) {
-        if (res.status === 401) {
-          setError(ERROR_MESSAGES[401]);
-        } else if (res.status === 429) {
-          setError(ERROR_MESSAGES[429]);
-        } else if (res.status === 402) {
-          setError(ERROR_MESSAGES.insufficient_quota);
-        } else {
-          setError(ERROR_MESSAGES.unknown);
-        }
+        let detail = '';
+        try {
+          const errData = await res.json();
+          detail = errData?.error?.message || errData?.message || '';
+        } catch {}
+        const msg = detail ? `API error: ${detail}` : ERROR_MESSAGES[res.status] || ERROR_MESSAGES.unknown;
+        setError(msg);
         setLoading(false);
         return null;
       }
 
       const data = await res.json();
 
-      if (!data.choices?.[0]?.message?.content) {
-        setError(ERROR_MESSAGES.content_filter);
+      if (data?.error) {
+        setError(data.error.message || 'API returned an error. Check your model name and base URL.');
+        setLoading(false);
+        return null;
+      }
+
+      const content = extractContent(data);
+
+      if (!content) {
+        setError(ERROR_MESSAGES.empty_response);
         setLoading(false);
         return null;
       }
 
       setLoading(false);
-      return data.choices[0].message.content;
+      return content;
     } catch (err) {
       clearTimeout(timeoutId);
       if (err.name === 'AbortError') {
