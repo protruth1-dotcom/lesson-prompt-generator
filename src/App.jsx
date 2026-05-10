@@ -13,6 +13,8 @@ import { buildPrompt } from './engine/promptBuilder';
 import { buildMetaPrompt } from './engine/metaPromptBuilder';
 import { buildLessonPrompt } from './engine/lessonBuilder';
 import { buildWorkbookData } from './engine/workbookSchema';
+import { buildWorkbookV2Data } from './data/workbookContentV2';
+import { formatWorkbookV2 } from './engine/workbookFormatterV2';
 import { formatWorkbook } from './engine/workbookFormatter';
 
 export default function App() {
@@ -68,6 +70,16 @@ export default function App() {
       } else if (openai.error) {
         showToast(openai.error);
       }
+    } else if (form.promptMode === 'Ready-made Workbook') {
+      const prompt = buildPrompt(form);
+      const workbookData = buildWorkbookV2Data(form);
+      if (!workbookData) {
+        showToast('No ready-made workbook available for this topic yet.');
+        return;
+      }
+      const workbookHtml = formatWorkbookV2(workbookData);
+      setPromptData({ ...data, promptText: prompt, workbookData, lessonHtml: workbookHtml, promptMode: 'Ready-made Workbook' });
+      setActiveView('preview');
     } else {
       const prompt = buildPrompt(form);
       const workbookData = buildWorkbookData(form);
@@ -91,7 +103,16 @@ export default function App() {
     }
     rateLimitRef.current = now;
 
-    if (promptData.promptMode === 'AI Generated' || promptData.promptMode === 'AI Prompt') {
+    if (promptData.promptMode === 'Ready-made Workbook') {
+      const prompt = buildPrompt(form);
+      const workbookData = buildWorkbookV2Data(form);
+      if (!workbookData) {
+        showToast('No ready-made workbook available for this topic yet.');
+        return;
+      }
+      const workbookHtml = formatWorkbookV2(workbookData);
+      setPromptData((prev) => ({ ...prev, promptText: prompt, workbookData, lessonHtml: workbookHtml }));
+    } else if (promptData.promptMode === 'AI Generated' || promptData.promptMode === 'AI Prompt') {
       const metaPrompt = buildMetaPrompt(form);
       const result = await openai.generate(metaPrompt);
       if (result) {
@@ -109,13 +130,7 @@ export default function App() {
       }
     } else {
       const prompt = buildPrompt(form);
-      const workbookData = buildWorkbookData(form);
-      if (!workbookData) {
-        showToast('No workbook content available for this topic yet.');
-        return;
-      }
-      const workbookHtml = formatWorkbook(workbookData);
-      setPromptData((prev) => ({ ...prev, promptText: prompt, workbookData, lessonHtml: workbookHtml }));
+      setPromptData((prev) => ({ ...prev, promptText: prompt, workbookData: null, lessonHtml: '' }));
     }
   }, [form, promptData, openai, showToast]);
 

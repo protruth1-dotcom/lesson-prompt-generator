@@ -15,6 +15,7 @@ export default function PreviewView({ promptData, onBack, onCopy, onSave, onRege
 
   const isAI = promptData.promptMode === 'AI Generated' || promptData.promptMode === 'AI Prompt';
   const isDirectLesson = promptData.promptMode === 'Direct Lesson';
+  const isReadyMade = promptData.promptMode === 'Ready-made Workbook';
   const lessonHtml = promptData.lessonHtml || '';
 
   const handleSave = () => {
@@ -61,12 +62,12 @@ export default function PreviewView({ promptData, onBack, onCopy, onSave, onRege
         </button>
         <div className="flex items-center gap-2">
           <h2 className="text-lg font-semibold text-ink">
-            {isDirectLesson ? 'Lesson Preview' : 'Prompt Preview'}
+            {isReadyMade ? 'Workbook Preview' : isDirectLesson ? 'Lesson Preview' : 'Prompt Preview'}
           </h2>
           <span className={`badge ${
-            isDirectLesson ? 'state-ai-indicator--direct-lesson' : isAI ? 'state-ai-indicator' : ''
+            isReadyMade ? 'state-ai-indicator--direct-lesson' : isDirectLesson ? 'state-ai-indicator--direct-lesson' : isAI ? 'state-ai-indicator' : ''
           }`}>
-            {isDirectLesson ? 'Direct Lesson' : isAI ? 'AI Prompt' : 'Template'}
+            {isReadyMade ? 'Ready-Made' : isDirectLesson ? 'Direct Lesson' : isAI ? 'AI Prompt' : 'Template'}
           </span>
         </div>
         <div className="flex gap-2">
@@ -138,7 +139,7 @@ export default function PreviewView({ promptData, onBack, onCopy, onSave, onRege
         />
       )}
 
-      {!isDirectLesson && lessonHtml && (
+      {!isDirectLesson && !isReadyMade && lessonHtml && editedText && (
         <details className="mt-4">
           <summary className="text-sm font-semibold text-ink-soft cursor-pointer hover:text-ink">
             View Generated Prompt (for external AI use)
