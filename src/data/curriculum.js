@@ -374,6 +374,9 @@ export const curriculum = {
 
   'Islamic Studies': {
     '4th Grade': {
+      'تفسير القرآن — Quran Tafsir': [
+        { arabic: 'سورة العصر', english: 'Surah Al-Asr: Reflection and Time' },
+      ],
       'أسماء الله الحسنى — Names of Allah': [
         { arabic: 'الغَفَّار', english: 'Al-Ghaffar (The All-Forgiving) — story of the man who killed 99 people' },
         { arabic: 'المُنتَقِم', english: 'Al-Muntaqim (The Avenger) — story of Prophet Salih and Thamud' },
