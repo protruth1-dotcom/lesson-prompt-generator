@@ -149,7 +149,7 @@ export const pilotWorkbooks = {
               { number: 2, questionType: 'fillBlank', question: 'To compare 2/3 and 5/8, find a common denominator. The LCM of 3 and 8 is _____.', wordBank: ['12', '16', '24', '48'], answer: '24', explanation: '24 is the smallest number divisible by both 3 and 8.' },
               { number: 3, questionType: 'trueFalse', question: 'If two fractions have the same numerator, the fraction with the smaller denominator is greater.', answer: 'True', explanation: 'Smaller denominator means bigger pieces. 3/4 > 3/8 because fourths are larger than eighths.' },
               { number: 4, questionType: 'shortAnswer', question: 'A recipe calls for 2/3 cup flour. You have a 1/2 cup measure. Is one 1/2 cup enough? Compare and explain.', answer: 'No. 1/2 = 3/6 and 2/3 = 4/6. One 1/2 cup gives 3/6 but 4/6 is needed.', ruledLines: 4 },
-              { number: 5, questionType: 'labeling', question: 'Draw a number line from 0 to 1. Mark and label: 1/2, 2/3, 3/4. Write the fractions in order from least to greatest.', labels: ['1/2', '2/3', '3/4'], answer: '1/2 < 2/3 < 3/4', diagramDescription: 'Draw your number line here. Mark three points.' },
+              { number: 5, questionType: 'labeling', question: 'Draw a number line from 0 to 1. Mark and label: 1/2, 2/3, 3/4. Write the fractions in order from least to greatest.', labels: ['1/2', '2/3', '3/4'], answer: '1/2 < 2/3 < 3/4', diagramDescription: 'Draw your number line here. Mark three points.', diagramType: 'number-line' },
             ],
             answerKey: [
               { number: 1, correctAnswer: 'A', explanation: '3/5 = 21/35 and 4/7 = 20/35, so 3/5 is greater.' },

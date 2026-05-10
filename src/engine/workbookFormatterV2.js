@@ -787,7 +787,9 @@ function renderQuizItem(q) {
           <span style="display:inline-block;width:22px;border-bottom:1px solid var(--ink);text-align:center;"></span> ${esc(l)}
         </div>`
       ).join('');
-      if (q.diagramDescription) {
+      if (q.diagramType === 'number-line') {
+        responseArea = renderNumberLine() + responseArea;
+      } else if (q.diagramDescription) {
         responseArea = `
 <div class="diagram-placeholder" style="margin-bottom:8px;">
   <div style="font-size:1.2rem;">📐</div>
@@ -867,8 +869,42 @@ function getDiagramIcon(type) {
 function renderFormatterShape(block) {
   switch (block.diagramType) {
     case 'fraction-bar': return renderFractionBars(block);
+    case 'number-line': return renderNumberLine(block);
     default: return null;
   }
+}
+
+function renderNumberLine() {
+  const w = 440;
+  const h = 110;
+  const padX = 50;
+  const padY = 20;
+  const lineY = padY + 36;
+  const lineW = w - padX * 2 + 10;
+
+  return `
+<div class="block-diagram keep-together" style="background:white;padding:8px 0;">
+  <svg viewBox="0 0 ${w} ${h}" width="100%" style="max-width:${w}px;font-family:var(--font-heading);">
+    <!-- main line -->
+    <line x1="${padX}" y1="${lineY}" x2="${padX + lineW}" y2="${lineY}" stroke="#2D8B8B" stroke-width="2"/>
+    <!-- endpoints -->
+    <line x1="${padX}" y1="${lineY - 6}" x2="${padX}" y2="${lineY + 6}" stroke="#2D8B8B" stroke-width="2"/>
+    <text x="${padX}" y="${lineY + 22}" text-anchor="middle" font-size="12" font-weight="600" fill="#1F2937">0</text>
+    <line x1="${padX + lineW}" y1="${lineY - 6}" x2="${padX + lineW}" y2="${lineY + 6}" stroke="#2D8B8B" stroke-width="2"/>
+    <text x="${padX + lineW}" y="${lineY + 22}" text-anchor="middle" font-size="12" font-weight="600" fill="#1F2937">1</text>
+    <!-- 1/2 -->
+    <line x1="${padX + lineW * 0.5}" y1="${lineY - 10}" x2="${padX + lineW * 0.5}" y2="${lineY + 10}" stroke="#DC2626" stroke-width="1.5"/>
+    <text x="${padX + lineW * 0.5}" y="${lineY - 18}" text-anchor="middle" font-size="11" font-weight="600" fill="#DC2626">1/2</text>
+    <!-- 2/3 -->
+    <line x1="${padX + lineW * 0.667}" y1="${lineY - 10}" x2="${padX + lineW * 0.667}" y2="${lineY + 10}" stroke="#2563EB" stroke-width="1.5"/>
+    <text x="${padX + lineW * 0.667}" y="${lineY - 18}" text-anchor="middle" font-size="11" font-weight="600" fill="#2563EB">2/3</text>
+    <!-- 3/4 -->
+    <line x1="${padX + lineW * 0.75}" y1="${lineY - 10}" x2="${padX + lineW * 0.75}" y2="${lineY + 10}" stroke="#059669" stroke-width="1.5"/>
+    <text x="${padX + lineW * 0.75}" y="${lineY - 18}" text-anchor="middle" font-size="11" font-weight="600" fill="#059669">3/4</text>
+
+    <text x="${w / 2}" y="${lineY + 50}" text-anchor="middle" font-size="11" fill="#6B7280">Order from least to greatest:</text>
+  </svg>
+</div>`;
 }
 
 function renderFractionBars(block) {
