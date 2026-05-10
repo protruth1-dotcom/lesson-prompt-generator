@@ -908,7 +908,7 @@ function renderFormatterShape(block) {
 
 function renderNumberLine() {
   const w = 440;
-  const h = 90;
+  const h = 110;
   const padX = 45;
   const padY = 22;
   const lineY = padY + 28;
@@ -923,9 +923,9 @@ function renderNumberLine() {
     <line x1="${padX + lineW}" y1="${lineY - 6}" x2="${padX + lineW}" y2="${lineY + 6}" stroke="#2D8B8B" stroke-width="2"/>
     <text x="${padX + lineW}" y="${lineY + 22}" text-anchor="middle" font-size="12" font-weight="600" fill="#1F2937">1</text>
     <line x1="${padX + lineW * 0.5}" y1="${lineY - 10}" x2="${padX + lineW * 0.5}" y2="${lineY + 10}" stroke="#4B5563" stroke-width="1.5"/>
-    <text x="${padX + lineW * 0.5}" y="${lineY - 22}" text-anchor="middle" font-size="12" font-weight="600" fill="#4B5563">1</text>
-    <line x1="${padX + lineW * 0.5 - 8}" y1="${lineY - 15}" x2="${padX + lineW * 0.5 + 8}" y2="${lineY - 15}" stroke="#4B5563" stroke-width="1.2"/>
-    <text x="${padX + lineW * 0.5}" y="${lineY - 4}" text-anchor="middle" font-size="12" font-weight="600" fill="#4B5563">2</text>
+    <text x="${padX + lineW * 0.5}" y="${lineY + 30}" text-anchor="middle" font-size="12" font-weight="600" fill="#4B5563">1</text>
+    <line x1="${padX + lineW * 0.5 - 8}" y1="${lineY + 37}" x2="${padX + lineW * 0.5 + 8}" y2="${lineY + 37}" stroke="#4B5563" stroke-width="1.2"/>
+    <text x="${padX + lineW * 0.5}" y="${lineY + 48}" text-anchor="middle" font-size="12" font-weight="600" fill="#4B5563">2</text>
   </svg>
 </div>`;
 }
