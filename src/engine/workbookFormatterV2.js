@@ -911,8 +911,8 @@ function getDiagramIcon(type) {
 function renderFormatterShape(block) {
   switch (block.diagramType) {
     case 'fraction-bar': return renderFractionBars(block);
-    case 'number-line': return renderNumberLine(block);
-    case 'ramp-energy': return renderRampEnergyDiagram(block);
+    case 'number-line': return renderNumberLine(block.diagramData || {});
+    case 'ramp-energy': return renderRampExperiment(block);
     default: return null;
   }
 }
@@ -954,6 +954,60 @@ function renderNumberLine(data) {
 </div>`;
 }
 
+function renderRampExperiment(block) {
+  const w = 640;
+  const h = 310;
+
+  const r = 9;
+  const floorY = 240;
+
+  function drawSetup(ox, releaseH, rampLength, labelH, labelS, labelD) {
+    const rampTopX = ox + 15;
+    const rampTopY = floorY - releaseH;
+    const rampBotX = rampTopX + rampLength;
+    const angle = Math.atan2(floorY - rampTopY, rampBotX - rampTopX);
+    const ballX = rampTopX + 10 + r * Math.sin(angle);
+    const ballY = rampTopY + r * Math.cos(angle);
+    const cupX = rampBotX + 25;
+    const cupW = 22;
+    const cupH = 18;
+
+    return `
+      <text x="${ox + 15 + rampLength / 2}" y="${20}" text-anchor="middle" font-size="13" font-weight="700" fill="#1F2937">${labelH}</text>
+
+      <line x1="${rampTopX}" y1="${rampTopY}" x2="${rampBotX}" y2="${floorY}" stroke="#4B5563" stroke-width="3" stroke-linecap="round"/>
+      <line x1="${ox - 5}" y1="${floorY}" x2="${cupX + cupW + 10}" y2="${floorY}" stroke="#9CA3AF" stroke-width="1.5"/>
+      <line x1="${rampTopX - 5}" y1="${rampTopY}" x2="${rampTopX - 5}" y2="${floorY + 14}" stroke="#9CA3AF" stroke-width="0.8" stroke-dasharray="3,3"/>
+      <text x="${rampTopX - 8}" y="${rampTopY + (floorY - rampTopY) / 2}" text-anchor="end" font-size="10" fill="#4B5563">${releaseH} cm</text>
+
+      <circle cx="${ballX}" cy="${ballY}" r="${r}" fill="#2D8B8B" fill-opacity="0.35" stroke="#2D8B8B" stroke-width="1.5"/>
+      <circle cx="${ballX}" cy="${ballY}" r="2" fill="#1A5C5C"/>
+
+      <path d="M${rampBotX + 4},${floorY - 2} L${rampBotX + 8},${floorY - 2} L${rampBotX + 12},${floorY - 2.5} Q${cupX + cupW / 2},${floorY - 12} ${rampBotX + 14},${floorY - 5} L${rampBotX + 40},${floorY - 3}" fill="none" stroke="#2D8B8B" stroke-width="1.5"/>
+      <polygon points="${cupX + 38},${floorY - 5} ${cupX + 34},${floorY - 2} ${cupX + 34},${floorY - 8}" fill="#2D8B8B"/>
+
+      <rect x="${cupX}" y="${floorY - cupH}" width="${cupW}" height="${cupH}" rx="2" fill="#F5F0E6" stroke="#4B5563" stroke-width="1.5"/>
+      <text x="${cupX + cupW / 2}" y="${floorY - cupH / 2 + 4}" text-anchor="middle" font-size="8" fill="#4B5563">cup</text>
+
+      <text x="${ox + 15 + rampLength / 2}" y="${floorY + 28}" text-anchor="middle" font-size="10" font-weight="600" fill="#4B5563">${labelS}</text>
+      <text x="${ox + 15 + rampLength / 2}" y="${floorY + 42}" text-anchor="middle" font-size="9" fill="#6B7280">${labelD}</text>
+    `;
+  }
+
+  const left = drawSetup(20, 90, 160, 'Trial: lower release height', 'slower motion', 'cup moves 12 cm');
+  const right = drawSetup(330, 200, 160, 'Trial: higher release height', 'faster motion', 'cup moves 51 cm');
+
+  return `
+<div class="block-diagram keep-together" style="background:white;padding:8px 0;">
+  <svg viewBox="0 0 ${w} ${h}" width="100%" style="max-width:${w}px;font-family:var(--font-heading);">
+    <text x="${w / 2}" y="18" text-anchor="middle" font-size="14" font-weight="700" fill="#1F2937">Classroom Ramp Experiment</text>
+    ${left}
+    ${right}
+  </svg>
+  ${block.caption ? `<p class="diagram-caption">${renderText(block.caption)}</p>` : ''}
+</div>`;
+}
+
 function renderFractionBars(block) {
   const source = block.diagramData || {};
   const bars = source.bars || [
@@ -987,46 +1041,6 @@ function renderFractionBars(block) {
 <div class="block-diagram keep-together" style="background:white;padding:12px 0;">
   <svg viewBox="0 0 ${svgW} ${svgH}" width="100%" style="max-width:${svgW}px;font-family:var(--font-heading);">
     ${rows}
-  </svg>
-  ${block.caption ? `<p class="diagram-caption">${renderText(block.caption)}</p>` : ''}
-</div>`;
-}
-
-function renderRampEnergyDiagram(block) {
-  const source = block.diagramData || {};
-  const rows = source.trials || [
-    { label: 'Low release', heightLabel: '10 cm', speedLabel: 'slower', distanceLabel: 'cup moves 12 cm', color: '#2D8B8B' },
-    { label: 'High release', heightLabel: '30 cm', speedLabel: 'faster', distanceLabel: 'cup moves 51 cm', color: '#6C8E3F' },
-  ];
-  const w = 620;
-  const rowH = 150;
-  const h = 32 + rows.length * rowH;
-  const drawings = rows.map((row, i) => {
-    const y = 30 + i * rowH;
-    const color = row.color || (i % 2 === 0 ? '#2D8B8B' : '#6C8E3F');
-    const cupX = row.distance === 'far' ? 520 : 455;
-    const arrowEnd = row.distance === 'far' ? 500 : 430;
-    return `
-    <text x="34" y="${y + 6}" font-size="14" font-weight="700" fill="#1F2937">${esc(row.label)}</text>
-    <line x1="70" y1="${y + 92}" x2="260" y2="${y + 30}" stroke="#4B5563" stroke-width="4" stroke-linecap="round"/>
-    <circle cx="112" cy="${y + 78}" r="11" fill="${color}" fill-opacity="0.65" stroke="${color}" stroke-width="2"/>
-    <text x="82" y="${y + 122}" font-size="12" fill="#4B5563">${esc(row.heightLabel)}</text>
-    <line x1="270" y1="${y + 92}" x2="${arrowEnd}" y2="${y + 92}" stroke="${color}" stroke-width="3" marker-end="url(#arrowhead)"/>
-    <text x="306" y="${y + 82}" font-size="13" font-weight="700" fill="${color}">${esc(row.speedLabel)}</text>
-    <rect x="${cupX}" y="${y + 70}" width="34" height="42" rx="4" fill="#F8FAFC" stroke="#4B5563" stroke-width="2"/>
-    <text x="${cupX + 17}" y="${y + 130}" text-anchor="middle" font-size="12" fill="#4B5563">${esc(row.distanceLabel)}</text>`;
-  }).join('\n');
-
-  return `
-<div class="block-diagram keep-together" style="background:white;padding:12px 0;">
-  <svg viewBox="0 0 ${w} ${h}" width="100%" style="max-width:${w}px;font-family:var(--font-heading);">
-    <defs>
-      <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
-        <polygon points="0 0, 10 3.5, 0 7" fill="#2D8B8B"/>
-      </marker>
-    </defs>
-    <text x="310" y="18" text-anchor="middle" font-size="15" font-weight="700" fill="#1F2937">Ramp Model: Speed Changes Impact</text>
-    ${drawings}
   </svg>
   ${block.caption ? `<p class="diagram-caption">${renderText(block.caption)}</p>` : ''}
 </div>`;
