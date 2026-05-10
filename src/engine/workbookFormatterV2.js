@@ -875,27 +875,36 @@ function renderFractionBars(block) {
   const barW = 360;
   const barH = 32;
   const gap = 20;
-  const labelH = 20;
-  const padX = 60;
-  const padY = 20;
-  const h = padY * 2 + barH * 2 + gap + labelH * 2 + 16;
+  const labelH = 22;
+  const padX = 64;
+  const padY = 24;
+  const svgW = 500;
+  const svgH = padY * 2 + barH * 2 + gap + labelH * 2 + 24;
 
   return `
 <div class="block-diagram keep-together" style="background:white;padding:12px 0;">
-  <svg viewBox="0 0 480 ${h}" width="100%" style="max-width:480px;font-family:var(--font-heading);">
-    <text x="${padX}" y="${padY + barH - 8}" font-size="13" fill="#1F2937">2/3</text>
-    ${renderBar(padX + 36, padY, barW, barH, 3, 2, '#2D8B8B')}
+  <svg viewBox="0 0 ${svgW} ${svgH}" width="100%" style="max-width:${svgW}px;font-family:var(--font-heading);">
+    ${stackedFrac(2, 3, padX - 4, padY + barH / 2, 16)}
+    ${renderBar(padX + 20, padY, barW, barH, 3, 2, '#2D8B8B')}
 
-    <text x="${padX}" y="${padY + barH + gap + labelH + barH - 8}" font-size="13" fill="#1F2937">3/4</text>
-    ${renderBar(padX + 36, padY + barH + gap + labelH, barW, barH, 4, 3, '#2D8B8B')}
+    ${stackedFrac(3, 4, padX - 4, padY + barH + gap + labelH + barH / 2, 16)}
+    ${renderBar(padX + 20, padY + barH + gap + labelH, barW, barH, 4, 3, '#2D8B8B')}
 
-    <text x="${padX + 36 + barW / 2}" y="${padY + barH + gap + 8}" text-anchor="middle" font-size="11" fill="#6B7280">=
-    </text>
-    <text x="${padX + 36}" y="${padY + barH + gap + labelH - 4}" font-size="10" fill="#6B7280">8/12</text>
-    <text x="${padX + 36}" y="${padY + barH * 2 + gap + labelH * 2 - 4}" font-size="10" fill="#6B7280">9/12</text>
+    <text x="${padX + 20 + barW / 2}" y="${padY + barH + gap + 10}" text-anchor="middle" font-size="12" fill="#6B7280">=</text>
+    ${stackedFrac(8, 12, padX + 20, padY + barH + gap - 2, 11, '#6B7280')}
+    ${stackedFrac(9, 12, padX + 20, padY + barH * 2 + gap + labelH - 2, 11, '#6B7280')}
   </svg>
   ${block.caption ? `<p class="diagram-caption">${esc(block.caption)}</p>` : ''}
 </div>`;
+}
+
+function stackedFrac(n, d, x, y, size, color) {
+  color = color || '#1F2937';
+  const dy = size * 0.6;
+  return `
+<text x="${x}" y="${y - 2}" text-anchor="end" font-size="${size}" font-weight="600" fill="${color}">${n}</text>
+<line x1="${x - size * 0.65}" y1="${y + dy * 0.15}" x2="${x + 2}" y2="${y + dy * 0.15}" stroke="${color}" stroke-width="1.2"/>
+<text x="${x}" y="${y + dy + 2}" text-anchor="end" font-size="${size}" font-weight="600" fill="${color}">${d}</text>`;
 }
 
 function renderBar(x, y, w, h, parts, shaded, color) {
