@@ -956,51 +956,54 @@ function renderNumberLine(data) {
 
 function renderRampExperiment(block) {
   const w = 640;
-  const h = 310;
-  const r = 9;
-  const floorY = 240;
+  const h = 280;
+  const r = 8;
+  const floorY = 215;
   const data = block.diagramData || {};
   const trials = data.trials || [];
 
-  function drawSetup(ox, releaseH, rampLength, title, heightLabel, speedLabel, distanceLabel) {
-    const rampTopX = ox + 15;
+  function drawSetup(ox, releaseH, rampLength, trial) {
+    const rampTopX = ox + 20;
     const rampTopY = floorY - releaseH;
     const rampBotX = rampTopX + rampLength;
-    const angle = Math.atan2(floorY - rampTopY, rampBotX - rampTopX);
-    const ballX = rampTopX + 10 - r * Math.sin(angle);
+    const angle = Math.atan2(floorY - rampTopY, rampLength);
+    const ballX = rampTopX - r * Math.sin(angle);
     const ballY = rampTopY + r * Math.cos(angle);
-    const cupX = rampBotX + 25;
-    const cupW = 22;
-    const cupH = 18;
+    const cupX = rampBotX + 30;
+    const cupW = 24;
+    const cupH = 20;
+    const color = trial.color || '#4B5563';
 
     return `
-      <text x="${ox + 15 + rampLength / 2}" y="18" text-anchor="middle" font-size="12" font-weight="700" fill="#1F2937">${title}</text>
       <line x1="${rampTopX}" y1="${rampTopY}" x2="${rampBotX}" y2="${floorY}" stroke="#4B5563" stroke-width="3" stroke-linecap="round"/>
-      <line x1="${ox - 5}" y1="${floorY}" x2="${cupX + cupW + 10}" y2="${floorY}" stroke="#9CA3AF" stroke-width="1.5"/>
-      <line x1="${rampTopX - 5}" y1="${rampTopY}" x2="${rampTopX - 5}" y2="${floorY + 14}" stroke="#9CA3AF" stroke-width="0.8" stroke-dasharray="3,3"/>
-      <text x="${rampTopX - 8}" y="${rampTopY + (floorY - rampTopY) / 2}" text-anchor="end" font-size="10" fill="#4B5563">${heightLabel}</text>
-      <circle cx="${ballX}" cy="${ballY}" r="${r}" fill="#2D8B8B" fill-opacity="0.35" stroke="#2D8B8B" stroke-width="1.5"/>
-      <circle cx="${ballX}" cy="${ballY}" r="2" fill="#1A5C5C"/>
-      <path d="M${rampBotX + 4},${floorY - 2} L${rampBotX + 8},${floorY - 2} L${rampBotX + 12},${floorY - 2.5} Q${cupX + cupW / 2},${floorY - 12} ${rampBotX + 14},${floorY - 5} L${rampBotX + 40},${floorY - 3}" fill="none" stroke="#2D8B8B" stroke-width="1.5"/>
-      <polygon points="${cupX + 38},${floorY - 5} ${cupX + 34},${floorY - 2} ${cupX + 34},${floorY - 8}" fill="#2D8B8B"/>
-      <rect x="${cupX}" y="${floorY - cupH}" width="${cupW}" height="${cupH}" rx="2" fill="#F5F0E6" stroke="#4B5563" stroke-width="1.5"/>
+      <line x1="${ox + 5}" y1="${floorY}" x2="${cupX + cupW + 24}" y2="${floorY}" stroke="#9CA3AF" stroke-width="1.5"/>
+      <line x1="${rampTopX - 8}" y1="${rampTopY}" x2="${rampTopX - 8}" y2="${floorY + 14}" stroke="#9CA3AF" stroke-width="0.8" stroke-dasharray="3,3"/>
+      <text x="${rampTopX - 12}" y="${rampTopY + (floorY - rampTopY) / 2 + 4}" text-anchor="end" font-size="10" fill="#4B5563">${trial.heightLabel}</text>
+
+      <circle cx="${ballX}" cy="${ballY}" r="${r}" fill="${color}" fill-opacity="0.3" stroke="${color}" stroke-width="1.5"/>
+
+      <path d="M${rampBotX + 6},${floorY - 2} Q${cupX + 8},${floorY - 8} ${cupX + 14},${floorY - 2}" fill="none" stroke="${color}" stroke-width="1.5"/>
+      <polygon points="${cupX + 12},${floorY - 6} ${cupX + 8},${floorY - 2} ${cupX + 16},${floorY - 2}" fill="${color}"/>
+
+      <rect x="${cupX}" y="${floorY - cupH}" width="${cupW}" height="${cupH}" rx="2" fill="#FAFAF5" stroke="#4B5563" stroke-width="1.5"/>
       <text x="${cupX + cupW / 2}" y="${floorY - cupH / 2 + 4}" text-anchor="middle" font-size="8" fill="#4B5563">cup</text>
-      <text x="${ox + 15 + rampLength / 2}" y="${floorY + 28}" text-anchor="middle" font-size="10" font-weight="600" fill="#4B5563">${speedLabel}</text>
-      <text x="${ox + 15 + rampLength / 2}" y="${floorY + 42}" text-anchor="middle" font-size="9" fill="#6B7280">${distanceLabel}</text>
+
+      <text x="${ox + 20 + rampLength / 2}" y="${floorY + 24}" text-anchor="middle" font-size="10" font-weight="600" fill="#4B5563">${trial.speedLabel}</text>
+      <text x="${ox + 20 + rampLength / 2}" y="${floorY + 38}" text-anchor="middle" font-size="9" fill="#6B7280">${trial.distanceLabel}</text>
     `;
   }
 
-  const t1 = trials[0] || {};
-  const t2 = trials[1] || {};
-  const left = drawSetup(20, 90, 160, t1.label || 'Trial: lower', t1.heightLabel || '10 cm', t1.speedLabel || 'slower', t1.distanceLabel || 'cup moves less');
-  const right = drawSetup(330, 200, 160, t2.label || 'Trial: higher', t2.heightLabel || '30 cm', t2.speedLabel || 'faster', t2.distanceLabel || 'cup moves more');
+  const t1 = trials[0] || { label: 'Lower', heightLabel: '10 cm', speedLabel: 'slower', distanceLabel: '12 cm', color: '#2D8B8B' };
+  const t2 = trials[1] || { label: 'Higher', heightLabel: '30 cm', speedLabel: 'faster', distanceLabel: '51 cm', color: '#6C8E3F' };
 
   return `
 <div class="block-diagram keep-together" style="background:white;padding:8px 0;">
   <svg viewBox="0 0 ${w} ${h}" width="100%" style="max-width:${w}px;font-family:var(--font-heading);">
-    <text x="${w / 2}" y="18" text-anchor="middle" font-size="14" font-weight="700" fill="#1F2937">Classroom Ramp Experiment</text>
-    ${left}
-    ${right}
+    <text x="${w / 2}" y="16" text-anchor="middle" font-size="14" font-weight="700" fill="#1F2937">Classroom Ramp Experiment</text>
+    <text x="110" y="36" text-anchor="middle" font-size="10" font-weight="600" fill="#4B5563">${t1.label || 'Lower release'}</text>
+    <text x="430" y="36" text-anchor="middle" font-size="10" font-weight="600" fill="#4B5563">${t2.label || 'Higher release'}</text>
+    ${drawSetup(20, 80, 160, t1)}
+    ${drawSetup(340, 190, 160, t2)}
   </svg>
   ${block.caption ? `<p class="diagram-caption">${renderText(block.caption)}</p>` : ''}
 </div>`;
