@@ -23,6 +23,8 @@ export default function App() {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [settingsKey, setSettingsKey] = useState(0);
   const [toast, setToast] = useState({ visible: false, message: '' });
+  const [workbookOutput, setWorkbookOutput] = useState('student');
+  const [showAdvanced, setShowAdvanced] = useState(false);
   const rateLimitRef = useRef(0);
   const form = useFormState();
   const storage = useLocalStorage();
@@ -77,7 +79,7 @@ export default function App() {
         showToast('No ready-made workbook available for this topic yet.');
         return;
       }
-      const workbookHtml = formatWorkbookV2(workbookData);
+      const workbookHtml = formatWorkbookV2(workbookData, { teacherMode: workbookOutput === 'teacher' });
       setPromptData({ ...data, promptText: prompt, workbookData, lessonHtml: workbookHtml, promptMode: 'Ready-made Workbook' });
       setActiveView('preview');
     } else {
@@ -91,7 +93,7 @@ export default function App() {
       setPromptData({ ...data, promptText: prompt, workbookData, lessonHtml: workbookHtml });
       setActiveView('preview');
     }
-  }, [form, buildPromptData, openai, showToast]);
+  }, [form, buildPromptData, openai, showToast, workbookOutput]);
 
   const handleRegenerate = useCallback(async () => {
     if (!promptData) return;
@@ -110,7 +112,7 @@ export default function App() {
         showToast('No ready-made workbook available for this topic yet.');
         return;
       }
-      const workbookHtml = formatWorkbookV2(workbookData);
+      const workbookHtml = formatWorkbookV2(workbookData, { teacherMode: workbookOutput === 'teacher' });
       setPromptData((prev) => ({ ...prev, promptText: prompt, workbookData, lessonHtml: workbookHtml }));
     } else if (promptData.promptMode === 'AI Generated' || promptData.promptMode === 'AI Prompt') {
       const metaPrompt = buildMetaPrompt(form);
@@ -132,7 +134,7 @@ export default function App() {
       const prompt = buildPrompt(form);
       setPromptData((prev) => ({ ...prev, promptText: prompt, workbookData: null, lessonHtml: '' }));
     }
-  }, [form, promptData, openai, showToast]);
+  }, [form, promptData, openai, showToast, workbookOutput]);
 
   const handleCopy = useCallback(async (text) => {
     const success = await clipboard.copy(text);
@@ -196,6 +198,10 @@ export default function App() {
             onDismissError={openai.clearError}
             loading={openai.loading}
             error={openai.error}
+            workbookOutput={workbookOutput}
+            onWorkbookOutputChange={setWorkbookOutput}
+            showAdvanced={showAdvanced}
+            onToggleAdvanced={() => setShowAdvanced(prev => !prev)}
           />
         )}
 
