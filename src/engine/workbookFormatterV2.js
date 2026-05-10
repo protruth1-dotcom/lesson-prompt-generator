@@ -486,6 +486,29 @@ body {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+.frac {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  vertical-align: middle;
+  font-size: 0.85em;
+  line-height: 1;
+  margin: 0 1px;
+}
+.frac-num {
+  padding: 0 3px;
+  display: block;
+  border-bottom: 1px solid currentColor;
+}
+.frac-den {
+  padding: 0 3px;
+  display: block;
+}
+.frac-whole {
+  font-size: 1.05em;
+  padding-right: 1px;
 }`;
 }
 
@@ -643,13 +666,13 @@ function renderBlocks(blocks) {
   return blocks.map(block => {
     switch (block.type) {
       case 'text':
-        return `<p class="block-text">${renderBold(esc(block.text || ''))}</p>`;
+        return `<p class="block-text">${renderText(block.text || '')}</p>`;
 
       case 'callout':
         return `
 <div class="block-callout keep-together">
   <div class="block-callout-label">${esc(block.calloutLabel || 'Note')}</div>
-  ${renderBold(esc(block.text || ''))}
+  ${renderText(block.text || '')}
 </div>`;
 
       case 'diagram':
@@ -740,7 +763,7 @@ function renderPracticeItem(item, isScaffolded) {
   <div class="practice-number">${item.number}.</div>
   ${hint}
   ${partial}
-  <div class="practice-prompt">${renderBold(esc(item.prompt))}</div>
+  <div class="practice-prompt">${renderText(item.prompt)}</div>
   ${responseArea}
 </div>`;
 }
@@ -807,7 +830,7 @@ function renderQuizItem(q) {
   return `
 <div class="practice-item keep-together">
   <div class="practice-number">${q.number}.</div>
-  <div class="practice-prompt">${renderBold(esc(q.question))}</div>
+  <div class="practice-prompt">${renderText(q.question)}</div>
   ${responseArea}
 </div>`;
 }
@@ -852,6 +875,15 @@ function renderBold(text) {
   return text.replace(/\[\[(.+?)\]\]/g, '<strong>$1</strong>');
 }
 
+function renderFractions(text) {
+  if (!text) return '';
+  return text.replace(/\b(\d+)\/(\d+)\b/g, '<span class="frac"><span class="frac-num">$1</span><span class="frac-den">$2</span></span>');
+}
+
+function renderText(text) {
+  return renderFractions(renderBold(esc(text)));
+}
+
 function getDiagramIcon(type) {
   const icons = {
     'number-line': '📏',
@@ -876,33 +908,23 @@ function renderFormatterShape(block) {
 
 function renderNumberLine() {
   const w = 440;
-  const h = 110;
+  const h = 100;
   const padX = 50;
   const padY = 20;
-  const lineY = padY + 36;
+  const lineY = padY + 32;
   const lineW = w - padX * 2 + 10;
 
   return `
 <div class="block-diagram keep-together" style="background:white;padding:8px 0;">
   <svg viewBox="0 0 ${w} ${h}" width="100%" style="max-width:${w}px;font-family:var(--font-heading);">
-    <!-- main line -->
     <line x1="${padX}" y1="${lineY}" x2="${padX + lineW}" y2="${lineY}" stroke="#2D8B8B" stroke-width="2"/>
-    <!-- endpoints -->
     <line x1="${padX}" y1="${lineY - 6}" x2="${padX}" y2="${lineY + 6}" stroke="#2D8B8B" stroke-width="2"/>
     <text x="${padX}" y="${lineY + 22}" text-anchor="middle" font-size="12" font-weight="600" fill="#1F2937">0</text>
     <line x1="${padX + lineW}" y1="${lineY - 6}" x2="${padX + lineW}" y2="${lineY + 6}" stroke="#2D8B8B" stroke-width="2"/>
     <text x="${padX + lineW}" y="${lineY + 22}" text-anchor="middle" font-size="12" font-weight="600" fill="#1F2937">1</text>
-    <!-- 1/2 -->
-    <line x1="${padX + lineW * 0.5}" y1="${lineY - 10}" x2="${padX + lineW * 0.5}" y2="${lineY + 10}" stroke="#DC2626" stroke-width="1.5"/>
-    <text x="${padX + lineW * 0.5}" y="${lineY - 18}" text-anchor="middle" font-size="11" font-weight="600" fill="#DC2626">1/2</text>
-    <!-- 2/3 -->
-    <line x1="${padX + lineW * 0.667}" y1="${lineY - 10}" x2="${padX + lineW * 0.667}" y2="${lineY + 10}" stroke="#2563EB" stroke-width="1.5"/>
-    <text x="${padX + lineW * 0.667}" y="${lineY - 18}" text-anchor="middle" font-size="11" font-weight="600" fill="#2563EB">2/3</text>
-    <!-- 3/4 -->
-    <line x1="${padX + lineW * 0.75}" y1="${lineY - 10}" x2="${padX + lineW * 0.75}" y2="${lineY + 10}" stroke="#059669" stroke-width="1.5"/>
-    <text x="${padX + lineW * 0.75}" y="${lineY - 18}" text-anchor="middle" font-size="11" font-weight="600" fill="#059669">3/4</text>
-
-    <text x="${w / 2}" y="${lineY + 50}" text-anchor="middle" font-size="11" fill="#6B7280">Order from least to greatest:</text>
+    <line x1="${padX + lineW * 0.5}" y1="${lineY - 8}" x2="${padX + lineW * 0.5}" y2="${lineY + 8}" stroke="#4B5563" stroke-width="1.5"/>
+    <line x1="${padX + lineW * 0.667}" y1="${lineY - 8}" x2="${padX + lineW * 0.667}" y2="${lineY + 8}" stroke="#4B5563" stroke-width="1.5"/>
+    <line x1="${padX + lineW * 0.75}" y1="${lineY - 8}" x2="${padX + lineW * 0.75}" y2="${lineY + 8}" stroke="#4B5563" stroke-width="1.5"/>
   </svg>
 </div>`;
 }
