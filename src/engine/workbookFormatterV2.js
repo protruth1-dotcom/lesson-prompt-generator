@@ -745,8 +745,9 @@ function renderBlocks(blocks) {
 
 function renderPracticeItem(item, isScaffolded) {
   const scaffoldClass = isScaffolded && (item.hint || item.partialAnswer) ? ' scaffolded' : '';
-  const hint = item.hint ? `<p class="practice-hint">💡 Hint: ${esc(item.hint)}</p>` : '';
-  const partial = item.partialAnswer ? `<p class="practice-hint">📝 Start: ${esc(item.partialAnswer)}</p>` : '';
+  const hint = item.hint ? `<p class="practice-hint">Hint: ${esc(item.hint)}</p>` : '';
+  const partial = item.partialAnswer ? `<p class="practice-hint">Start: ${esc(item.partialAnswer)}</p>` : '';
+  const diagram = item.diagramType ? renderNumberLine(item.diagramData || {}) : '';
 
   let responseArea = '';
   if (item.questionType === 'multipleChoice' && item.options) {
@@ -763,6 +764,7 @@ function renderPracticeItem(item, isScaffolded) {
   <div class="practice-number">${item.number}.</div>
   ${hint}
   ${partial}
+  ${diagram}
   <div class="practice-prompt">${renderText(item.prompt)}</div>
   ${responseArea}
 </div>`;
@@ -811,7 +813,7 @@ function renderQuizItem(q) {
         </div>`
       ).join('');
       if (q.diagramType === 'number-line') {
-        responseArea = renderNumberLine() + responseArea;
+        responseArea = renderNumberLine(q.diagramData || { points: [{ position: 0.5, label: [1, 2] }] }) + responseArea;
       } else if (q.diagramDescription) {
         responseArea = `
 <div class="diagram-placeholder" style="margin-bottom:8px;">
@@ -906,13 +908,28 @@ function renderFormatterShape(block) {
   }
 }
 
-function renderNumberLine() {
+function renderNumberLine(data) {
+  const points = data.points || [
+    { position: 0.5, label: [1, 2] },
+  ];
   const w = 440;
   const h = 110;
   const padX = 45;
   const padY = 22;
-  const lineY = padY + 28;
+  const lineY = padY + 36;
   const lineW = w - padX * 2 + 10;
+
+  let ticks = '';
+  for (const pt of points) {
+    const cx = padX + lineW * pt.position;
+    ticks += `<line x1="${cx}" y1="${lineY - 10}" x2="${cx}" y2="${lineY + 10}" stroke="#4B5563" stroke-width="1.5"/>`;
+    if (pt.label && pt.label.length === 2) {
+      ticks += `
+    <text x="${cx}" y="${lineY + 30}" text-anchor="middle" font-size="12" font-weight="600" fill="#4B5563">${pt.label[0]}</text>
+    <line x1="${cx - 8}" y1="${lineY + 37}" x2="${cx + 8}" y2="${lineY + 37}" stroke="#4B5563" stroke-width="1.2"/>
+    <text x="${cx}" y="${lineY + 48}" text-anchor="middle" font-size="12" font-weight="600" fill="#4B5563">${pt.label[1]}</text>`;
+    }
+  }
 
   return `
 <div class="block-diagram keep-together" style="background:white;padding:8px 0;">
@@ -922,10 +939,7 @@ function renderNumberLine() {
     <text x="${padX}" y="${lineY + 22}" text-anchor="middle" font-size="12" font-weight="600" fill="#1F2937">0</text>
     <line x1="${padX + lineW}" y1="${lineY - 6}" x2="${padX + lineW}" y2="${lineY + 6}" stroke="#2D8B8B" stroke-width="2"/>
     <text x="${padX + lineW}" y="${lineY + 22}" text-anchor="middle" font-size="12" font-weight="600" fill="#1F2937">1</text>
-    <line x1="${padX + lineW * 0.5}" y1="${lineY - 10}" x2="${padX + lineW * 0.5}" y2="${lineY + 10}" stroke="#4B5563" stroke-width="1.5"/>
-    <text x="${padX + lineW * 0.5}" y="${lineY + 30}" text-anchor="middle" font-size="12" font-weight="600" fill="#4B5563">1</text>
-    <line x1="${padX + lineW * 0.5 - 8}" y1="${lineY + 37}" x2="${padX + lineW * 0.5 + 8}" y2="${lineY + 37}" stroke="#4B5563" stroke-width="1.2"/>
-    <text x="${padX + lineW * 0.5}" y="${lineY + 48}" text-anchor="middle" font-size="12" font-weight="600" fill="#4B5563">2</text>
+    ${ticks}
   </svg>
 </div>`;
 }
