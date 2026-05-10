@@ -660,6 +660,10 @@ function renderBlocks(blocks) {
   ${block.caption ? `<p class="diagram-caption">${esc(block.caption)}</p>` : ''}
 </div>`;
         }
+        if (block.diagramType) {
+          const shapeSvg = renderFormatterShape(block);
+          if (shapeSvg) return shapeSvg;
+        }
         return `
 <div class="block-diagram keep-together">
   <div class="diagram-placeholder">
@@ -858,6 +862,57 @@ function getDiagramIcon(type) {
     'arabic-text': '📜',
   };
   return icons[type] || '📐';
+}
+
+function renderFormatterShape(block) {
+  switch (block.diagramType) {
+    case 'fraction-bar': return renderFractionBars(block);
+    default: return null;
+  }
+}
+
+function renderFractionBars(block) {
+  const barW = 360;
+  const barH = 32;
+  const gap = 20;
+  const labelH = 20;
+  const padX = 60;
+  const padY = 20;
+  const h = padY * 2 + barH * 2 + gap + labelH * 2 + 16;
+
+  return `
+<div class="block-diagram keep-together" style="background:white;padding:12px 0;">
+  <svg viewBox="0 0 480 ${h}" width="100%" style="max-width:480px;font-family:var(--font-heading);">
+    <text x="${padX}" y="${padY + barH - 8}" font-size="13" fill="#1F2937">2/3</text>
+    ${renderBar(padX + 36, padY, barW, barH, 3, 2, '#2D8B8B')}
+
+    <text x="${padX}" y="${padY + barH + gap + labelH + barH - 8}" font-size="13" fill="#1F2937">3/4</text>
+    ${renderBar(padX + 36, padY + barH + gap + labelH, barW, barH, 4, 3, '#2D8B8B')}
+
+    <text x="${padX + 36 + barW / 2}" y="${padY + barH + gap + 8}" text-anchor="middle" font-size="11" fill="#6B7280">=
+    </text>
+    <text x="${padX + 36}" y="${padY + barH + gap + labelH - 4}" font-size="10" fill="#6B7280">8/12</text>
+    <text x="${padX + 36}" y="${padY + barH * 2 + gap + labelH * 2 - 4}" font-size="10" fill="#6B7280">9/12</text>
+  </svg>
+  ${block.caption ? `<p class="diagram-caption">${esc(block.caption)}</p>` : ''}
+</div>`;
+}
+
+function renderBar(x, y, w, h, parts, shaded, color) {
+  const pw = w / parts;
+  let svg = `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="3" fill="none" stroke="#D1D5DB" stroke-width="1.5"/>`;
+
+  for (let i = 0; i < parts; i++) {
+    if (i > 0) {
+      svg += `<line x1="${x + i * pw}" y1="${y}" x2="${x + i * pw}" y2="${y + h}" stroke="#D1D5DB" stroke-width="0.8" stroke-dasharray="3,3"/>`;
+    }
+    if (i < shaded) {
+      svg += `<rect x="${x + i * pw}" y="${y}" width="${pw}" height="${h}" fill="${color}" fill-opacity="0.35"/>`;
+      svg += `<rect x="${x + i * pw}" y="${y}" width="${pw}" height="${h}" fill="none" stroke="${color}" stroke-width="1.5"/>`;
+    }
+  }
+
+  return svg;
 }
 
 function esc(str) {
