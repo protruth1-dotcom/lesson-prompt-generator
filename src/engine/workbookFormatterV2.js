@@ -635,17 +635,17 @@ function renderAnswerKey(section, meta) {
   if (!section) return '';
   const items = (section.answerKey || []).map(a => {
     const lookFor = a.lookFor
-      ? `<div class="ak-look-for"><strong>Look for:</strong> ${esc(a.lookFor)}</div>`
+      ? `<div class="ak-look-for"><strong>Look for:</strong> ${renderText(a.lookFor)}</div>`
       : '';
     const sample = a.sampleResponse
-      ? `<div class="ak-look-for"><em>Sample:</em> ${esc(a.sampleResponse)}</div>`
+      ? `<div class="ak-look-for"><em>Sample:</em> ${renderText(a.sampleResponse)}</div>`
       : '';
 
     return `
 <div class="answer-key-item">
   <span class="ak-num">${a.number}.</span>
-  <span class="ak-answer">${esc(String(a.correctAnswer))}</span>
-  <div style="font-size:0.8rem;color:var(--ink-soft);">${esc(a.explanation)}</div>
+  <span class="ak-answer">${renderText(String(a.correctAnswer))}</span>
+  <div style="font-size:0.8rem;color:var(--ink-soft);">${renderText(a.explanation)}</div>
   ${lookFor}
   ${sample}
 </div>`;
@@ -680,7 +680,7 @@ function renderBlocks(blocks) {
           return `
 <div class="block-diagram keep-together">
   <img src="${esc(block.imageUrl)}" alt="${esc(block.caption || 'Diagram')}">
-  ${block.caption ? `<p class="diagram-caption">${esc(block.caption)}</p>` : ''}
+  ${block.caption ? `<p class="diagram-caption">${renderText(block.caption)}</p>` : ''}
 </div>`;
         }
         if (block.diagramType) {
@@ -691,15 +691,15 @@ function renderBlocks(blocks) {
 <div class="block-diagram keep-together">
   <div class="diagram-placeholder">
     <div style="font-size:1.5rem;margin-bottom:6px;">${getDiagramIcon(block.diagramType)}</div>
-    <p>${esc(block.placeholderInstruction || 'Diagram space')}</p>
-    ${block.caption ? `<p class="diagram-caption">${esc(block.caption)}</p>` : ''}
+    <p>${renderText(block.placeholderInstruction || 'Diagram space')}</p>
+    ${block.caption ? `<p class="diagram-caption">${renderText(block.caption)}</p>` : ''}
   </div>
 </div>`;
 
       case 'table': {
         const headers = (block.tableHeaders || []).map(h => `<th>${esc(h)}</th>`).join('');
         const rows = (block.tableRows || []).map(row =>
-          `<tr>${row.map(cell => `<td>${esc(String(cell))}</td>`).join('')}</tr>`
+          `<tr>${row.map(cell => `<td>${renderText(String(cell))}</td>`).join('')}</tr>`
         ).join('');
         return `
 <div class="keep-together" style="margin:12px 0;">
@@ -714,7 +714,7 @@ function renderBlocks(blocks) {
         return `
 <div class="rtl-block keep-together">
   <div style="font-family:var(--font-arabic);font-size:1.2rem;line-height:2.2;">${esc(block.arabicText || '')}</div>
-  ${block.englishTranslation ? `<div class="rtl-translation">${esc(block.englishTranslation)}</div>` : ''}
+  ${block.englishTranslation ? `<div class="rtl-translation">${renderText(block.englishTranslation)}</div>` : ''}
 </div>`;
 
       case 'writing-frame': {
@@ -745,14 +745,20 @@ function renderBlocks(blocks) {
 
 function renderPracticeItem(item, isScaffolded) {
   const scaffoldClass = isScaffolded && (item.hint || item.partialAnswer) ? ' scaffolded' : '';
-  const hint = item.hint ? `<p class="practice-hint">Hint: ${esc(item.hint)}</p>` : '';
-  const partial = item.partialAnswer ? `<p class="practice-hint">Start: ${esc(item.partialAnswer)}</p>` : '';
-  const diagram = item.diagramType ? renderNumberLine(item.diagramData || {}) : '';
+  const hint = item.hint ? `<p class="practice-hint">Hint: ${renderText(item.hint)}</p>` : '';
+  const partial = item.partialAnswer ? `<p class="practice-hint">Start: ${renderText(item.partialAnswer)}</p>` : '';
+  const diagram = item.diagramType
+    ? renderFormatterShape({
+      diagramType: item.diagramType,
+      diagramData: item.diagramData || {},
+      caption: item.diagramCaption,
+    }) || ''
+    : '';
 
   let responseArea = '';
   if (item.questionType === 'multipleChoice' && item.options) {
     responseArea = item.options.map(opt =>
-      `<div class="mc-option"><div class="mc-bubble"></div> ${esc(opt)}</div>`
+      `<div class="mc-option"><div class="mc-bubble"></div> ${renderText(opt)}</div>`
     ).join('');
   } else {
     const lines = item.ruledLines || 3;
@@ -775,12 +781,12 @@ function renderQuizItem(q) {
   switch (q.questionType) {
     case 'multipleChoice':
       responseArea = (q.options || []).map(opt =>
-        `<div class="mc-option"><div class="mc-bubble"></div> ${esc(opt)}</div>`
+        `<div class="mc-option"><div class="mc-bubble"></div> ${renderText(opt)}</div>`
       ).join('');
       break;
     case 'fillBlank':
       responseArea = q.wordBank
-        ? `<div class="block-callout" style="margin-bottom:8px;"><strong>Word Bank:</strong> ${q.wordBank.map(w => esc(w)).join(' &middot; ')}</div>`
+        ? `<div class="block-callout" style="margin-bottom:8px;"><strong>Word Bank:</strong> ${q.wordBank.map(w => renderText(w)).join(' &middot; ')}</div>`
         : '';
       responseArea += '<div class="ruled-lines"><div class="ruled-line"></div></div>';
       break;
@@ -795,13 +801,13 @@ function renderQuizItem(q) {
       responseArea = (q.options || []).map(opt =>
         `<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;font-family:var(--font-body);font-size:10.5pt;">
           <span style="display:inline-block;width:22px;border-bottom:1px solid var(--ink);text-align:center;"></span>
-          ${esc(opt)}
+          ${renderText(opt)}
         </div>`
       ).join('');
       if (q.definitions) {
         responseArea += '<div style="margin-top:8px;"></div>';
         responseArea += q.definitions.map((def, i) =>
-          `<div style="font-family:var(--font-body);font-size:10.5pt;color:var(--ink-soft);margin-bottom:3px;">${String.fromCharCode(65 + i)}. ${esc(def)}</div>`
+          `<div style="font-family:var(--font-body);font-size:10.5pt;color:var(--ink-soft);margin-bottom:3px;">${String.fromCharCode(65 + i)}. ${renderText(def)}</div>`
         ).join('');
       }
       break;
@@ -809,16 +815,20 @@ function renderQuizItem(q) {
     case 'labeling': {
       responseArea = (q.labels || []).map(l =>
         `<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;font-family:var(--font-body);font-size:10.5pt;">
-          <span style="display:inline-block;width:22px;border-bottom:1px solid var(--ink);text-align:center;"></span> ${esc(l)}
+          <span style="display:inline-block;width:22px;border-bottom:1px solid var(--ink);text-align:center;"></span> ${renderText(l)}
         </div>`
       ).join('');
-      if (q.diagramType === 'number-line') {
-        responseArea = renderNumberLine(q.diagramData || { points: [{ position: 0.5, label: [1, 2] }] }) + responseArea;
+      if (q.diagramType) {
+        responseArea = (renderFormatterShape({
+          diagramType: q.diagramType,
+          diagramData: q.diagramData || { points: [{ position: 0.5, label: [1, 2] }] },
+          caption: q.diagramCaption,
+        }) || '') + responseArea;
       } else if (q.diagramDescription) {
         responseArea = `
 <div class="diagram-placeholder" style="margin-bottom:8px;">
   <div style="font-size:1.2rem;">📐</div>
-  <p style="font-size:0.8rem;">${esc(q.diagramDescription)}</p>
+  <p style="font-size:0.8rem;">${renderText(q.diagramDescription)}</p>
 </div>` + responseArea;
       }
       break;
@@ -843,8 +853,8 @@ function renderIllustration(ill) {
 <div class="block-diagram keep-together">
   <div class="diagram-placeholder">
     <div style="font-size:1.5rem;">🖼</div>
-    <p>${esc(ill.caption || ill.safetyNotes || 'Illustration space')}</p>
-    ${ill.studentAction ? `<p style="font-size:0.75rem;color:var(--ink-soft);">Student task: ${esc(ill.studentAction)}</p>` : ''}
+    <p>${renderText(ill.caption || ill.safetyNotes || 'Illustration space')}</p>
+    ${ill.studentAction ? `<p style="font-size:0.75rem;color:var(--ink-soft);">Student task: ${renderText(ill.studentAction)}</p>` : ''}
   </div>
 </div>`;
   }
@@ -855,9 +865,7 @@ function renderIllustration(ill) {
   <div class="diagram-placeholder">
     <div style="font-size:1.5rem;">📎</div>
     <p>Teacher: insert ${esc(ill.type)} here</p>
-    ${ill.caption ? `<p class="diagram-caption">${esc(ill.caption)}</p>` : ''}
-    ${ill.labelsNeeded && ill.labels ? ill.labels.map(l => `<div style="font-family:var(--font-body);font-size:10pt;">___ ${esc(l)}</div>`).join('') : ''}
-  </div>
+  ${ill.caption ? `<p class="diagram-caption">${renderText(ill.caption)}</p>` : ''}
 </div>`;
   }
 
@@ -865,7 +873,7 @@ function renderIllustration(ill) {
     return `
 <div class="block-diagram keep-together">
   <img src="${esc(ill.imageUrl)}" alt="${esc(ill.caption || 'Illustration')}">
-  ${ill.caption ? `<p class="diagram-caption">${esc(ill.caption)}</p>` : ''}
+  ${ill.caption ? `<p class="diagram-caption">${renderText(ill.caption)}</p>` : ''}
 </div>`;
   }
 
@@ -904,12 +912,14 @@ function renderFormatterShape(block) {
   switch (block.diagramType) {
     case 'fraction-bar': return renderFractionBars(block);
     case 'number-line': return renderNumberLine(block);
+    case 'ramp-energy': return renderRampEnergyDiagram(block);
     default: return null;
   }
 }
 
 function renderNumberLine(data) {
-  const points = data.points || [
+  const source = data.diagramData || data;
+  const points = source.points || [
     { position: 0.5, label: [1, 2] },
   ];
   const w = 440;
@@ -945,29 +955,80 @@ function renderNumberLine(data) {
 }
 
 function renderFractionBars(block) {
+  const source = block.diagramData || {};
+  const bars = source.bars || [
+    { label: [2, 3], parts: 3, shaded: 2, color: '#2D8B8B', equivalent: [8, 12] },
+    { label: [3, 4], parts: 4, shaded: 3, color: '#6C8E3F', equivalent: [9, 12] },
+  ];
   const barW = 360;
   const barH = 32;
   const gap = 20;
-  const labelH = 22;
   const padX = 64;
   const padY = 24;
   const svgW = 500;
-  const svgH = padY * 2 + barH * 2 + gap + labelH * 2 + 24;
+  const rowH = barH + gap;
+  const svgH = padY * 2 + rowH * bars.length + 18;
+  const equivalentX = padX + 20 + barW + 54;
+  const rows = bars.map((bar, i) => {
+    const y = padY + i * rowH;
+    const color = bar.color || (i % 2 === 0 ? '#2D8B8B' : '#6C8E3F');
+    const label = Array.isArray(bar.label) ? bar.label : [bar.shaded, bar.parts];
+    const equivalent = Array.isArray(bar.equivalent)
+      ? stackedFrac(bar.equivalent[0], bar.equivalent[1], equivalentX, y + barH / 2, 12, '#6B7280')
+      : '';
+
+    return `
+    ${stackedFrac(label[0], label[1], padX - 4, y + barH / 2, 16)}
+    ${renderBar(padX + 20, y, barW, barH, bar.parts, bar.shaded, color)}
+    ${equivalent ? `<text x="${equivalentX - 22}" y="${y + barH / 2 + 4}" text-anchor="middle" font-size="12" fill="#6B7280">=</text>${equivalent}` : ''}`;
+  }).join('\n');
 
   return `
 <div class="block-diagram keep-together" style="background:white;padding:12px 0;">
   <svg viewBox="0 0 ${svgW} ${svgH}" width="100%" style="max-width:${svgW}px;font-family:var(--font-heading);">
-    ${stackedFrac(2, 3, padX - 4, padY + barH / 2, 16)}
-    ${renderBar(padX + 20, padY, barW, barH, 3, 2, '#2D8B8B')}
-
-    ${stackedFrac(3, 4, padX - 4, padY + barH + gap + labelH + barH / 2, 16)}
-    ${renderBar(padX + 20, padY + barH + gap + labelH, barW, barH, 4, 3, '#2D8B8B')}
-
-    <text x="${padX + 20 + barW / 2}" y="${padY + barH + gap + 10}" text-anchor="middle" font-size="12" fill="#6B7280">=</text>
-    ${stackedFrac(8, 12, padX + 20, padY + barH + gap - 2, 11, '#6B7280')}
-    ${stackedFrac(9, 12, padX + 20, padY + barH * 2 + gap + labelH - 2, 11, '#6B7280')}
+    ${rows}
   </svg>
-  ${block.caption ? `<p class="diagram-caption">${esc(block.caption)}</p>` : ''}
+  ${block.caption ? `<p class="diagram-caption">${renderText(block.caption)}</p>` : ''}
+</div>`;
+}
+
+function renderRampEnergyDiagram(block) {
+  const source = block.diagramData || {};
+  const rows = source.trials || [
+    { label: 'Low release', heightLabel: '10 cm', speedLabel: 'slower', distanceLabel: 'cup moves 12 cm', color: '#2D8B8B' },
+    { label: 'High release', heightLabel: '30 cm', speedLabel: 'faster', distanceLabel: 'cup moves 51 cm', color: '#6C8E3F' },
+  ];
+  const w = 620;
+  const rowH = 150;
+  const h = 32 + rows.length * rowH;
+  const drawings = rows.map((row, i) => {
+    const y = 30 + i * rowH;
+    const color = row.color || (i % 2 === 0 ? '#2D8B8B' : '#6C8E3F');
+    const cupX = row.distance === 'far' ? 520 : 455;
+    const arrowEnd = row.distance === 'far' ? 500 : 430;
+    return `
+    <text x="34" y="${y + 6}" font-size="14" font-weight="700" fill="#1F2937">${esc(row.label)}</text>
+    <line x1="70" y1="${y + 92}" x2="260" y2="${y + 30}" stroke="#4B5563" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="112" cy="${y + 78}" r="11" fill="${color}" fill-opacity="0.65" stroke="${color}" stroke-width="2"/>
+    <text x="82" y="${y + 122}" font-size="12" fill="#4B5563">${esc(row.heightLabel)}</text>
+    <line x1="270" y1="${y + 92}" x2="${arrowEnd}" y2="${y + 92}" stroke="${color}" stroke-width="3" marker-end="url(#arrowhead)"/>
+    <text x="306" y="${y + 82}" font-size="13" font-weight="700" fill="${color}">${esc(row.speedLabel)}</text>
+    <rect x="${cupX}" y="${y + 70}" width="34" height="42" rx="4" fill="#F8FAFC" stroke="#4B5563" stroke-width="2"/>
+    <text x="${cupX + 17}" y="${y + 130}" text-anchor="middle" font-size="12" fill="#4B5563">${esc(row.distanceLabel)}</text>`;
+  }).join('\n');
+
+  return `
+<div class="block-diagram keep-together" style="background:white;padding:12px 0;">
+  <svg viewBox="0 0 ${w} ${h}" width="100%" style="max-width:${w}px;font-family:var(--font-heading);">
+    <defs>
+      <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+        <polygon points="0 0, 10 3.5, 0 7" fill="#2D8B8B"/>
+      </marker>
+    </defs>
+    <text x="310" y="18" text-anchor="middle" font-size="15" font-weight="700" fill="#1F2937">Ramp Model: Speed Changes Impact</text>
+    ${drawings}
+  </svg>
+  ${block.caption ? `<p class="diagram-caption">${renderText(block.caption)}</p>` : ''}
 </div>`;
 }
 
