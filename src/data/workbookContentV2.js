@@ -545,11 +545,169 @@ export function getTopicV2Content(subject, grade, topic) {
   return pilotWorkbooks[subject]?.[grade]?.[topicKey] || null;
 }
 
+function normalizeTopicName(topic) {
+  if (typeof topic === 'object' && topic?.arabic) return topic.english;
+  if (typeof topic === 'object' && topic?.english) return topic.english;
+  return String(topic || 'Selected Topic');
+}
+
+function getSubjectStrategy(subject) {
+  const strategies = {
+    Math: {
+      verb: 'solve problems about',
+      evidence: 'show your work, use a model when helpful, and explain why your answer makes sense',
+      visual: 'a clean math model such as a number line, table, diagram, or organizer',
+      practice: 'Try the strategy on a new problem. Label each step so someone else can follow your thinking.',
+      reflection: 'Which strategy helped you most, and what mistake will you watch for next time?',
+      quizTypes: ['multipleChoice', 'fillBlank', 'shortAnswer', 'writtenResponse'],
+    },
+    ELA: {
+      verb: 'read, discuss, and write about',
+      evidence: 'use words from the text, examples, and clear explanations',
+      visual: 'a text evidence organizer or compare-and-contrast chart',
+      practice: 'Use the sentence frame, then revise your answer so it includes evidence.',
+      reflection: 'What clue, word, or sentence helped you understand the idea?',
+      quizTypes: ['multipleChoice', 'trueFalse', 'shortAnswer', 'writtenResponse'],
+    },
+    Science: {
+      verb: 'investigate and explain',
+      evidence: 'use observations, cause-and-effect language, and evidence from data or models',
+      visual: 'a scientific model, labeled diagram, data table, or cause-and-effect chart',
+      practice: 'Use the model or data to explain what is happening and why.',
+      reflection: 'What evidence supports your explanation?',
+      quizTypes: ['multipleChoice', 'trueFalse', 'fillBlank', 'shortAnswer', 'writtenResponse'],
+    },
+    'Social Studies': {
+      verb: 'analyze and explain',
+      evidence: 'use people, places, dates, maps, sources, or civic vocabulary as evidence',
+      visual: 'a timeline, map organizer, cause-and-effect chart, or comparison table',
+      practice: 'Use the organizer to connect the topic to people, places, events, or decisions.',
+      reflection: 'Why does this topic matter for communities or history?',
+      quizTypes: ['multipleChoice', 'matchTerms', 'trueFalse', 'shortAnswer', 'writtenResponse'],
+    },
+    'Islamic Studies': {
+      verb: 'understand and reflect on',
+      evidence: 'use respectful vocabulary, accurate terms, and examples from daily life',
+      visual: 'a non-figurative organizer, key-terms table, or respectful Arabic text block when needed',
+      practice: 'Connect the idea to a real choice, habit, or reflection.',
+      reflection: 'How can you apply this lesson with sincerity and good character?',
+      quizTypes: ['fillBlank', 'multipleChoice', 'trueFalse', 'shortAnswer', 'writtenResponse'],
+    },
+  };
+  return strategies[subject] || {
+    verb: 'learn and explain',
+    evidence: 'use examples, vocabulary, and clear reasoning',
+    visual: 'a simple organizer or diagram',
+    practice: 'Use the organizer to explain the topic in your own words.',
+    reflection: 'What is the most important idea to remember?',
+    quizTypes: ['multipleChoice', 'trueFalse', 'shortAnswer', 'writtenResponse'],
+  };
+}
+
+function buildGenericWorkbookContent(subject, grade, topic) {
+  const topicName = normalizeTopicName(topic);
+  const strategy = getSubjectStrategy(subject);
+  const gradeLabel = grade || 'Student';
+  const subjectLabel = subject || 'General';
+  const standardCode = `${subjectLabel} - ${gradeLabel} ready-made template`;
+
+  const coreQuestion = `What does "${topicName}" mean, and how can you show that you understand it?`;
+  const exampleQuestion = `Give one example of ${topicName}. Explain why your example fits.`;
+  const evidenceQuestion = `What evidence, model, or detail would help prove your answer about ${topicName}?`;
+
+  return {
+    meta: {
+      id: `generic-${subjectLabel}-${gradeLabel}-${topicName}`.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''),
+      grade: Number.parseInt(String(gradeLabel), 10) || gradeLabel,
+      subject: subjectLabel,
+      standardCode,
+      title: topicName,
+      learningGoal: `I can ${strategy.verb} ${topicName} and explain my thinking with evidence.`,
+      estimatedTime: 30,
+      differentiationReady: true,
+    },
+    sections: {
+      connect: {
+        title: 'Connect',
+        blocks: [
+          { type: 'text', text: `Today you will study [[${topicName}]]. Start by thinking about what you already know. Where have you seen this idea before -- in class, at home, in a book, in the world, or in your community?` },
+          { type: 'callout', calloutType: 'warm-up', calloutLabel: 'Warm Up', text: `Write or discuss: ${coreQuestion}` },
+        ],
+      },
+      learnModel: {
+        title: 'Learn',
+        blocks: [
+          { type: 'text', text: `A strong answer about [[${topicName}]] does three things: it uses the correct vocabulary, gives a clear example, and explains the reasoning.` },
+          { type: 'table', tableHeaders: ['Part of Strong Thinking', 'What to Do'], tableRows: [
+            ['Vocabulary', `Use important words from ${subjectLabel}.`],
+            ['Example', `Give a specific example connected to ${topicName}.`],
+            ['Evidence', strategy.evidence],
+            ['Explanation', 'Tell how the evidence supports your answer.'],
+          ] },
+          { type: 'callout', calloutType: 'think-aloud', calloutLabel: 'Think Aloud', text: `When I answer a question about ${topicName}, I do not stop at a short answer. I ask: What is my evidence? What would make my answer clearer?` },
+        ],
+      },
+      practiceTogether: {
+        items: [
+          { number: 1, prompt: coreQuestion, hint: 'Use the topic words and explain the idea in your own words.', partialAnswer: `${topicName} means ...`, answer: 'Answers vary. Student should define or explain the topic with accurate vocabulary.', ruledLines: 3 },
+          { number: 2, prompt: exampleQuestion, hint: 'Choose an example that clearly connects to the topic.', partialAnswer: `One example of ${topicName} is ... because ...`, answer: 'Answers vary. Student should give a relevant example and explain why it fits.', ruledLines: 4 },
+        ],
+      },
+      onYourOwn: {
+        items: [
+          { number: 3, prompt: strategy.practice, answer: 'Answers vary. Student should apply the topic using evidence or a model.', ruledLines: 5 },
+          { number: 4, prompt: evidenceQuestion, answer: 'Answers vary. Student should identify relevant evidence, data, details, source information, or a visual model.', ruledLines: 4 },
+        ],
+      },
+      wrapUp: {
+        title: 'Wrap Up',
+        blocks: [
+          { type: 'text', text: `[[Key idea:]] To understand ${topicName}, use vocabulary, examples, evidence, and explanation together.` },
+          { type: 'callout', calloutType: 'reflection', calloutLabel: 'Reflect', text: strategy.reflection },
+        ],
+      },
+      quiz: {
+        title: 'Check Your Understanding',
+        headerInfo: 'Name: ___________________  Date: _______________',
+        questions: [
+          { number: 1, questionType: 'multipleChoice', question: `Which answer shows the strongest understanding of ${topicName}?`, options: ['A. A guess with no explanation', 'B. A correct idea with evidence and reasoning', 'C. A sentence copied without understanding', 'D. An unrelated example'], answer: 'B', explanation: 'Strong understanding includes a correct idea, evidence, and reasoning.' },
+          { number: 2, questionType: 'trueFalse', question: `It is enough to answer a question about ${topicName} with one word and no explanation.`, answer: 'False', explanation: 'Most learning questions need explanation or evidence.' },
+          { number: 3, questionType: 'fillBlank', question: `A strong response should include vocabulary, an example, and ____________.`, wordBank: ['evidence', 'a random guess', 'unrelated details', 'no reasoning'], answer: 'evidence', explanation: 'Evidence supports the answer.' },
+          { number: 4, questionType: 'shortAnswer', question: `Explain ${topicName} in your own words. Include one example.`, answer: 'See rubric', lookFor: 'Accurate explanation, relevant example, clear reasoning.', ruledLines: 4 },
+          { number: 5, questionType: 'writtenResponse', question: `Write a complete response about ${topicName}. Use vocabulary, evidence, and reasoning.`, answer: 'See rubric', lookFor: 'Uses topic vocabulary, provides evidence or an example, explains reasoning clearly.', ruledLines: 6 },
+        ],
+        answerKey: [
+          { number: 1, correctAnswer: 'B', explanation: 'A strong answer includes evidence and reasoning.' },
+          { number: 2, correctAnswer: 'False', explanation: 'A one-word answer usually does not show full understanding.' },
+          { number: 3, correctAnswer: 'evidence', explanation: 'Evidence supports the response.' },
+          { number: 4, correctAnswer: 'See rubric', explanation: 'Answers vary by topic.', lookFor: 'Accurate explanation and relevant example.' },
+          { number: 5, correctAnswer: 'See rubric', explanation: 'Answers vary by topic.', lookFor: 'Vocabulary, evidence/example, and reasoning.' },
+        ],
+      },
+    },
+    illustrations: [
+      {
+        required: false,
+        type: 'graphic-organizer',
+        visualSource: 'placeholder',
+        purposeCategory: 'reduce-text-load',
+        placementSection: 'learnModel',
+        studentAction: 'interpret',
+        labelsNeeded: false,
+        printMode: 'grayscale-safe',
+        teacherImageRequired: false,
+        aiImageAllowed: false,
+        caption: `Organizer idea: ${strategy.visual}.`,
+        safetyNotes: `Use this space if a visual would help students understand ${topicName}.`,
+      },
+    ],
+  };
+}
+
 export function buildWorkbookV2Data(formState) {
   const { grade, subject, topic, studentLevel = 'On Level', theme = 'Rainbow Bright' } = formState;
   const topicKey = typeof topic === 'object' ? topic.english : topic;
-  const content = getTopicV2Content(subject, grade, topicKey);
-  if (!content) return null;
+  const content = getTopicV2Content(subject, grade, topicKey) || buildGenericWorkbookContent(subject, grade, topic);
 
   const themeIcon = THEME_ICONS[theme] || THEME_ICONS['Rainbow Bright'];
 
