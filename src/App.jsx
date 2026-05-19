@@ -82,6 +82,10 @@ export default function App() {
       const workbookHtml = formatWorkbookV2(workbookData, { teacherMode: workbookOutput === 'teacher' });
       setPromptData({ ...data, promptText: prompt, workbookData, lessonHtml: workbookHtml, promptMode: 'Ready-made Workbook' });
       setActiveView('preview');
+    } else if (form.promptMode === 'Template Prompt') {
+      const prompt = buildPrompt(form);
+      setPromptData({ ...data, promptText: prompt, workbookData: null, lessonHtml: '', promptMode: 'Template Prompt' });
+      setActiveView('preview');
     } else {
       const prompt = buildPrompt(form);
       const workbookData = buildWorkbookData(form);
@@ -114,6 +118,9 @@ export default function App() {
       }
       const workbookHtml = formatWorkbookV2(workbookData, { teacherMode: workbookOutput === 'teacher' });
       setPromptData((prev) => ({ ...prev, promptText: prompt, workbookData, lessonHtml: workbookHtml }));
+    } else if (promptData.promptMode === 'Template Prompt') {
+      const prompt = buildPrompt(form);
+      setPromptData((prev) => ({ ...prev, promptText: prompt, workbookData: null, lessonHtml: '' }));
     } else if (promptData.promptMode === 'AI Generated' || promptData.promptMode === 'AI Prompt') {
       const metaPrompt = buildMetaPrompt(form);
       const result = await openai.generate(metaPrompt);
